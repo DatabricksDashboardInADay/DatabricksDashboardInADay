@@ -14,6 +14,8 @@ from impact_factors import (
     add_random_noise_features,
     add_seasonality_features,
     remove_helper_columns,
+    explode_by_simulated_volume,
+    add_quantity_sold
 )
 from dimensions import add_dim_product_key, add_dim_customer_key, create_dim_product, create_dim_customer, create_dim_store, create_dim_date
 
@@ -112,7 +114,7 @@ def build_store_dataframe(
         autumn_factor=store_config.get("autumn_factor", 0.98),
     )
 
-    # 8️⃣ Total impact factor (+ simulated_volume via base_volume inside add_total_impact_features)
+    # 8️⃣ Total impact factor (+ simulated_volume)
     df = add_total_impact_features(
         df=df,
         spark=spark,
@@ -125,13 +127,16 @@ def build_store_dataframe(
             "seasonality_impact_factor",
         ],
         output_col="total_impact_factor",
-        # base_volume is already in df from feature_generation,
-        # and add_total_impact_features will create "simulated_volume"
     )
 
-    # 9️⃣ Cleanup: remove helper and intermediate columns
+    # 9️⃣ Explode rows based on simulated_volume
+    df = explode_by_simulated_volume(df)
+
+    # 🔟 Add realistic quantity sold per transaction
+    df = add_quantity_sold(df)
+
+    # 1️⃣1️⃣ Cleanup helper columns
     df = remove_helper_columns(df)
-    print("🧹 Removed helper columns and prepared clean final dataset.")
 
     return df
 

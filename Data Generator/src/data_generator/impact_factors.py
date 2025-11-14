@@ -439,6 +439,46 @@ def add_total_impact_features(
 
     return df
 
+def explode_by_simulated_volume(
+    df: DataFrame,
+    volume_col: str = "simulated_volume",
+) -> DataFrame:
+    """
+    Explodes the dataset so that each row is repeated `simulated_volume` times.
+
+    Parameters
+    ----------
+    df : DataFrame
+        Input DataFrame, expected to contain `volume_col`.
+    volume_col : str, default "simulated_volume"
+        Column containing the integer number of times each row should be repeated.
+
+    Behavior
+    --------
+    - If `simulated_volume` is NULL, it is treated as 0.
+    - If `simulated_volume` <= 0, the row produces no output rows.
+    - Uses Spark sequence(1, simulated_volume) + explode to generate rows.
+      The sequence index is discarded.
+    """
+
+    # Ensure volume column exists and is an integer
+    df = df.withColumn(
+        volume_col,
+        F.coalesce(F.col(volume_col), F.lit(0)).cast("int")
+    )
+
+    # Create array sequence [1..simulated_volume]
+    df = df.withColumn(
+        "volume_seq",
+        F.expr(f"sequence(1, {volume_col})")
+    )
+
+    # Explode → creates one row per element in volume_seq
+    df = df.withColumn("_tmp_explode", F.explode("volume_seq")) \
+           .drop("volume_seq", "_tmp_explode")
+
+    return df
+
 def remove_helper_columns(df: DataFrame) -> DataFrame:
     """
     Removes helper or intermediate columns used during simulation and feature generation.
@@ -501,5 +541,36 @@ def remove_helper_columns(df: DataFrame) -> DataFrame:
 
     if existing_cols:
         df = df.drop(*existing_cols)
+
+    return df
+
+def add_quantity_sold(
+    df: DataFrame,
+    p1: float = 0.80,   # 80% chance quantity = 1
+    p2: float = 0.15,   # 15% chance quantity = 2
+    p3: float = 0.04,   # 4% chance quantity = 3
+    p_rare: float = 0.01  # 1% chance of 4–5
+) -> DataFrame:
+    """
+    Adds a column:
+      - quantity_sold
+
+    Simulates realistic transaction quantities:
+      - ~80% = 1
+      - ~15% = 2
+      - ~4%  = 3
+      - ~1%  = 4 or 5
+    """
+
+    # Generate a random value in [0,1)
+    rand = F.rand()
+
+    df = df.withColumn(
+        "quantity_sold",
+        F.when(rand < p1, F.lit(1))
+         .when(rand < p1 + p2, F.lit(2))
+         .when(rand < p1 + p2 + p3, F.lit(3))
+         .otherwise(F.floor(F.rand() * 2 + 4))  # gives 4 or 5
+    )
 
     return df

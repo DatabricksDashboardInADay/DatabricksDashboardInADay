@@ -169,35 +169,32 @@ def create_dim_product(spark) -> DataFrame:
     """
 
     products = [
-        # --- In-store drinks (100-range) ---
-        (101, "Single Espresso",              "Drink", "Espresso",     False, True,  True,  3.50),
-        (102, "Sunny Bay Latte",              "Drink", "Milk Coffee",  False, True,  True,  4.50),
-        (103, "Cappuccino",                   "Drink", "Milk Coffee",  False, True,  True,  4.40),
-        (104, "Flat White",                   "Drink", "Milk Coffee",  False, True,  True,  4.60),
-        (105, "Americano",                    "Drink", "Black Coffee", False, True,  True,  3.80),
+        # product_key, name, category, subcategory, is_beans, in_store, online, list_price, cost_of_goods
+        (101, "Single Espresso",              "Drink", "Espresso",     False, True,  True,  3.50, 0.60),
+        (102, "Sunny Bay Latte",              "Drink", "Milk Coffee",  False, True,  True,  4.50, 1.10),
+        (103, "Cappuccino",                   "Drink", "Milk Coffee",  False, True,  True,  4.40, 1.00),
+        (104, "Flat White",                   "Drink", "Milk Coffee",  False, True,  True,  4.60, 1.20),
+        (105, "Americano",                    "Drink", "Black Coffee", False, True,  True,  3.80, 0.50),
 
-        # --- Food / pastry (200-range) ---
-        (201, "Butter Croissant",             "Food",  "Pastry",       False, True,  False, 3.20),
-        (202, "Banana Bread Slice",           "Food",  "Cake",         False, True,  False, 3.80),
-        (203, "Avocado Toast",                "Food",  "Brunch",       False, True,  False, 9.50),
+        (201, "Butter Croissant",             "Food",  "Pastry",       False, True,  False, 3.20, 1.20),
+        (202, "Banana Bread Slice",           "Food",  "Cake",         False, True,  False, 3.80, 1.40),
+        (203, "Avocado Toast",                "Food",  "Brunch",       False, True,  False, 9.50, 3.20),
 
-        # --- In-store brewed / cold drinks (300-range, 400, 500, 600) ---
-        (301, "Drip Coffee",                  "Drink", "Brewed Coffee", False, True, True,  3.20),
-        (302, "Iced Latte",                   "Drink", "Iced Coffee",   False, True, True,  4.90),
-        (303, "Matcha Latte",                 "Drink", "Specialty",     False, True, True,  5.10),
-        (401, "Seasonal Signature Drink",     "Drink", "Seasonal",      False, True, True,  5.50),
-        (501, "Cold Brew Bottle 355ml",       "Drink", "Cold Brew",     False, True, True,  5.90),
-        (601, "Office Coffee Box 3L",         "Drink", "Bulk / Office", False, True, False, 24.00),
+        (301, "Drip Coffee",                  "Drink", "Brewed Coffee", False, True, True,  3.20, 0.40),
+        (302, "Iced Latte",                   "Drink", "Iced Coffee",   False, True, True,  4.90, 1.30),
+        (303, "Matcha Latte",                 "Drink", "Specialty",     False, True, True,  5.10, 1.80),
+        (401, "Seasonal Signature Drink",     "Drink", "Seasonal",      False, True, True,  5.50, 1.90),
+        (501, "Cold Brew Bottle 355ml",       "Drink", "Cold Brew",     False, True, True,  5.90, 2.00),
+        (601, "Office Coffee Box 3L",         "Drink", "Bulk / Office", False, True, False, 24.00, 6.00),
 
-        # --- Online specialty beans (9000-range) ---
-        (9001, "Ethiopia Sidamo Beans 250g",  "Beans", "Single Origin", True,  False, True, 16.00),
-        (9002, "Colombia Supremo Beans 250g", "Beans", "Single Origin", True,  False, True, 15.50),
-        (9003, "Brazil Cerrado Beans 250g",   "Beans", "Single Origin", True,  False, True, 15.00),
-        (9004, "Guatemala Antigua Beans 250g","Beans", "Single Origin", True,  False, True, 16.50),
-        (9005, "Kenya AA Beans 250g",         "Beans", "Single Origin", True,  False, True, 17.00),
-        (9006, "Costa Rica Tarrazu 250g",     "Beans", "Single Origin", True,  False, True, 16.50),
-        (9007, "Sunny Bay House Blend 1kg",   "Beans", "Blend",         True,  False, True, 34.00),
-        (9008, "Decaf Specialty Blend 250g",  "Beans", "Blend / Decaf", True,  False, True, 16.00),
+        (9001, "Ethiopia Sidamo Beans 250g",  "Beans", "Single Origin", True,  False, True, 16.00, 7.00),
+        (9002, "Colombia Supremo Beans 250g", "Beans", "Single Origin", True,  False, True, 15.50, 6.50),
+        (9003, "Brazil Cerrado Beans 250g",   "Beans", "Single Origin", True,  False, True, 15.00, 6.00),
+        (9004, "Guatemala Antigua Beans 250g","Beans", "Single Origin", True,  False, True, 16.50, 7.20),
+        (9005, "Kenya AA Beans 250g",         "Beans", "Single Origin", True,  False, True, 17.00, 7.40),
+        (9006, "Costa Rica Tarrazu 250g",     "Beans", "Single Origin", True,  False, True, 16.50, 7.10),
+        (9007, "Sunny Bay House Blend 1kg",   "Beans", "Blend",         True,  False, True, 34.00, 14.00),
+        (9008, "Decaf Specialty Blend 250g",  "Beans", "Blend / Decaf", True,  False, True, 16.00, 7.00),
     ]
 
     columns = [
@@ -209,11 +206,10 @@ def create_dim_product(spark) -> DataFrame:
         "available_in_store",
         "available_online",
         "list_price_usd",
+        "cost_of_goods_usd",
     ]
 
-    dim_product = spark.createDataFrame(products, schema=columns)
-
-    return dim_product
+    return spark.createDataFrame(products, schema=columns)
 
 def create_dim_customer(
     spark,
@@ -284,7 +280,7 @@ def create_dim_customer(
     # Reorder / select columns
     dim_customer = dim_customer.select(
         "customer_key",
-        "store_key",
+        # "store_key",
         "loyalty_segment",
         "channel_preference",
         "is_home_barista",
@@ -297,44 +293,43 @@ def create_dim_customer(
 def create_dim_store(spark) -> DataFrame:
     """
     Dimension: Store (Sunny Bay Roastery)
-
-    - Store_keys 1–5  : Physical retail cafés in San Francisco
-    - Store_key  6    : Online e-commerce channel ("Sunny Bay Online")
-
-    Includes metadata for analytics:
-      * open/close dates
-      * location / neighborhood
-      * store size, seating, and employees
-      * flags for online vs physical
-      * derived column: years_active
+    Added: tax_rate (per store)
     """
 
     # ------------------------------------------------------------------
-    # Static store data
+    # Static store data + tax_rate
     # ------------------------------------------------------------------
     stores = [
+        # store_key, name, type, city, neighborhood, open, close, is_online,
+        # area, seating, employees, manager, tax_rate
         (1, "Sunny Bay – Market Street",  "Retail Cafe", "San Francisco",
          "Downtown / Financial District", "2010-03-15", None, False,
-         120.0, 45, 18, "Alice Chen"),
+         120.0, 45, 18, "Alice Chen", 0.08625),
+
         (2, "Sunny Bay – Mission",        "Retail Cafe", "San Francisco",
          "Mission District",              "2012-05-01", None, False,
-         100.0, 38, 15, "Carlos Ramirez"),
+         100.0, 38, 15, "Carlos Ramirez", 0.08625),
+
         (3, "Sunny Bay – Westfield Mall", "Retail Cafe", "San Francisco",
          "Union Square / Mall",           "2015-09-10", None, False,
-         80.0, 25, 10, "Julia Tan"),
+         80.0, 25, 10, "Julia Tan", 0.08625),
+
         (4, "Sunny Bay – SoMa Offices",   "Retail Cafe", "San Francisco",
          "SoMa / Office Hub",             "2017-01-20", None, False,
-         110.0, 40, 14, "Kevin O’Neill"),
+         110.0, 40, 14, "Kevin O’Neill", 0.08625),
+
         (5, "Sunny Bay – Hayes Valley",   "Retail Cafe", "San Francisco",
          "Hayes Valley",                  "2018-06-05", None, False,
-         90.0, 30, 12, "Priya Desai"),
+         90.0, 30, 12, "Priya Desai", 0.08625),
+
+        # Online shop uses destination-based tax — store has no fixed rate
         (6, "Sunny Bay Online",           "Online Shop", "San Francisco",
          "E-commerce / Home Barista",     "2020-04-01", None, True,
-         None, None, 25, "Digital Team"),
+         None, None, 25, "Digital Team", 0.0),
     ]
 
     # ------------------------------------------------------------------
-    # Define schema explicitly
+    # Schema including tax_rate
     # ------------------------------------------------------------------
     schema = T.StructType([
         T.StructField("store_key", T.IntegerType(), False),
@@ -349,6 +344,7 @@ def create_dim_store(spark) -> DataFrame:
         T.StructField("seating_capacity", T.IntegerType(), True),
         T.StructField("num_employees", T.IntegerType(), True),
         T.StructField("store_manager", T.StringType(), True),
+        T.StructField("tax_rate", T.DoubleType(), True),
     ])
 
     dim_store = spark.createDataFrame(stores, schema=schema)
@@ -366,7 +362,8 @@ def create_dim_store(spark) -> DataFrame:
         "store_area_sqm",
         "seating_capacity",
         "num_employees",
-        "store_manager"
+        "store_manager",
+        "tax_rate"
     )
 
     return dim_store
