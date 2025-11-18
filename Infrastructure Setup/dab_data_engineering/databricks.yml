@@ -24,19 +24,7 @@ targets:
     mode: development
     default: true
     workspace:
-      host: https://dbc-f85dbf19-9a1c.cloud.databricks.com
+      host: https://fe-vm-vdm-classic-feip-219.cloud.databricks.com/
     variables:
       catalog: sunny_bay_roastery
       schema: bronze
-  prod:
-    mode: production
-    workspace:
-      host: https://dbc-f85dbf19-9a1c.cloud.databricks.com
-      # We explicitly deploy to /Workspace/Users/mail@robin-huebner.com to make sure we only have a single copy.
-      root_path: /Workspace/Users/mail@robin-huebner.com/.bundle/${bundle.name}/${bundle.target}
-    variables:
-      catalog: workspace
-      schema: prod
-    permissions:
-      - user_name: mail@robin-huebner.com
-        level: CAN_MANAGE
