@@ -1,67 +1,77 @@
--- ====================
+-- =======================================
 -- SILVER: Streaming tables (Auto Loader)
--- ====================
+-- =======================================
 
--- dim_date (CSV -> silver streaming)
-CREATE OR REFRESH STREAMING TABLE sunny_bay_roastery.silver.dim_date AS
+-- Date dimension (CSV -> silver streaming)
+CREATE OR REFRESH STREAMING TABLE silver.dim_date AS
 SELECT
-  *
+    *
 FROM STREAM read_files(
-  "/Volumes/sunny_bay_roastery/bronze/raw/dim_date/",
-  format => "csv"
+  '/Volumes/sunny_bay_roastery/bronze/raw/dim_date/',
+  format => 'csv'
 );
 
--- dim_store (CSV -> silver streaming)
-CREATE OR REFRESH STREAMING TABLE sunny_bay_roastery.silver.dim_store AS
+-- Store dimension (CSV -> silver streaming)
+CREATE OR REFRESH STREAMING TABLE silver.dim_store AS
 SELECT
-  *
+    *
 FROM STREAM read_files(
-  "/Volumes/sunny_bay_roastery/bronze/raw/dim_store/",
-  format => "csv"
+  '/Volumes/sunny_bay_roastery/bronze/raw/dim_store/',
+  format => 'csv'
 );
 
--- dim_customer (CSV -> silver streaming)
-CREATE OR REFRESH STREAMING TABLE sunny_bay_roastery.silver.dim_customer AS
+-- Customer dimension (CSV -> silver streaming)
+CREATE OR REFRESH STREAMING TABLE silver.dim_customer AS
 SELECT
-  *
+    *
 FROM STREAM read_files(
-  "/Volumes/sunny_bay_roastery/bronze/raw/dim_customer/",
-  format => "csv"
+  '/Volumes/sunny_bay_roastery/bronze/raw/dim_customer/',
+  format => 'csv'
 );
 
--- dim_product (CSV -> silver streaming)
-CREATE OR REFRESH STREAMING TABLE sunny_bay_roastery.silver.dim_product AS
+-- Product dimension (CSV -> silver streaming)
+CREATE OR REFRESH STREAMING TABLE silver.dim_product AS
 SELECT
-  *
+    *
 FROM STREAM read_files(
-  "/Volumes/sunny_bay_roastery/bronze/raw/dim_product/",
-  format => "csv"
+  '/Volumes/sunny_bay_roastery/bronze/raw/dim_product/',
+  format => 'csv'
 );
 
--- fact_coffee_sales (Parquet -> silver streaming)
-CREATE OR REFRESH STREAMING TABLE sunny_bay_roastery.silver.fact_coffee_sales AS
+-- Coffee sales fact (Parquet -> silver streaming)
+CREATE OR REFRESH STREAMING TABLE silver.fact_coffee_sales AS
 SELECT
-  *
+    *
 FROM STREAM read_files(
-  "/Volumes/sunny_bay_roastery/bronze/raw/fact_coffee_sales/",
-  format => "parquet"
+  '/Volumes/sunny_bay_roastery/bronze/raw/fact_coffee_sales/',
+  format => 'parquet'
 );
 
--- ====================
--- GOLD: Tables on top of silver
--- ====================
+-- =======================================
+-- GOLD: Materialized views on SILVER
+-- =======================================
 
-CREATE OR REFRESH TABLE sunny_bay_roastery.gold.dim_date AS
-SELECT * FROM sunny_bay_roastery.silver.dim_date;
+CREATE OR REPLACE MATERIALIZED VIEW gold.dim_date AS
+SELECT * FROM silver.dim_date;
 
-CREATE OR REFRESH TABLE sunny_bay_roastery.gold.dim_store AS
-SELECT * FROM sunny_bay_roastery.silver.dim_store;
+CREATE OR REPLACE MATERIALIZED VIEW gold.dim_store AS
+SELECT * FROM silver.dim_store;
 
-CREATE OR REFRESH TABLE sunny_bay_roastery.gold.dim_customer AS
-SELECT * FROM sunny_bay_roastery.silver.dim_customer;
+CREATE OR REPLACE MATERIALIZED VIEW gold.dim_customer AS
+SELECT * FROM silver.dim_customer;
 
-CREATE OR REFRESH TABLE sunny_bay_roastery.gold.dim_product AS
-SELECT * FROM sunny_bay_roastery.silver.dim_product;
+CREATE OR REPLACE MATERIALIZED VIEW gold.dim_product AS
+SELECT * FROM silver.dim_product;
 
-CREATE OR REFRESH TABLE sunny_bay_roastery.gold.fact_coffee_sales AS
-SELECT * FROM sunny_bay_roastery.silver.fact_coffee_sales;
+CREATE OR REPLACE MATERIALIZED VIEW gold.fact_coffee_sales AS
+SELECT
+    fcs.*,
+    dp.list_price_usd * fcs.quantity_sold                       AS gross_revenue_usd,
+    (dp.list_price_usd * fcs.quantity_sold) / (1 + ds.tax_rate) AS net_revenue_usd,
+    1 AS vat_usd,
+    1 AS cost_of_goods_usd
+FROM silver.fact_coffee_sales fcs
+JOIN silver.dim_product dp
+  ON fcs.product_key = dp.product_key
+JOIN silver.dim_store ds
+  ON fcs.store_key = ds.store_key;
