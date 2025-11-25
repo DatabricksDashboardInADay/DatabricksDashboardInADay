@@ -460,6 +460,63 @@
         }
       ],
       "pageType": "PAGE_TYPE_CANVAS"
+    },
+    {
+      "name": "19bf801c",
+      "displayName": "WorkInProgress",
+      "layout": [
+        {
+          "widget": {
+            "name": "81ec7df3",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "54e032e5",
+                  "fields": [
+                    {
+                      "name": "monthly(date_date)",
+                      "expression": "DATE_TRUNC(\"MONTH\", `date_date`)"
+                    },
+                    {
+                      "name": "measure(total_gross_revenue_usd)",
+                      "expression": "MEASURE(`total_gross_revenue_usd`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 1,
+              "widgetType": "forecast-line",
+              "encodings": {
+                "x": {
+                  "fieldName": "monthly(date_date)",
+                  "scale": {
+                    "type": "temporal"
+                  }
+                },
+                "y": {
+                  "original": {
+                    "fieldName": "measure(total_gross_revenue_usd)"
+                  },
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 6,
+            "height": 5
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS"
     }
   ],
   "uiSettings": {

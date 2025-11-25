@@ -5,6 +5,7 @@ from pyspark.sql import functions as F
 from pyspark.sql import SparkSession
 
 from data_generation import date_generation, feature_generation
+from environment_setup import setup_catalog_and_schemas
 from impact_factors import (
     add_holiday_features,
     add_day_of_week_features,
@@ -18,6 +19,8 @@ from impact_factors import (
     add_quantity_sold
 )
 from dimensions import add_dim_product_key, add_dim_customer_key, create_dim_product, create_dim_customer, create_dim_store, create_dim_date
+
+
 
 def build_store_dataframe(
     spark: SparkSession,
@@ -180,6 +183,13 @@ def save_df(
 def main():
     spark = SparkSession.builder.getOrCreate()
 
+    setup_catalog_and_schemas(
+        catalog_name='sunny_bay_roastery',
+        bronze_schema_name='bronze',
+        silver_schema_name='silver',
+        gold_schema_name='gold',
+        volume_name='raw'
+    )
     # Shared date range for all stores (global min/max)
     base_dates_df = date_generation(
         spark=spark,
