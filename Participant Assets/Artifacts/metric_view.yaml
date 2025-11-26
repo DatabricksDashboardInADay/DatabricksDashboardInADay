@@ -1,0 +1,182 @@
+version: 1.1
+
+source: sunny_bay_roastery.gold.fact_coffee_sales
+
+joins:
+  - name: customer
+    source: sunny_bay_roastery.gold.dim_customer
+    "on": source.customer_key = customer.customer_key
+  - name: product
+    source: sunny_bay_roastery.gold.dim_product
+    "on": source.product_key = product.product_key
+  - name: store
+    source: sunny_bay_roastery.gold.dim_store
+    "on": source.store_key = store.store_key
+  - name: date
+    source: sunny_bay_roastery.gold.dim_date
+    "on": source.date_key = date.date_key
+
+comment: "Metric view for analyzing Sunny Bay Coffee sales online and office, including\
+  \ Customer and Product analytics."
+
+dimensions:
+  - name: customer
+    expr: customer
+    comment: All customer properties
+    display_name: Customer (Full)
+  - name: day_of_week
+    expr: date.day_of_week
+    comment: The day of the week
+    display_name: Day of Week
+  - name: customer_location
+    expr: customer.city
+    comment: Customer's location (City)
+    display_name: Customer Location
+  - name: customer_loyalty_segment
+    expr: customer.loyalty_segment
+    comment: Indicator of customer's loyaltly segment
+    display_name: Customer Loyalty Segment
+  - name: customer_channel_preference
+    expr: customer.channel_preference
+    comment: Indicator of sales channel preferred by the customer (online or in-store)
+    display_name: Customer Channel Preference
+  - name: product
+    expr: product
+    comment: All product properties
+    display_name: Product (Full)
+  - name: product_name
+    expr: product.product_name
+    comment: Name of the product
+    display_name: Product Name
+  - name: product_category
+    expr: product.product_category
+    comment: The category of the product
+    display_name: Product Category
+  - name: product_subcategory
+    expr: product.product_subcategory
+    comment: The subcategory of the product
+    display_name: Product Subcategory
+  - name: store
+    expr: store
+    comment: All store properties
+    display_name: Store (Full)
+  - name: store_name
+    expr: store.store_name
+    comment: The name of the store
+    display_name: Store Name
+  - name: store_type
+    expr: store.store_type
+    comment: The type of the store
+    display_name: Store Type
+  - name: store_city
+    expr: store.city
+    comment: The city where the store is located.
+    display_name: Store City
+  - name: store_online
+    expr: store.is_online
+    comment: Indicator whether this is an online store or not.
+    display_name: Store Online
+  - name: date
+    expr: date
+    comment: All date properties
+    display_name: Date (Full)
+  - name: date_date
+    expr: date.date
+    comment: Sales Date
+    display_name: Date
+  - name: date_day
+    expr: date.day
+    comment: Day of sale
+    display_name: Day
+  - name: date_month
+    expr: date.month
+    comment: Month of sale
+    display_name: Month
+  - name: date_year
+    expr: date.year
+    comment: Year of sale
+    display_name: Year
+  - name: date_season
+    expr: date.season
+    comment: Season of sale
+    display_name: Season
+
+measures:
+  - name: total_orders
+    expr: count(*)
+    comment: Total number of orders
+    display_name: Total Orders
+    format:
+      type: number
+      decimal_places:
+        type: exact
+        places: 0
+      abbreviation: compact
+  - name: total_quantity_sold
+    expr: SUM(`quantity_sold`)
+    comment: Total units sold across all transactions
+    display_name: Total Quantity Sold
+    format:
+      type: number
+      decimal_places:
+        type: exact
+        places: 0
+  - name: total_gross_revenue_usd
+    expr: SUM(`gross_revenue_usd`)
+    comment: Total gross revenue in USD before VAT and costs
+    display_name: Total Gross Revenue (USD)
+    format:
+      type: currency
+      currency_code: USD
+      decimal_places:
+        type: exact
+        places: 2
+      abbreviation: compact
+  - name: total_cost_of_goods_usd
+    expr: SUM(`cost_of_goods_usd`)
+    comment: Total cost of goods sold in USD
+    display_name: Total Cost of Goods Sold (USD)
+    format:
+      type: currency
+      currency_code: USD
+      decimal_places:
+        type: exact
+        places: 2
+      abbreviation: compact
+  - name: total_profit_usd
+    expr: SUM(`gross_revenue_usd`) - SUM(`cost_of_goods_usd`) - SUM(`vat_usd`)
+    comment: Total profit calculated as gross revenue minus cost of goods and VAT
+    display_name: Total Profit (USD)
+    format:
+      type: currency
+      currency_code: USD
+      decimal_places:
+        type: exact
+        places: 2
+      abbreviation: compact
+  - name: total_gross_revenue_usd_previous_day
+    expr: measure(`total_gross_revenue_usd`)
+    window:
+      - order: date_date
+        semiadditive: last
+        range: trailing 1 day
+    comment: Gross revenue (USD) for the previous day
+    display_name: Previous Day Sales Amount (USD)
+    format:
+      type: currency
+      currency_code: USD
+      decimal_places:
+        type: exact
+        places: 2
+      abbreviation: compact
+  - name: total_gross_revenue_usd_previous_day_diff
+    expr: MEASURE(`total_gross_revenue_usd`) - MEASURE(`total_gross_revenue_usd_previous_day`)
+    comment: Gross revenue (USD) for the previous day
+    display_name: Difference to previous Day Sales Amount (USD)
+    format:
+      type: currency
+      currency_code: USD
+      decimal_places:
+        type: exact
+        places: 2
+      abbreviation: compact
