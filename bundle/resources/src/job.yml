@@ -10,38 +10,20 @@ resources:
       tasks:
         - task_key: init_bronze_data
           environment_key: default
-          spark_python_task:
-            python_file: ./bronze/main.py
-            parameters:
-            - "--catalog=${var.catalog}"
+          notebook_task:
+            notebook_path: ./bronze/main
+            base_parameters:
+            - catalog: ${var.catalog}
 
         - task_key: run_pipeline
           depends_on:
             - task_key: init_bronze_data
           pipeline_task:
             pipeline_id: ${resources.pipelines.sunny_bay_roastery_pipeline.id}
+            configuration:
+            - catalog: ${var.catalog}
 
       environments:
         - environment_key: default
           spec:
             environment_version: "4"
-
-      schemas:
-        bronze:
-          name: bronze
-          catalog_name: ${var.catalog}
-          comment: This schema was created by Databricks Asset Bundles.
-        silver:
-          name: silver
-          catalog_name: ${var.catalog}
-          comment: This schema was created by Databricks Asset Bundles.
-        gold:
-          name: gold
-          catalog_name: ${var.catalog}
-          comment: This schema was created by Databricks Asset Bundles.
-
-      volumes:
-        raw:
-          catalog_name: ${var.catalog}
-          name: raw
-          schema_name: bronze

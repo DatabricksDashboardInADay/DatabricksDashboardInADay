@@ -1,6 +1,6 @@
 from functools import reduce
 from typing import Dict, List
-from pyspark.sql import DataFrame, SparkSession, functions as F
+from pyspark.sql import DataFrame, functions as F
 import argparse
 
 from data_generation import date_generation, feature_generation
@@ -100,11 +100,10 @@ def save_df(df: DataFrame, name: str, path: str, fmt: str = "csv", single_file: 
 
 
 def main(catalog: str):
-    spark = SparkSession.builder.getOrCreate()
 
     volume_path = f"/Volumes/{catalog}/bronze/raw"
 
-    base_dates_df = date_generation(spark, start_date="2010-01-01", end_date="2025-12-31")
+    base_dates_df = date_generation(start_date="2010-01-01", end_date="2025-12-31")
 
     store_configs: List[Dict] = [
         {
@@ -164,10 +163,10 @@ def main(catalog: str):
     all_stores_df = add_dim_customer_key(all_stores_df)
 
     dim_dfs = {
-        "dim_product": create_dim_product(spark),
-        "dim_customer": create_dim_customer(spark),
-        "dim_store": create_dim_store(spark),
-        "dim_date": create_dim_date(spark),
+        "dim_product": create_dim_product(),
+        "dim_customer": create_dim_customer(),
+        "dim_store": create_dim_store(),
+        "dim_date": create_dim_date(),
     }
 
     for name, df in dim_dfs.items():

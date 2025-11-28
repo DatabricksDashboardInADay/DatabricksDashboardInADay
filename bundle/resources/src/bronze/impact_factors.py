@@ -26,7 +26,6 @@ def add_random_noise_features(
 
 def add_holiday_features(
     df: DataFrame,
-    spark: SparkSession
 ) -> DataFrame:
     """
     Adds column:
@@ -149,6 +148,8 @@ def add_holiday_features(
 """
     lines = holidays_csv.strip().splitlines()[1:]
     holidays_data = [tuple(line.split(",", 1)) for line in lines]
+
+    spark = SparkSession.builder.getOrCreate()
 
     holidays_df = (
         spark.createDataFrame(holidays_data, ["date", "holiday"])

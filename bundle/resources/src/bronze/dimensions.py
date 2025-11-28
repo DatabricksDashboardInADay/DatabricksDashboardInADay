@@ -140,7 +140,7 @@ def add_dim_customer_key(
 # Product dimension
 # -------------------------
 
-def create_dim_product(spark: SparkSession) -> DataFrame:
+def create_dim_product() -> DataFrame:
     """Static product dimension matching `product_key` values."""
 
     products = [
@@ -171,6 +171,8 @@ def create_dim_product(spark: SparkSession) -> DataFrame:
         (9008, "Decaf Specialty Blend 250g",  "Beans", "Blend / Decaf", True,  False, True, 16.00, 7.00),
     ]
 
+    spark = SparkSession.builder.getOrCreate()
+
     columns = [
         "product_key",
         "product_name",
@@ -191,11 +193,12 @@ def create_dim_product(spark: SparkSession) -> DataFrame:
 # -------------------------
 
 def create_dim_customer(
-    spark: SparkSession,
     store_keys: List[int] = [1, 2, 3, 4, 5, 6],
     max_customers_per_store: int = 2000,
 ) -> DataFrame:
     """Create a static customer dimension consistent with add_dim_customer_key."""
+
+    spark = SparkSession.builder.getOrCreate()
 
     stores_df = spark.createDataFrame(
         [(int(k),) for k in store_keys],
@@ -250,7 +253,7 @@ def create_dim_customer(
 # Store dimension
 # -------------------------
 
-def create_dim_store(spark: SparkSession) -> DataFrame:
+def create_dim_store() -> DataFrame:
     """Static store dimension with geographic and tax attributes."""
 
     stores = [
@@ -302,6 +305,8 @@ def create_dim_store(spark: SparkSession) -> DataFrame:
          "California", "CA", "San Francisco County", "94107",
          37.7739, -122.3917),
     ]
+
+    spark = SparkSession.builder.getOrCreate()
 
     schema = T.StructType([
         T.StructField("store_key",              T.IntegerType(),  False),
@@ -360,7 +365,6 @@ def create_dim_store(spark: SparkSession) -> DataFrame:
 # -------------------------
 
 def create_dim_date(
-    spark: SparkSession,
     start_date: str = "2010-01-01",
     end_date: str = "2025-12-31",
     season_weights: Optional[dict] = None,
@@ -375,6 +379,8 @@ def create_dim_date(
         dow_weights = {1: 0.95, 2: 1.00, 3: 1.00, 4: 1.05, 5: 1.20, 6: 1.40, 7: 1.10}
     if us_public_holidays is None:
         us_public_holidays = []
+
+    spark = SparkSession.builder.getOrCreate()
 
     dates = (
         spark.range(1)

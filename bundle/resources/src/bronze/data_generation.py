@@ -2,13 +2,15 @@ from datetime import datetime
 from pyspark.sql import DataFrame, functions as F, SparkSession
 
 
-def date_generation(spark: SparkSession, start_date: str, end_date: str) -> DataFrame:
+def date_generation(start_date: str, end_date: str) -> DataFrame:
     """
     Produce a DataFrame with one row per calendar day between start_date and end_date
     and helper columns 'start_date' and 'end_date' as DATE.
     """
     start_col = F.to_date(F.lit(start_date))
     end_col = F.to_date(F.lit(end_date))
+
+    spark = SparkSession.builder.getOrCreate()
 
     return (
         spark.range(1)

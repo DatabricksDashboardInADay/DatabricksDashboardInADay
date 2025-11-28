@@ -6,7 +6,6 @@ resources:
       schema: bronze
       serverless: true
       root_path: "."
-
       libraries:
         - glob:
             include: transformations/**
