@@ -30,9 +30,9 @@ They allow consistent reporting, simplify complex SQL logic, and centralize metr
 
 ## Instructions
 
-### Create am empty Metric View
+### Create an empty Metric View
 
-1. Navigate to the gold schema using the Catalog Explorer and create a new Metric View by selecting it after clicking the New Button. Name it ``sm_fact_coffee_sales``. 
+1. Navigate to the gold schema using the Catalog Explorer and create a new Metric View by selecting it after clicking the New Button.
 
 ![alt text](./Artifacts/MetricView_CreateMetricView.png)
 
@@ -40,7 +40,7 @@ They allow consistent reporting, simplify complex SQL logic, and centralize metr
 
 ### Add table relationships to the Metric View
 
-1. Define your source, which is the base table of the metric view and typically the center of our star/snowflake schema. In your case, this will be `sunny_bay_roastery.gold.fact_coffee_sales`. Copy the following code snippet at the top of your metric view definition. Note that the version attribute determines which features are available. We will use version 1.1.
+1. Define your source, which is the base table of the metric view and typically the fact table of our star/snowflake schema. In your case, this will be `sunny_bay_roastery.gold.fact_coffee_sales`. Copy the following code snippet to the top of your Metric View definition. Note that the version attribute determines which features are available. We will use version 1.1.
 
 ```YAML
 version: 1.1
@@ -48,16 +48,16 @@ version: 1.1
 source: sunny_bay_roastery.gold.fact_coffee_sales 
 ```
 
-2. Add your first join to a dimension table. Specify the dimension the table `sunny_bay_roastery.gold.dim_product` and the join key `source.product_key = product.product_key` to define the relationship of the dimenesion table and the fact table.
+2. Add your first join to a dimension table. Specify the **product** dimension the table `sunny_bay_roastery.gold.dim_product` and the join key `source.product_key = product.product_key` to define the relationship of the dimension table and the fact table.
 
 ```YAML
   - name: product
     source: sunny_bay_roastery.gold.dim_product
     "on": source.product_key = product.product_key
 ```
-3. Add another join yourself using the same approach. Use our date dimension which is stored in the table `sunny_bay_roastery.gold.dim_date`. The join column are named `date_key` on both tables. For the name attribute, set "date".
+3. Add another join  using the same approach. Use your **date** dimension which is stored in the table `sunny_bay_roastery.gold.dim_date`. The join columns are named `date_key` on both tables. Set the name attribute to `date`.
 
-4. Add a final join to the store dimension table named `sunny_bay_roastery.gold.dim_store`. The join columns are named `store_key` on both sides. For the name attribute, set "store".
+4. Add a final join to the **store** dimension table named `sunny_bay_roastery.gold.dim_store`. The join columns are named `store_key` on both sides. Set the name attribute to `store`.
 
 5. Provide the name **`sm_fact_coffee_sales`** and save the Metric View by clicking the Save button at the right top corner. If everything is defined correctly, the Metric View will be saved and is immediately available in Unity Catalog. 
 
@@ -66,7 +66,7 @@ source: sunny_bay_roastery.gold.fact_coffee_sales
 
 ### Define Dimensional Attributes
 
-1. Now that we have our joins defined, we can select, which dimensional attributes our Metric View should contain. We can automically select all that exist by simply adding the table name as an expression which will add a column with an array of all attributes. This his will bloat and add complexity that might not be helpful to end users. Instead you will select the product name by adding the follwing snippet:
+1. Now that we have our joins defined, we can select, which dimensional attributes our Metric View should contain. We can automatically select all attributes that exist by simply adding the table name as an expression which will add a array-column containing all attributes. However, this will bloat the model and add complexity that might not be helpful to end users. Instead you will select the product name by adding the follwing snippet:
 
 ```YAML
 dimensions:
@@ -78,10 +78,10 @@ dimensions:
     - Product category (product.product_category)
     - Product subcategory (product.product_subcategory)
  
-3. Since you also joined the **date** dimension table in the previous section, add the following attribute from the date dimension:
+3. Since you also joined the **date** dimension table in the previous section, add the following dimension attributes:
     - Date (date.date)
 
-4. Finally, add the following attribute from the **store** dimension table>
+4. Finally, add the following attributes from the **store** dimension table:
     - Store Name (store.store_name)
     - Is Online Store (store.is_online)
     - Store Latitude (store.latitude)
@@ -91,14 +91,14 @@ dimensions:
 
 ### Define Measures
 
-1. As the last step, create a basic measure which will sum the total sales quantities. The approach is very similar. Add the following code snippet to the buttom of your Metric View definition:
+1. As the last step, create a basic measure which will sum the total net revenue. The approach is very similar to adding dimension attributes. Add the following code snippet to the buttom of your Metric View definition:
 ```YAML
 measures:
   - name: total_net_revenue_usd
     expr: SUM(net_revenue_usd)
 ```
 
-2. Add a second measure that will sum our total gross revenue. The column that stores this metric is named `cost_of_goods_usd`. The name of the measure should be "total_cost_of_goods"
+2. Add a second measure that will sum our cost of goods. The column that stores this metric is named `cost_of_goods_usd`. The name of the measure should be `total_cost_of_goods`.
 
 3. We will add third measure named `total_net_profit`, that will substract the second measure `total_cost_of_goods` from the first measure `total_net_revenue_usd`. This will be our profit. The expression is `measure(total_net_revenue_usd) - measure(total_cost_of_goods)`.
 
@@ -178,7 +178,7 @@ On purpose, you did not yet use any advanced features such as complex calulation
     expr: AVG(cost_of_goods_usd)
 ```
     
-**Windowing calcuations such as rolling averages, previous period and running totals:**
+**Windowing calcuations such as rolling averages, previous periods and running totals:**
 ```YAML 
   - name: total_gross_revenue_usd_previous_day
     expr: measure(`total_gross_revenue_usd`)
