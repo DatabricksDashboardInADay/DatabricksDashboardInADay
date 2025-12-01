@@ -80,6 +80,7 @@ dimensions:
  
 3. Since you also joined the **date** dimension table in the previous section, add the following dimension attributes:
     - Date (date.date)
+    - Day of Week (date.day_of_week)
 
 4. Finally, add the following attributes from the **store** dimension table:
     - Store Name (store.store_name)
@@ -126,9 +127,6 @@ joins:
     source: sunny_bay_roastery.gold.dim_store
     "on": source.store_key = store.store_key
 
-comment: "Metric view for analyzing Sunny Bay Coffee sales online and office, including\
-  \ Customer and Product analytics."
-
 dimensions:
   - name: product_name
     expr: product.product_name
@@ -139,6 +137,9 @@ dimensions:
   - name: product_subcategory
     expr: product.product_subcategory
     display_name: Product Subcategory
+  - name: day_of_week
+    expr: date.day_of_week
+    display_name: Day of Week
   - name: date
     expr: date.date
     display_name: Date

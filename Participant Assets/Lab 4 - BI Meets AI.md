@@ -25,29 +25,51 @@ Before you start, please verify:
 - The **Sunny Bay Coffee Sales metric view** from Lab 2 is created and published in Unity Catalog.  
 - A **SQL warehouse** (Pro or serverless) is available and selectable for Genie queries.  
 
-**Step 1: Create the “Sunny Bay Sales Genie” Space**
+### Create the “Sunny Bay Sales Genie” Space
 
 1. In the Databricks workspace, open **Genie** from the left navigation.  
-2. Click **New space**.  ![](./Artifacts/Genie_CreateGenieSpace.png)
-3. Under **Data sources** (or equivalent section), **add the Sunny Bay Coffee metric view** that you defined in Lab 2.
+2. Click **New space**.  
+
+![](./Artifacts/Genie_CreateGenieSpace.png)
+
+3. Under **Data sources** (or equivalent section), **add the Sunny Bay Coffee metric view** that you defined in Lab 2 named `sm_fact_coffee_sales_genie`
+
 ![](./Artifacts/Genie_SetDataSource.png)
 
 4. Once the Genie space is created, fill in the basic information under "Configure" -> "Settings" :
-   - **TItle:** `Sunny Bay Sales Genie`  
+   - **Title:** `Sunny Bay Sales Genie`  
    - **Description:**   “Ask questions about Sunny Bay Roastery coffee sales, customers, products, and stores using governed metrics from the Sunny Bay metric view.”  
-   ![](./Artifacts/Genie_BasicSettings.png)
+   
+![](./Artifacts/Genie_BasicSettings.png)
 
 
 5. Select a **Pro or serverless SQL warehouse** to run queries.  
-6. Click **Create** (or **Save**) to provision the Genie space.  
-
-**Step 2: Optimize the Space for High Quality (Knowledge & Semantics)**
-
-1. In the Genie space settings:
+6. Click **Save** to save the changes to the Genie space.  
+7. In the Genie space settings:
 - Configure knowledge / context text (“Instructions” box):
     - Describe the business context: Sunny Bay Roastery, coffee sales, currencies, time grain, etc. 
     - Clarify metric meanings
     - Specify standard aggregations and filters (e.g., “Prefer last 30 days when no date is specified”).
-    ![](./Artifacts/Genie_Instructions.png)
+    - To save you from typing, you can past [this text](../Participant%20Assets/Artifacts/Genie_Instructions.txt).
+    
+![](./Artifacts/Genie_Instructions.png)
 
-sample questions
+8. You can now ask a first question to Genie and it should give acceptable results. For example, you can type **Show me the profit by month for the year 2023 as a bar chart** in the chat window, which should provide the following output:
+
+![](./Artifacts/Genie_TestQuestion.png)
+
+9. (Optional) By clicking on `Show SQL`, you can review the SQL query that Genie created to select data from your Metric View.
+
+
+### Optimize the Genie Space for High Quality (Knowledge & Semantics)
+
+1. Let's assume that your Fiscal year doesn't match the Calendar year. It instead stretches from June 1st to May 31st. Add this item to the instructions from the previous section: `* whenever users are asking about dates, use the fiscal year instead of the calendar year. It starts on June 1st and ends on May 31st.`
+
+2. Open a new chat to reflect the updated instructions and ask the same question. Genie should now adjust the selected months to the defined fiscal year.
+
+![](./Artifacts/Genie_FiscalYear.png)
+
+3. Review the changed time selector and optionally the SQL query that was updated equally.
+
+
+
