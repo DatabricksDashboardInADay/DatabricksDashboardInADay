@@ -1,0 +1,13 @@
+resources:
+  pipelines:
+    sunny_bay_roastery_pipeline:
+      name: sunny_bay_roastery
+      catalog: ${var.catalog}
+      schema: bronze
+      serverless: true
+      root_path: "."
+      configuration:
+        catalog: ${var.catalog}
+      libraries:
+        - glob:
+            include: ../src/transformations/**

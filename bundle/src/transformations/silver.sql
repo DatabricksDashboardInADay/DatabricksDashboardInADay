@@ -7,7 +7,7 @@ CREATE OR REFRESH STREAMING TABLE silver.dim_date AS
 SELECT
     *
 FROM STREAM read_files(
-  '/Volumes/sunny_bay_roastery/bronze/raw/dim_date/',
+  '/Volumes/${catalog}/bronze/raw/dim_date/',
   format => 'csv'
 );
 
@@ -16,7 +16,7 @@ CREATE OR REFRESH STREAMING TABLE silver.dim_store AS
 SELECT
     *
 FROM STREAM read_files(
-  '/Volumes/sunny_bay_roastery/bronze/raw/dim_store/',
+  '/Volumes/${catalog}/bronze/raw/dim_store/',
   format => 'csv'
 );
 
@@ -25,7 +25,7 @@ CREATE OR REFRESH STREAMING TABLE silver.dim_customer AS
 SELECT
     *
 FROM STREAM read_files(
-  '/Volumes/sunny_bay_roastery/bronze/raw/dim_customer/',
+  '/Volumes/${catalog}/bronze/raw/dim_customer/',
   format => 'csv'
 );
 
@@ -34,7 +34,7 @@ CREATE OR REFRESH STREAMING TABLE silver.dim_product AS
 SELECT
     *
 FROM STREAM read_files(
-  '/Volumes/sunny_bay_roastery/bronze/raw/dim_product/',
+  '/Volumes/${catalog}/bronze/raw/dim_product/',
   format => 'csv'
 );
 
@@ -43,6 +43,6 @@ CREATE OR REFRESH STREAMING TABLE silver.fact_coffee_sales AS
 SELECT
     *
 FROM STREAM read_files(
-  '/Volumes/sunny_bay_roastery/bronze/raw/fact_coffee_sales/',
+  '/Volumes/${catalog}/bronze/raw/fact_coffee_sales/',
   format => 'parquet'
 );

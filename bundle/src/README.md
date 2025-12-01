@@ -1,18 +1,13 @@
-# dab_data_engineering
-
 This folder defines all source code for the dab_data_engineering pipeline:
 
-- `explorations/`: Ad-hoc notebooks used to explore the data processed by this pipeline.
+- `bronze/`: Initial data generation
 - `transformations/`: All dataset definitions and transformations.
-- `utilities/` (optional): Utility functions and Python modules used in this pipeline.
-- `data_sources/` (optional): View definitions describing the source data for this pipeline.
 
 ## Getting Started
 
 To get started, go to the `transformations` folder -- most of the relevant source code lives there:
 
 * By convention, every dataset under `transformations` is in a separate file.
-* Take a look at the sample under "sample_trips_dab_data_engineering.py" to get familiar with the syntax.
   Read more about the syntax at https://docs.databricks.com/dlt/python-ref.html.
 * Use `Run file` to run and preview a single transformation.
 * Use `Run pipeline` to run _all_ transformations in the entire pipeline.
