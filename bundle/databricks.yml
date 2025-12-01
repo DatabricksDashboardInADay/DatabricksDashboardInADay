@@ -7,6 +7,7 @@ include:
 variables:
   catalog:
     description: The catalog to use
+    default: sunny_bay_roastery
 targets:
   dev:
     mode: development
