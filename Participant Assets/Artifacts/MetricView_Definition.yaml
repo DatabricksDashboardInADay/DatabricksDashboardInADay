@@ -16,9 +16,6 @@ joins:
     source: sunny_bay_roastery.gold.dim_date
     "on": source.date_key = date.date_key
 
-comment: "Metric view for analyzing Sunny Bay Coffee sales online and office, including\
-  \ Customer and Product analytics."
-
 dimensions:
   - name: customer
     expr: customer
@@ -113,7 +110,7 @@ measures:
         places: 0
       abbreviation: compact
   - name: total_quantity_sold
-    expr: SUM(`quantity_sold`)
+    expr: SUM(quantity_sold)
     comment: Total units sold across all transactions
     display_name: Total Quantity Sold
     format:
@@ -122,7 +119,7 @@ measures:
         type: exact
         places: 0
   - name: total_gross_revenue_usd
-    expr: SUM(`gross_revenue_usd`)
+    expr: SUM(gross_revenue_usd)
     comment: Total gross revenue in USD before VAT and costs
     display_name: Total Gross Revenue (USD)
     format:
@@ -132,8 +129,23 @@ measures:
         type: exact
         places: 2
       abbreviation: compact
+    synonyms:
+      - gross revenue
+  - name: total_net_revenue_usd
+    expr: SUM(net_revenue_usd)
+    comment: Total net revenue in USD
+    display_name: Total Net Revenue (USD)
+    format:
+      type: currency
+      currency_code: USD
+      decimal_places:
+        type: exact
+        places: 2
+      abbreviation: compact
+    synonyms:
+      - net revenue
   - name: total_cost_of_goods_usd
-    expr: SUM(`cost_of_goods_usd`)
+    expr: SUM(cost_of_goods_usd)
     comment: Total cost of goods sold in USD
     display_name: Total Cost of Goods Sold (USD)
     format:
@@ -144,7 +156,7 @@ measures:
         places: 2
       abbreviation: compact
   - name: total_profit_usd
-    expr: SUM(`gross_revenue_usd`) - SUM(`cost_of_goods_usd`) - SUM(`vat_usd`)
+    expr: SUM(gross_revenue_usd) - SUM(cost_of_goods_usd) - SUM(vat_usd)
     comment: Total profit calculated as gross revenue minus cost of goods and VAT
     display_name: Total Profit (USD)
     format:
@@ -154,8 +166,10 @@ measures:
         type: exact
         places: 2
       abbreviation: compact
+    synonyms:
+      - profit
   - name: total_gross_revenue_usd_previous_day
-    expr: measure(`total_gross_revenue_usd`)
+    expr: measure(total_gross_revenue_usd)
     window:
       - order: date_date
         semiadditive: last
@@ -170,7 +184,7 @@ measures:
         places: 2
       abbreviation: compact
   - name: total_gross_revenue_usd_previous_day_diff
-    expr: MEASURE(`total_gross_revenue_usd`) - MEASURE(`total_gross_revenue_usd_previous_day`)
+    expr: MEASURE(total_gross_revenue_usd) - MEASURE(total_gross_revenue_usd_previous_day)
     comment: Gross revenue (USD) for the previous day
     display_name: Difference to previous Day Sales Amount (USD)
     format:
