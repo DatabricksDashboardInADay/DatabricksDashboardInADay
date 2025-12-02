@@ -1,0 +1,16 @@
+bundle:
+  name: sunny_bay_roastery
+  uuid: bc0b18ce-7bd2-41ef-9afa-69c09bd218f7
+include:
+- resources/*.yml
+- resources/*/*.yml
+variables:
+  catalog:
+    description: The catalog to use
+    default: sunny_bay_roastery
+targets:
+  dev:
+    mode: development
+    default: true
+    variables:
+      catalog: sunny_bay_roastery

@@ -1,0 +1,86 @@
+{
+  "pages": [
+    {
+      "name": "150ce7b3",
+      "displayName": "Global Filters",
+      "pageType": "PAGE_TYPE_GLOBAL_FILTERS"
+    },
+    {
+      "name": "3b679596",
+      "displayName": "Sales Report",
+      "layout": [
+        {
+          "widget": {
+            "name": "7d07cbd4",
+            "multilineTextboxSpec": {
+              "lines": [
+                "# Sales Dashboard"
+              ]
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 5,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "e506c743",
+            "multilineTextboxSpec": {
+              "lines": [
+                "![](https://i.ibb.co/cVGnntT/Screenshot-2025-10-16-at-22-04-25.png)"
+              ]
+            }
+          },
+          "position": {
+            "x": 5,
+            "y": 0,
+            "width": 1,
+            "height": 2
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS"
+    }
+  ],
+  "uiSettings": {
+    "theme": {
+      "canvasBackgroundColor": {
+        "light": "#D1E3D1",
+        "dark": "#1F272D"
+      },
+      "widgetBackgroundColor": {
+        "light": "#FFFFFF",
+        "dark": "#11171C"
+      },
+      "widgetBorderColor": {
+        "light": "#2F4F3E"
+      },
+      "fontColor": {
+        "light": "#11171C",
+        "dark": "#E8ECF0"
+      },
+      "selectionColor": {
+        "light": "#2272B4",
+        "dark": "#8ACAFF"
+      },
+      "visualizationColors": [
+        "#2F4F3E",
+        "#4E7B61",
+        "#7DAF8B",
+        "#C8B79A",
+        "#A64B2A",
+        "#8CC665",
+        "#D1E3D1"
+      ],
+      "widgetHeaderAlignment": "LEFT"
+    },
+    "genieSpace": {
+      "isEnabled": true,
+      "enablementMode": "ENABLED"
+    },
+    "applyModeEnabled": false
+  }
+}

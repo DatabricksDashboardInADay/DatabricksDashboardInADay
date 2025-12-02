@@ -1,0 +1,637 @@
+{
+  "datasets": [
+    {
+      "name": "8420be85",
+      "displayName": "sm_fact_coffee_sales",
+      "asset_name": "sunny_bay_roastery.gold.sm_fact_coffee_sales"
+    }
+  ],
+  "pages": [
+    {
+      "name": "150ce7b3",
+      "displayName": "Global Filters",
+      "layout": [
+        {
+          "widget": {
+            "name": "date",
+            "queries": [
+              {
+                "name": "dashboards/01f0c4cb863a158d870d6b6e7a904c4a/datasets/01f0cebb69cc15ff9965b756e283d030_date",
+                "query": {
+                  "datasetName": "8420be85",
+                  "fields": [
+                    {
+                      "name": "date",
+                      "expression": "`date`"
+                    },
+                    {
+                      "name": "date_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "filter-date-range-picker",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "date",
+                    "queryName": "dashboards/01f0c4cb863a158d870d6b6e7a904c4a/datasets/01f0cebb69cc15ff9965b756e283d030_date"
+                  }
+                ]
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Date"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 1,
+            "height": 2
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_GLOBAL_FILTERS"
+    },
+    {
+      "name": "3b679596",
+      "displayName": "Sales Report",
+      "layout": [
+        {
+          "widget": {
+            "name": "7d07cbd4",
+            "multilineTextboxSpec": {
+              "lines": [
+                "# Sales Report"
+              ]
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 5,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "e506c743",
+            "multilineTextboxSpec": {
+              "lines": [
+                "![](https://i.ibb.co/cVGnntT/Screenshot-2025-10-16-at-22-04-25.png)"
+              ]
+            }
+          },
+          "position": {
+            "x": 5,
+            "y": 0,
+            "width": 1,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "net-profit-per-month",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "8420be85",
+                  "fields": [
+                    {
+                      "name": "store_name",
+                      "expression": "`store_name`"
+                    },
+                    {
+                      "name": "measure(total_cost_of_goods)",
+                      "expression": "MEASURE(`total_cost_of_goods`)"
+                    },
+                    {
+                      "name": "measure(total_net_revenue_usd)",
+                      "expression": "MEASURE(`total_net_revenue_usd`)"
+                    },
+                    {
+                      "name": "monthly(date)",
+                      "expression": "DATE_TRUNC(\"MONTH\", `date`)"
+                    },
+                    {
+                      "name": "measure(total_net_profit)",
+                      "expression": "MEASURE(`total_net_profit`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "monthly(date)",
+                  "scale": {
+                    "type": "temporal"
+                  }
+                },
+                "y": {
+                  "fieldName": "measure(total_net_profit)",
+                  "format": {
+                    "type": "number-currency",
+                    "currencyCode": "USD",
+                    "abbreviation": "compact",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 0
+                    }
+                  },
+                  "axis": {
+                    "title": "Net Profit [$]"
+                  },
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "store_name",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "label": {
+                  "show": false
+                },
+                "extra": [
+                  {
+                    "fieldName": "measure(total_cost_of_goods)"
+                  },
+                  {
+                    "fieldName": "measure(total_net_revenue_usd)"
+                  }
+                ]
+              },
+              "frame": {
+                "title": "Net Profit per Month [$]",
+                "showTitle": true,
+                "showDescription": false
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 4,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "store",
+            "queries": [
+              {
+                "name": "dashboards/01f0c4cb863a158d870d6b6e7a904c4a/datasets/01f0cebb69cc15ff9965b756e283d030_store_name",
+                "query": {
+                  "datasetName": "8420be85",
+                  "fields": [
+                    {
+                      "name": "store_name",
+                      "expression": "`store_name`"
+                    },
+                    {
+                      "name": "store_name_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "filter-single-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "store_name",
+                    "queryName": "dashboards/01f0c4cb863a158d870d6b6e7a904c4a/datasets/01f0cebb69cc15ff9965b756e283d030_store_name"
+                  }
+                ]
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Store Name"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 3,
+            "width": 2,
+            "height": 1
+          }
+        },
+        {
+          "widget": {
+            "name": "02790311",
+            "queries": [
+              {
+                "name": "dashboards/01f0c4cb863a158d870d6b6e7a904c4a/datasets/01f0cebb69cc15ff9965b756e283d030_product_category",
+                "query": {
+                  "datasetName": "8420be85",
+                  "fields": [
+                    {
+                      "name": "product_category",
+                      "expression": "`product_category`"
+                    },
+                    {
+                      "name": "product_category_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "filter-single-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "product_category",
+                    "queryName": "dashboards/01f0c4cb863a158d870d6b6e7a904c4a/datasets/01f0cebb69cc15ff9965b756e283d030_product_category"
+                  }
+                ]
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Product Category"
+              }
+            }
+          },
+          "position": {
+            "x": 2,
+            "y": 3,
+            "width": 2,
+            "height": 1
+          }
+        },
+        {
+          "widget": {
+            "name": "b9c786b0",
+            "queries": [
+              {
+                "name": "dashboards/01f0c4cb863a158d870d6b6e7a904c4a/datasets/01f0cebb69cc15ff9965b756e283d030_product_subcategory",
+                "query": {
+                  "datasetName": "8420be85",
+                  "fields": [
+                    {
+                      "name": "product_subcategory",
+                      "expression": "`product_subcategory`"
+                    },
+                    {
+                      "name": "product_subcategory_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "filter-single-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "product_subcategory",
+                    "queryName": "dashboards/01f0c4cb863a158d870d6b6e7a904c4a/datasets/01f0cebb69cc15ff9965b756e283d030_product_subcategory"
+                  }
+                ]
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Product Subcategory"
+              }
+            }
+          },
+          "position": {
+            "x": 4,
+            "y": 3,
+            "width": 2,
+            "height": 1
+          }
+        },
+        {
+          "widget": {
+            "name": "f6f5027c",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "8420be85",
+                  "fields": [
+                    {
+                      "name": "measure(total_net_profit)",
+                      "expression": "MEASURE(`total_net_profit`)"
+                    },
+                    {
+                      "name": "store_online",
+                      "expression": "`store_online`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "pie",
+              "encodings": {
+                "angle": {
+                  "fieldName": "measure(total_net_profit)",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "axis": {
+                    "title": "Net Profit [$]"
+                  },
+                  "format": {
+                    "type": "number-percent",
+                    "decimalPlaces": {
+                      "type": "max",
+                      "places": 0
+                    }
+                  }
+                },
+                "color": {
+                  "fieldName": "store_online",
+                  "scale": {
+                    "type": "categorical",
+                    "mappings": [
+                      {
+                        "value": true,
+                        "color": {
+                          "themeColorType": "visualizationColors",
+                          "position": 5
+                        }
+                      }
+                    ]
+                  }
+                },
+                "label": {
+                  "show": true
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 10,
+            "width": 3,
+            "height": 8
+          }
+        },
+        {
+          "widget": {
+            "name": "f9f64457",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "8420be85",
+                  "fields": [
+                    {
+                      "name": "product_category",
+                      "expression": "`product_category`"
+                    },
+                    {
+                      "name": "store_latitude",
+                      "expression": "`store_latitude`"
+                    },
+                    {
+                      "name": "store_longitude",
+                      "expression": "`store_longitude`"
+                    },
+                    {
+                      "name": "measure(total_net_profit)",
+                      "expression": "MEASURE(`total_net_profit`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "symbol-map",
+              "encodings": {
+                "coordinates": {
+                  "latitude": {
+                    "fieldName": "store_latitude"
+                  },
+                  "longitude": {
+                    "fieldName": "store_longitude"
+                  }
+                },
+                "color": {
+                  "fieldName": "product_category",
+                  "legend": {
+                    "title": "Product Category"
+                  },
+                  "scale": {
+                    "type": "categorical",
+                    "mappings": [
+                      {
+                        "value": "Food",
+                        "color": {
+                          "themeColorType": "visualizationColors",
+                          "position": 5
+                        }
+                      },
+                      {
+                        "value": "Beans",
+                        "color": {
+                          "themeColorType": "visualizationColors",
+                          "position": 6
+                        }
+                      },
+                      {
+                        "value": "Drink",
+                        "color": {
+                          "themeColorType": "visualizationColors",
+                          "position": 7
+                        }
+                      }
+                    ]
+                  }
+                },
+                "size": {
+                  "fieldName": "measure(total_net_profit)",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 3,
+            "y": 10,
+            "width": 3,
+            "height": 8
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS"
+    },
+    {
+      "name": "400812e6",
+      "displayName": "Market Report",
+      "layout": [
+        {
+          "widget": {
+            "name": "f072785b",
+            "multilineTextboxSpec": {
+              "lines": [
+                "# Market Report"
+              ]
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 5,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "8d4df45e",
+            "multilineTextboxSpec": {
+              "lines": [
+                "![](https://i.ibb.co/cVGnntT/Screenshot-2025-10-16-at-22-04-25.png)"
+              ]
+            }
+          },
+          "position": {
+            "x": 5,
+            "y": 0,
+            "width": 1,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "11876699",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "8420be85",
+                  "fields": [
+                    {
+                      "name": "measure(total_net_profit)",
+                      "expression": "MEASURE(`total_net_profit`)"
+                    },
+                    {
+                      "name": "day_of_week",
+                      "expression": "`day_of_week`"
+                    },
+                    {
+                      "name": "product_name",
+                      "expression": "`product_name`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "heatmap",
+              "encodings": {
+                "x": {
+                  "fieldName": "day_of_week",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "product_name",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "color": {
+                  "fieldName": "measure(total_net_profit)",
+                  "scale": {
+                    "type": "quantitative",
+                    "colorRamp": {
+                      "mode": "scheme",
+                      "scheme": "greens"
+                    }
+                  }
+                },
+                "label": {
+                  "show": true
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 3,
+            "width": 6,
+            "height": 8
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS"
+    }
+  ],
+  "uiSettings": {
+    "theme": {
+      "canvasBackgroundColor": {
+        "light": "#D1E3D1",
+        "dark": "#1F272D"
+      },
+      "widgetBackgroundColor": {
+        "light": "#FFFFFF",
+        "dark": "#11171C"
+      },
+      "widgetBorderColor": {
+        "light": "#2F4F3E"
+      },
+      "fontColor": {
+        "light": "#11171C",
+        "dark": "#E8ECF0"
+      },
+      "selectionColor": {
+        "light": "#2272B4",
+        "dark": "#8ACAFF"
+      },
+      "visualizationColors": [
+        "#2F4F3E",
+        "#4E7B61",
+        "#7DAF8B",
+        "#C8B79A",
+        "#A64B2A",
+        "#8CC665",
+        "#D1E3D1"
+      ],
+      "widgetHeaderAlignment": "LEFT"
+    },
+    "genieSpace": {
+      "isEnabled": true,
+      "enablementMode": "ENABLED"
+    },
+    "applyModeEnabled": false
+  }
+}
