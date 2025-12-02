@@ -34,7 +34,7 @@ They allow consistent reporting, simplify complex SQL logic, and centralize metr
 
 1. Navigate to the gold schema using the Catalog Explorer and create a new Metric View by selecting it after clicking the New Button.
 
-![alt text](./Artifacts/MetricView_CreateMetricView.png)
+![alt text](./artifacts/MetricView_CreateMetricView.png)
 
 2. Delete the provided sample code. You will create your own Metric View from scratch.
 
@@ -61,7 +61,7 @@ source: sunny_bay_roastery.gold.fact_coffee_sales
 
 5. Provide the name **`sm_fact_coffee_sales`** and save the Metric View by clicking the Save button at the right top corner. If everything is defined correctly, the Metric View will be saved and is immediately available in Unity Catalog. 
 
-![alt text](./Artifacts/MetricView_Save.png)
+![alt text](./artifacts/MetricView_Save.png)
 
 
 ### Define Dimensional Attributes
