@@ -21,61 +21,76 @@ Before you start, please verify:
 - The **Sunny Bay Coffee Sales Metric View** from Lab 2 is created and published in Unity Catalog.
 
 **Step 1: Open the AI/BI Dashboard Template**
+
 AI/BI Dashboards can be stored as a templates which contain the corporate identity, logos, and more elements that should be standardized.
 
 1. In the Databricks workspace, open **Dashboards** from the left navigation.
 2. Open the Dashboard "[Template] Sunny Bay Roastery - Sales Report"
 3. You are now viewing the Dashboard from the perspective of a **Dashboard Consumer**
 4. Click on "Edit Draft" to switch to the **Dashboard Creator** perspective
+
 <div style="text-align:left;">
-  <img src="./artifacts/Dashboard_EditDraft.png" width="40%">
+  <img src="./artifacts/Dashboard_EditDraft.png" width="50%">
 </div>
 
 
 **Step 2: Configure the Metric View as a Data Source**
+
 Every AI/BI Dashboard must have one or more data sources, which are used to create the visualizations.
 
 1. Click on the "Data" tab to select the source data for the Dashboard
 2. Click on "Add data source", and select the Metric View from Lab 2 as the data source
+
 <div style="text-align:left;">
-  <img src="./artifacts/Dashboard_AddDataSource.png" width="20%">
+  <img src="./artifacts/Dashboard_AddDataSource.png" width="30%">
 </div>
 
 
 **Step 3: Create Your First AI-Assisted Visual**
+
 The Databricks Assistant can generate visuals directly from natural language prompts.
 
 1. Switch back to the "Sales Report" tab
 2. Click on the "Add a visualization" icon
+
 <div style="text-align:left;">
-  <img src="./artifacts/Dashboard_AddVisualization.png" width="30%">
+  <img src="./artifacts/Dashboard_AddVisualization.png" width="60%">
 </div>
+
 3. Ask the AI Assisstant in the visualization to "_Create a bar chart that shows the net profit over date aggregated by month_"
 4. Press "Accept" when you are satisfied with the visualization. If not, press "Reject", and refine the prompt.
-<div style="text-align:left;">
-  <img src="./artifacts/Dashboard_Accept.png" width="30%">
-</div>
-4. Change the format of the Net Profit to the type "$" with no decimal places.
- <div style="text-align:left;">
-  <img src="./artifacts/Dashboard_YAxisFormat.png" width="15%">
-</div>
-5. Rename the axis title to "Net Profit [$]"
-6. To group the sales by store, click on the "+" next to the "Color" field in the widget settings, and choose the value "store_name"
-<div style="text-align:left;">
-  <img src="./artifacts/Dashboard_GroupByStore.png" width="15%">
-</div>
-7. Add the measures "total_cost_of_goods" and "total_net_revenue_usd" as tooltip
-8. Rename the tooltip values to "Total Costs of Goods [$]" and "Total Net Revenue [$]"
-9. Rename the title to "Net Profit per Month [$]"
 
+<div style="text-align:left;">
+  <img src="./artifacts/Dashboard_Accept.png" width="40%">
+</div>
+
+5. Change the format of the Net Profit to the type "$" with no decimal places.
+
+ <div style="text-align:left;">
+  <img src="./artifacts/Dashboard_YAxisFormat.png" width="30%">
+</div>
+
+6. Rename the axis title to "Net Profit [$]"
+7. To group the sales by store, click on the "+" next to the "Color" field in the widget settings, and choose the value "store_name"
+
+<div style="text-align:left;">
+  <img src="./artifacts/Dashboard_GroupByStore.png" width="30%">
+</div>
+
+8. Add the measures "total_cost_of_goods" and "total_net_revenue_usd" as tooltip
+9. Rename the tooltip values to "Total Costs of Goods [$]" and "Total Net Revenue [$]"
+10. Rename the title to "Net Profit per Month [$]"
 
 **Step 4: Add a Page Level Filter for the Store Name**
+
 In this step, you will add page-level filters for store and product to enable interactive exploration for business users.
 
 1. Click on the "Add a filter" icon
+
 <div style="text-align:left;">
-  <img src="./artifacts/Dashboard_PageFilter.png" width="15%">
+  <img src="./artifacts/Dashboard_PageFilter.png" width="25%">
 </div>
+
 2. Select "Multiple values" as the filter type in the widget settings
 3. Choose the value "store_name" in the fields selection
 4. Rename the title from "store_name" to "Store Name"
@@ -89,19 +104,22 @@ In this step, you will add page-level filters for store and product to enable in
 Global filters are helpful to apply a filter for multiple report pages. We are going to filter out all the sales before 2015.
 
 1. Click on the "Show Global Filters" icon
+
 <div style="text-align:left;">
   <img src="./artifacts/Dashboard_GlobalFilters.png" width="50%">
 </div>
+
 2. Click on the "+" icon to add a new global filter widget
 3. Select the "Date Range Picker" as the filter type
 4. Choose date as a field
 5. Rename the widget from "date" to "Date"
 6. Change the filter from "Jan 01, 2015" to "Dec 31, 2025", which will become the default for the global filter
-<div style="text-align:left;">
-  <img src="./artifacts/Dashboard_GlobalFilters2.png" width="10%">
-</div>
-7. Minimize the global filters by clicking on "Hide Global Filters"
 
+<div style="text-align:left;">
+  <img src="./artifacts/Dashboard_GlobalFilters2.png" width="20%">
+</div>
+
+7. Minimize the global filters by clicking on "Hide Global Filters"
 
 **Step 6: Explore Cross-Filtering**
 
@@ -113,6 +131,7 @@ Global filters are helpful to apply a filter for multiple report pages. We are g
 6. Rename the angle title to "Net Profit [$]"
 7. Activate labels for this visualization
 8. Click on the one of the values of the pie chart, and see how the cross-filtering functionality effects the bar chart
+
 <div style="text-align:left;">
   <img src="./artifacts/Dashboard_CrossFiltering.png" width="40%">
 </div>
@@ -125,7 +144,8 @@ Global filters are helpful to apply a filter for multiple report pages. We are g
 4. Choose the measure "total_net_profit" as the size
 5. Use the dimension "product_category" as the color
 6. Rename the color to "Product Category"
-7. Click on the kebap menue of the map visual and click on "View fullscreen"
+7. Click on the kebab menue of the map visual and click on "View fullscreen"
+
 <div style="text-align:left;">
   <img src="./artifacts/Dashboard_MapFullScreen.png" width="30%">
 </div>
@@ -144,28 +164,34 @@ Global filters are helpful to apply a filter for multiple report pages. We are g
 10. Change the x-axis scale type to "categorical"
 11. Jump back to "Sales Report" page
 12. Drill into the market report by rightclicking on the value for one store, clicking "drill to", and "Market Report" 
+
 <div style="text-align:left;">
   <img src="./artifacts/Dashboard_DrillThrough.png" width="30%">
 </div>
+
 13. The filter is propagated to the "Market Report", and the revenue for each product grouped by day of the week is displayed
 14. Reset the filter by clicking "Reset all to default"
-
 
 **Step 9: Publish the Report**
 
 1. Congratulations, the report is ready for production. Click on "Publish" to make the report available for report consumers. 
+
 <div style="text-align:left;">
   <img src="./artifacts/Dashboard_Publish.png" width="15%">
 </div>
+
 2. Select the "Individual data permissions" and click publish
 3. Click on the "View Published" button to switch to the perspective of a **Dashboard Consumer**
-4. Download the Dashboard as a PDF by clicking on the kebap menue and "Download as PDF"
+4. Download the Dashboard as a PDF by clicking on the kebab menue and "Download as PDF"
 
 **Step 10: View the Report as a Consumer**
+
 1. Open the Databricks One UI
+
 <div style="text-align:left;">
   <img src="./artifacts/Dashboard_DatabricksOne.png" width="15%">
 </div>
+
 2. Search for the report, or click on "Dashboards" to find all available dashboards
 
 ## What Happens Next?
