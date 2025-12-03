@@ -21,10 +21,9 @@ Sunny Bay uses **Databricks** for analytics; you will too.
 1. In Databricks, go to the sidebar and select **Workspace**.
 2. Navigate to your desired folder (e.g., under your username).
 3. Click **Create > Git folder**.
-4. Enter the current URL: e.g., `https://github.com/databricks/databricks-data-analyst-in-a-day.git`
-5. Select **GitHub** as provider.
-6. Click **Create**.
-7. Expand the repo folder and open the `Lab 0` notebook.
+4. Enter the current URL: e.g., `https://github.com/DatabricksDashboardInADay/DatabricksDashboardInADay.git`
+5. Click **Create**.
+6. Expand the repo folder and open the `Lab 0` notebook.
 
 ### 💡 Why it matters
 Version control lets you:
