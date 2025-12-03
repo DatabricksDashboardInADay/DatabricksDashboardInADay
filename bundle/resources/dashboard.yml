@@ -4,3 +4,9 @@ resources:
       display_name: "[Template] Sunny Bay Roastery - Sales Report"
       file_path: ../src/dashboards/dashboard_template.lvdash.json
       warehouse_id: ${var.warehouse_id}
+    sunny_bay_roastery_dashboard_final:
+      display_name: "[Final] Sunny Bay Roastery - Sales Report"
+      file_path: ../src/dashboards/dashboard_final.lvdash.json
+      warehouse_id: ${var.warehouse_id}
+
+
