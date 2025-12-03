@@ -8,6 +8,9 @@ variables:
   catalog:
     description: The catalog to use
     default: sunny_bay_roastery
+  warehouse_id:
+    lookup:
+      warehouse: "Serverless Starter Warehouse"
 targets:
   dev:
     mode: development
