@@ -10,7 +10,7 @@ To deploy and manage this asset bundle, follow these steps:
 
 ### 2. Running Jobs & Pipelines
 
-- To run a deployed job or pipeline, hover over the resource in the **Deployments** panel and click the **Run** button.
+- To run a deployed job or pipeline, hover over the resource in the **Deployments** panel and click the **Start pipeline** button.
 
 ### 3. Managing Resources
 

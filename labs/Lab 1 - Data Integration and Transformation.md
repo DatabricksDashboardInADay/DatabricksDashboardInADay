@@ -94,7 +94,7 @@ FROM STREAM read_files(
 1. At the bottom of **`gold.sql`**, add a new gold table that aggregates revenue by year:
 
 ```sql
-CREATE OR REFRESH TABLE gold.total_revenue_by_year AS
+CREATE OR REFRESH MATERIALIZED VIEW gold.total_revenue_by_year AS
 SELECT
     YEAR(order_date) AS order_year,
     SUM(gross_revenue_usd) AS total_gross_revenue_usd,

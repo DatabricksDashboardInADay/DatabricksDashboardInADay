@@ -36,7 +36,8 @@ They allow consistent reporting, simplify complex SQL logic, and centralize metr
 
 ![alt text](./artifacts/MetricView_CreateMetricView.png)
 
-2. Delete the provided sample code. You will create your own Metric View from scratch.
+2. Input the name `sm_fact_coffee_sales_genie` for Your Metric View
+3. Delete the provided sample code. You will create your own Metric View from scratch.
 
 ### Add table relationships to the Metric View
 
