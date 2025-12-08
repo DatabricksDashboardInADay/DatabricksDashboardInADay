@@ -50,7 +50,7 @@ Before you start, please verify:
     - Describe the business context: Sunny Bay Roastery, coffee sales, currencies, time grain, etc. 
     - Clarify metric meanings
     - Specify standard aggregations and filters (e.g., “Prefer last 30 days when no date is specified”).
-    - To save you from typing, you can past [this text](../Participant%20Assets/Artifacts/Genie_Instructions.txt).
+    - To save you from typing, you can past [this text](./artifacts/Genie_Instructions.txt).
     
 ![](./artifacts/Genie_Instructions.png)
 
@@ -134,7 +134,7 @@ ORDER BY
 
 ### Extend Genies Knowledge with additional data
 
-1. Let's assume you want to separately analyse all products that are Fair Trade certified. Unfortunately, this information is not available anywhere in your data model, but you have a file that lists all these products using their product key. You can download such a file [here](../Participant%20Assets/Artifacts/Genie_FairTrade.csv). 
+1. Let's assume you want to separately analyse all products that are Fair Trade certified. Unfortunately, this information is not available anywhere in your data model, but you have a file that lists all these products using their product key. You can download such a file [here](./artifacts/Genie_FairTrade.csv). 
 
 2. Click the `Attach a file` button and navigate to the file that you downloaded. Select this file and upload to Genie.
 
