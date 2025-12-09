@@ -107,6 +107,8 @@ GROUP BY store_key;
 </div>
 3. Congratulations, the data is ready to be analyzed
 
+## Final Steps
+If you run into errors you can’t resolve, you can review the full reference implementations of both transformation files. They are available in **`./labs/artifacts`** as **`silver_fallback.sql`** and **`gold_fallback.sql`**.
 
 ## What Happens Next?
 
