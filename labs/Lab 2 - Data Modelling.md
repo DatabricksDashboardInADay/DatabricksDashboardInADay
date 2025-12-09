@@ -57,7 +57,7 @@ joins:
     source: sunny_bay_roastery.gold.dim_product
     "on": source.product_key = product.product_key
 ```
-3. Add another join  using the same approach (we will not provide the code snippet yet). Note that the `join` keyword needs to be used only once. Use your **date** dimension which is stored in the table `sunny_bay_roastery.gold.dim_date`. The join columns are named `date_key` on both tables. Set the name attribute to `date`.
+3. Add another join  using the same approach (we will not provide the code snippet yet). Note that the `join` keyword needs to be used only once. Initiate the next join using the `-` sign and mind the formatting/indents (YAML can be tricky in that regard). Use your **date** dimension which is stored in the table `sunny_bay_roastery.gold.dim_date`. The join columns are named `date_key` on both tables. Set the name attribute to `date`.
 
 4. Add a final join to the **store** dimension table named `sunny_bay_roastery.gold.dim_store`. The join columns are named `store_key` on both sides. Set the name attribute to `store`.
 
