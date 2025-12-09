@@ -39,6 +39,8 @@ They allow consistent reporting, simplify complex SQL logic, and centralize metr
 2. Input the name `sm_fact_coffee_sales` for Your Metric View
 3. Delete the provided sample code. You will create your own Metric View from scratch.
 
+![alt text](./artifacts/MetricView_SetName.png)
+
 ### Add table relationships to the Metric View
 
 1. Define your source, which is the base table of the metric view and typically the fact table of our star/snowflake schema. In your case, this will be `sunny_bay_roastery.gold.fact_coffee_sales`. Copy the following code snippet to the top of your Metric View definition. Note that the version attribute determines which features are available. We will use version 1.1.
@@ -73,8 +75,6 @@ dimensions:
 ```
 
 2. Now that we have defined at least one dimension attribute, we can save our progress and check for syntax error. Make sure again that you provided the name **`sm_fact_coffee_sales`** and save the Metric View by clicking the Save button at the right top corner. If everything is defined correctly, the Metric View will be saved and is immediately available in Unity Catalog. 
-
-![alt text](./artifacts/MetricView_SetName.png)
 
 3. Add two more dimension attributes from the **product** dimension table. Select the following attributes: 
     - Product category (product.product_category)
