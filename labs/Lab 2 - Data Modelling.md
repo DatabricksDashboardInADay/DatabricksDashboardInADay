@@ -36,7 +36,7 @@ They allow consistent reporting, simplify complex SQL logic, and centralize metr
 
 ![alt text](./artifacts/MetricView_CreateMetricView.png)
 
-2. Input the name `sm_fact_coffee_sales_genie` for Your Metric View
+2. Input the name `sm_fact_coffee_sales` for Your Metric View
 3. Delete the provided sample code. You will create your own Metric View from scratch.
 
 ### Add table relationships to the Metric View
@@ -52,11 +52,12 @@ source: sunny_bay_roastery.gold.fact_coffee_sales
 2. Add your first join to a dimension table. Specify the **product** dimension the table `sunny_bay_roastery.gold.dim_product` and the join key `source.product_key = product.product_key` to define the relationship of the dimension table and the fact table.
 
 ```YAML
+joins:
   - name: product
     source: sunny_bay_roastery.gold.dim_product
     "on": source.product_key = product.product_key
 ```
-3. Add another join  using the same approach. Use your **date** dimension which is stored in the table `sunny_bay_roastery.gold.dim_date`. The join columns are named `date_key` on both tables. Set the name attribute to `date`.
+3. Add another join  using the same approach (we will not provide the code snippet yet). Note that the `join` keyword needs to be used only once. Use your **date** dimension which is stored in the table `sunny_bay_roastery.gold.dim_date`. The join columns are named `date_key` on both tables. Set the name attribute to `date`.
 
 4. Add a final join to the **store** dimension table named `sunny_bay_roastery.gold.dim_store`. The join columns are named `store_key` on both sides. Set the name attribute to `store`.
 
