@@ -89,20 +89,22 @@ FROM STREAM read_files(
   <img src="./artifacts/SDP_NewColumn.png" width="15%">
 </div>
 
-### Create a New Aggregated Gold Table for Annual Revenue
+### Create a New Aggregated Gold Table for Revenue by Store
 
-1. At the bottom of **`gold.sql`**, add a new gold table that aggregates revenue by year:
+1. At the bottom of **`gold.sql`**, add a new gold table that aggregates the total revenue for each store:
 
 ```sql
 CREATE OR REFRESH MATERIALIZED VIEW gold.total_revenue_by_year AS
 SELECT
-    YEAR(order_date) AS order_year,
-    SUM(gross_revenue_usd) AS total_gross_revenue_usd,
-    SUM(gross_revenue_eur) AS total_gross_revenue_eur
+    store_key AS store_key,
+    SUM(gross_revenue_usd) AS total_gross_revenue_usd
 FROM gold.fact_coffee_sales
-GROUP BY YEAR(order_date);
+GROUP BY store_key;
 ```
-2. Run the pipeline **without** a full table refresh to see how SDP only processes the required table
+2. Run only the new table by clicking on the "Dataset action" icon:
+<div style="text-align:left;">
+  <img src="./artifacts/SDP_DatasetAction.png" width="70%">
+</div>
 3. Congratulations, the data is ready to be analyzed
 
 
