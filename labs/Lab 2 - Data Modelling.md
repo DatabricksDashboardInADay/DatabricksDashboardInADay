@@ -36,8 +36,10 @@ They allow consistent reporting, simplify complex SQL logic, and centralize metr
 
 ![alt text](./artifacts/MetricView_CreateMetricView.png)
 
-2. Input the name `sm_fact_coffee_sales_genie` for Your Metric View
+2. Input the name `sm_fact_coffee_sales` for Your Metric View
 3. Delete the provided sample code. You will create your own Metric View from scratch.
+
+![alt text](./artifacts/MetricView_SetName.png)
 
 ### Add table relationships to the Metric View
 
@@ -52,22 +54,18 @@ source: sunny_bay_roastery.gold.fact_coffee_sales
 2. Add your first join to a dimension table. Specify the **product** dimension the table `sunny_bay_roastery.gold.dim_product` and the join key `source.product_key = product.product_key` to define the relationship of the dimension table and the fact table.
 
 ```YAML
+joins:
   - name: product
     source: sunny_bay_roastery.gold.dim_product
     "on": source.product_key = product.product_key
 ```
-3. Add another join  using the same approach. Use your **date** dimension which is stored in the table `sunny_bay_roastery.gold.dim_date`. The join columns are named `date_key` on both tables. Set the name attribute to `date`.
+3. Add another join  using the same approach (the code snippet is not provided this time). Note that the `join` keyword needs to be used only once. Initiate the next join using the `-` sign and mind the formatting/indents (YAML can be tricky in that regard). Use your **date** dimension which is stored in the table `sunny_bay_roastery.gold.dim_date`. The join columns are named `date_key` on both tables. Set the name attribute to `date`.
 
 4. Add a final join to the **store** dimension table named `sunny_bay_roastery.gold.dim_store`. The join columns are named `store_key` on both sides. Set the name attribute to `store`.
 
-5. Provide the name **`sm_fact_coffee_sales`** and save the Metric View by clicking the Save button at the right top corner. If everything is defined correctly, the Metric View will be saved and is immediately available in Unity Catalog. 
-
-![alt text](./artifacts/MetricView_Save.png)
-
-
 ### Define Dimensional Attributes
 
-1. Now that we have our joins defined, we can select, which dimensional attributes our Metric View should contain. We can automatically select all attributes that exist by simply adding the table name as an expression which will add a array-column containing all attributes. However, this will bloat the model and add complexity that might not be helpful to end users. Instead you will select the product name by adding the follwing snippet:
+1. Now that we have our joins defined, we can select which dimensional attributes our Metric View should contain. We can automatically select all attributes that exist by simply adding the table name as an expression which will add a array-column containing all attributes. However, this will bloat the model and add complexity that might not be helpful to end users. Instead you will select the product name by adding the follwing snippet:
 
 ```YAML
 dimensions:
@@ -75,21 +73,28 @@ dimensions:
     expr: product.product_name
     display_name: Product Name
 ```
-2. Add two more dimension attributes from the **product** dimension table. Select the following attributes: 
+
+2. Now that we have defined at least one dimension attribute, we can save our progress and check for syntax errors. Make sure again that you provided the name **`sm_fact_coffee_sales`** and save the Metric View by clicking the Save button at the right top corner. If everything is defined correctly, the Metric View will be saved and is immediately available in Unity Catalog. 
+
+![alt text](./artifacts/MetricView_Save.png)
+
+3. Add two more dimension attributes from the **product** dimension table. Select the following attributes: 
     - Product category (product.product_category)
     - Product subcategory (product.product_subcategory)
  
-3. Since you also joined the **date** dimension table in the previous section, add the following dimension attributes:
+4. Since you also joined the **date** dimension table in the previous section, add the following dimension attributes:
     - Date (date.date)
     - Day of Week (date.day_of_week)
 
-4. Finally, add the following attributes from the **store** dimension table:
+5. Finally, add the following attributes from the **store** dimension table:
     - Store Name (store.store_name)
     - Is Online Store (store.is_online)
     - Store Latitude (store.latitude)
     - Store Longitude (store.longitude)
 
-4. Save your progress and troubleshoot your definition in case you see any errors.
+6. Save your progress and troubleshoot your definition in case you see any errors.
+
+
 
 ### Define Measures
 
@@ -100,7 +105,7 @@ measures:
     expr: SUM(net_revenue_usd)
 ```
 
-2. Add a second measure that will sum our cost of goods. The column that stores this metric is named `cost_of_goods_usd`. The name of the measure should be `total_cost_of_goods`.
+2. Add a second measure that will **sum** our cost of goods. The column that stores this metric is named `cost_of_goods_usd`. The name of the measure should be `total_cost_of_goods`.
 
 3. We will add third measure named `total_net_profit`, that will substract the second measure `total_cost_of_goods` from the first measure `total_net_revenue_usd`. This will be our profit. The expression is `measure(total_net_revenue_usd) - measure(total_cost_of_goods)`.
 
@@ -108,7 +113,7 @@ measures:
 
 ### Final steps
 
-You have now published the Metric View to Unity Catalog by saving the YAML. This makes the metric view discoverable and available to teams and tools, including Databricks Dashboards and downstream analytics, provided they have access enherited from the schema. 
+You have now published the Metric View to Unity Catalog by saving the YAML. This makes the metric view discoverable and available to teams and tools, including Databricks Dashboards and downstream analytics, provided they have access inherited from the schema. 
 
 If you got any errors you couldn't resolve yourself, review the full definition and compare with your results:
 
@@ -211,4 +216,4 @@ Review [provided YAML](./artifacts/MetricView_Definition.yaml) template for refe
 
 **Important:** You will need this Metric View in a subsequent section. Please create it with the name `sm_fact_coffee_sales_genie`.
 
-Once both Metric Views are available in Unity Catalog, proceed to the next section. 
+Once **both** Metric Views are available in Unity Catalog, proceed to the next section. 
