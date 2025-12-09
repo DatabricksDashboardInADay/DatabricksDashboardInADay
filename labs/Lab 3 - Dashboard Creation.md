@@ -18,7 +18,7 @@ AI/BI Dashboards in Databricks are interactive, web-based reports that combine t
 ## Instructions
 
 Before you start, please verify:
-- The **Sunny Bay Coffee Sales Metric View** from Lab 2 is created and published in Unity Catalog.
+- The **Sunny Bay Coffee Sales Metric View** `sm_fact_coffee_sales` from Lab 2 is created and published in Unity Catalog.
 
 **Step 1: Open the AI/BI Dashboard Template**
 
@@ -196,7 +196,7 @@ Global filters are helpful to apply a filter for multiple report pages. We are g
 
 ## What Happens Next?
 
-You have now created a production-ready AI/BI Dashboard for Sunny Bay Roastery, powered by the `sm_fact_coffee_sales_genie` metric view.  
+You have now created a production-ready AI/BI Dashboard for Sunny Bay Roastery, powered by the `sm_fact_coffee_sales` metric view.  
 Business users can:
 
 - Filter by store and product to answer ad-hoc questions.
