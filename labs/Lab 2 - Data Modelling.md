@@ -74,7 +74,9 @@ dimensions:
     display_name: Product Name
 ```
 
-2. Now that we have defined at least one dimension attribute, we can save our progress and check for syntax error. Make sure again that you provided the name **`sm_fact_coffee_sales`** and save the Metric View by clicking the Save button at the right top corner. If everything is defined correctly, the Metric View will be saved and is immediately available in Unity Catalog. 
+2. Now that we have defined at least one dimension attribute, we can save our progress and check for syntax errors. Make sure again that you provided the name **`sm_fact_coffee_sales`** and save the Metric View by clicking the Save button at the right top corner. If everything is defined correctly, the Metric View will be saved and is immediately available in Unity Catalog. 
+
+![alt text](./artifacts/MetricView_Save.png)
 
 3. Add two more dimension attributes from the **product** dimension table. Select the following attributes: 
     - Product category (product.product_category)
@@ -92,7 +94,6 @@ dimensions:
 
 6. Save your progress and troubleshoot your definition in case you see any errors.
 
-![alt text](./artifacts/MetricView_Save.png)
 
 
 ### Define Measures
@@ -104,7 +105,7 @@ measures:
     expr: SUM(net_revenue_usd)
 ```
 
-2. Add a second measure that will sum our cost of goods. The column that stores this metric is named `cost_of_goods_usd`. The name of the measure should be `total_cost_of_goods`.
+2. Add a second measure that will **sum** our cost of goods. The column that stores this metric is named `cost_of_goods_usd`. The name of the measure should be `total_cost_of_goods`.
 
 3. We will add third measure named `total_net_profit`, that will substract the second measure `total_cost_of_goods` from the first measure `total_net_revenue_usd`. This will be our profit. The expression is `measure(total_net_revenue_usd) - measure(total_cost_of_goods)`.
 
@@ -112,7 +113,7 @@ measures:
 
 ### Final steps
 
-You have now published the Metric View to Unity Catalog by saving the YAML. This makes the metric view discoverable and available to teams and tools, including Databricks Dashboards and downstream analytics, provided they have access enherited from the schema. 
+You have now published the Metric View to Unity Catalog by saving the YAML. This makes the metric view discoverable and available to teams and tools, including Databricks Dashboards and downstream analytics, provided they have access inherited from the schema. 
 
 If you got any errors you couldn't resolve yourself, review the full definition and compare with your results:
 
@@ -215,4 +216,4 @@ Review [provided YAML](./artifacts/MetricView_Definition.yaml) template for refe
 
 **Important:** You will need this Metric View in a subsequent section. Please create it with the name `sm_fact_coffee_sales_genie`.
 
-Once both Metric Views are available in Unity Catalog, proceed to the next section. 
+Once **both** Metric Views are available in Unity Catalog, proceed to the next section. 
