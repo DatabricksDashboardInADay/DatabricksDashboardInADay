@@ -63,7 +63,7 @@ joins:
 
 ### Define Dimensional Attributes
 
-1. Now that we have our joins defined, we can select, which dimensional attributes our Metric View should contain. We can automatically select all attributes that exist by simply adding the table name as an expression which will add a array-column containing all attributes. However, this will bloat the model and add complexity that might not be helpful to end users. Instead you will select the product name by adding the follwing snippet:
+1. Now that we have our joins defined, we can select which dimensional attributes our Metric View should contain. We can automatically select all attributes that exist by simply adding the table name as an expression which will add a array-column containing all attributes. However, this will bloat the model and add complexity that might not be helpful to end users. Instead you will select the product name by adding the follwing snippet:
 
 ```YAML
 dimensions:
@@ -74,7 +74,7 @@ dimensions:
 
 2. Now that we have defined at least one dimension attribute, we can save our progress and check for syntax error. Make sure again that you provided the name **`sm_fact_coffee_sales`** and save the Metric View by clicking the Save button at the right top corner. If everything is defined correctly, the Metric View will be saved and is immediately available in Unity Catalog. 
 
-![alt text](./artifacts/MetricView_Save.png)
+![alt text](./artifacts/MetricView_SetName.png)
 
 3. Add two more dimension attributes from the **product** dimension table. Select the following attributes: 
     - Product category (product.product_category)
@@ -91,6 +91,9 @@ dimensions:
     - Store Longitude (store.longitude)
 
 6. Save your progress and troubleshoot your definition in case you see any errors.
+
+![alt text](./artifacts/MetricView_Save.png)
+
 
 ### Define Measures
 
