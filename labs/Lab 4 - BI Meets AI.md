@@ -22,7 +22,7 @@ With Genie, teams can:
 ## Instructions
 
 Before you start, please verify:
-- The **Sunny Bay Coffee Sales metric view** from Lab 2 is created and published in Unity Catalog.  
+- The **Sunny Bay Coffee Sales metric view** `sm_fact_coffee_sales_genie` from Lab 2 is created and published in Unity Catalog (this is the provided Metric View).
 - A **SQL warehouse** (Pro or serverless) is available and selectable for Genie queries.  
 
 ### Create the “Sunny Bay Sales Genie” Space
@@ -136,7 +136,7 @@ ORDER BY
 
 1. Let's assume you want to separately analyse all products that are Fair Trade certified. Unfortunately, this information is not available anywhere in your data model, but you have a file that lists all these products using their product key. You can download such a file [here](./artifacts/Genie_FairTrade.csv) (the download button in Github is in the top right corner). 
 
-2. Click the `Attach a file` button and navigate to the file that you downloaded. Select this file and upload to Genie.
+2. Open a new chat and click the `Attach a file` button and navigate to the file that you downloaded. Select this file and upload to Genie.
 
 ![](./artifacts/Genie_UploadData.png)
 
