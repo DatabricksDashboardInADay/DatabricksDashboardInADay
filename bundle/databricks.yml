@@ -8,6 +8,12 @@ variables:
   catalog:
     description: The catalog to use
     default: sunny_bay_roastery
+  bronze_schema:
+    description: The bronze schema to use
+  silver_schema:
+    description: The silver schema to use
+  gold_schema:
+    description: The gold schema to use
   warehouse_id:
     lookup:
       warehouse: "Serverless Starter Warehouse"
@@ -17,3 +23,6 @@ targets:
     default: true
     variables:
       catalog: sunny_bay_roastery
+      bronze_schema: bronze
+      silver_schema: silver
+      gold_schema: gold
