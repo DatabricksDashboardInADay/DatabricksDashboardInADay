@@ -1,0 +1,25 @@
+# A sample job for dab_personal_finance.
+
+resources:
+  jobs:
+    sunny_bay_roastery_job:
+      parameters:
+        - name: catalog
+          default: ${var.catalog}
+        - name: bronze_schema
+          default: ${var.bronze_schema}
+        - name: silver_schema
+          default: ${var.silver_schema}
+        - name: gold_schema
+          default: ${var.gold_schema}
+
+      name: "Sunny Bay Roastery Job"
+      tasks:
+        - task_key: run_pipeline
+          pipeline_task:
+            pipeline_id: ${resources.pipelines.sunny_bay_roastery_pipeline.id}
+        - task_key: deploy_metric_view
+          depends_on:
+            - task_key: run_pipeline
+          notebook_task:
+            notebook_path: ../src/notebooks/deploy_metric_view.ipynb

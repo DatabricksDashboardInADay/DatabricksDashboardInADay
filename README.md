@@ -13,7 +13,7 @@ Sunny Bay uses **Databricks** for analytics; you will too.
 
 ---
 
-## Step 2 – Clone This Repo & Start from Lab 0
+## Step 2 – Clone This Repo & Set Up the Workshop with Lab 0
 
 **Clone the GitHub repository into your Databricks workspace**.
 
@@ -23,10 +23,10 @@ Sunny Bay uses **Databricks** for analytics; you will too.
 3. Click **Create > Git folder**.
 4. Enter the current URL: e.g., `https://github.com/DatabricksDashboardInADay/DatabricksDashboardInADay.git`
 5. Click **Create**.
-6. Expand the repo folder and open the `Lab 0` notebook.
+6. Expand the repo folder and open the `Lab 0` notebook in the folder `labs`.
 
-### 💡 Why it matters
-Version control lets you:
-- Track code changes.
-- Sync notebooks and Markdown files with your team.
-- Revisit or share past versions.
+## Step 3 – Choose Your Starting Point
+**Decide where to start the workshop**.
+
+### ✅ Instructions
+Once Lab 0 has finished deploying the initial assets, you can decide where you want to start the workshop. Because Lab 0 pre-deploys the necessary Spark Declarative Pipelines, Metric View (`sm_fact_coffee_sales_fallback`), and AI/BI Dashboards (`[Final] Sunny Bay Roastery - Sales Report`), you have the flexibility to skip ahead to the topics that interest you most.
