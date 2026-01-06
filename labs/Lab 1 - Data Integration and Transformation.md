@@ -52,7 +52,7 @@ SDP allows non-engineers to safely contribute to data transformation logic.
 ```sql
 CONSTRAINT valid_quantity EXPECT (quantity_sold > 0) ON VIOLATION DROP ROW
 ```
-7. This ensures that downstream analytics do not include negative or zero-sold quantities.
+7. This ensures that downstream analytics do not include negative or zero-sold quantities. How many rows did not meet the expectations?
 8. You can confirm your code with this example solution:
 ```sql
 CREATE OR REFRESH STREAMING TABLE silver.fact_coffee_sales (
