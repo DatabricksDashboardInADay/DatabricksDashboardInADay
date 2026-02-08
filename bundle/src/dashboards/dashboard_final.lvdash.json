@@ -4,8 +4,6 @@
       "name": "8420be85",
       "displayName": "sm_fact_coffee_sales",
       "asset_name": "sm_fact_coffee_sales_fallback",
-      "catalog": "test_catalog",
-      "schema": "gold"
     }
   ],
   "pages": [
