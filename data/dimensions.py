@@ -1,8 +1,14 @@
 from typing import Dict, List, Optional
 import math
 
-from pyspark.sql import DataFrame, functions as F, types as T, SparkSession
+from pyspark.sql import Column, DataFrame, functions as F, types as T, SparkSession
 from pyspark.sql.types import IntegerType, LongType
+
+
+def _det_uniform(seed: int, *id_cols: Column) -> Column:
+    """Partition-independent uniform [0, 1] value, deterministic per row."""
+    h = F.hash(*id_cols, F.lit(seed))
+    return F.pmod(h.cast("long"), F.lit(2147483647)).cast("double") / F.lit(2147483647.0)
 
 
 PRODUCT_WEIGHTS_BY_STORE: Dict[int, List] = {
@@ -56,16 +62,26 @@ def _choose_product_py(store_key: Optional[int], r: float) -> int:
     return int(dist[-1][0])
 
 
-def add_dim_product_key(df: DataFrame, seed: int = _DEFAULT_PRODUCT_SEED) -> DataFrame:
+def add_dim_product_key(
+    df: DataFrame,
+    seed: int = _DEFAULT_PRODUCT_SEED,
+    id_cols: Optional[List[str]] = None,
+) -> DataFrame:
     """Add `product_key` column based on store-specific popularity distribution.
 
-    - Keeps the original behaviour: uses a per-row rand(seed) and a python UDF to
-      map the random draw to a discrete product id.
-    - No broadcast used so code is compatible with serverless / Spark Connect.
+    When *id_cols* is provided the random draw is derived from a hash of those
+    columns, making the result deterministic regardless of partitioning.
     """
 
     choose_product_udf = F.udf(_choose_product_py, IntegerType())
-    return df.withColumn("product_key", choose_product_udf(F.col("store_key"), F.rand(seed)))
+
+    if id_cols is not None:
+        cols = [F.col(c) for c in id_cols]
+        rand_val = _det_uniform(seed, *cols)
+    else:
+        rand_val = F.rand(seed)
+
+    return df.withColumn("product_key", choose_product_udf(F.col("store_key"), rand_val))
 
 
 # -------------------------
@@ -112,11 +128,12 @@ def add_dim_customer_key(
     loyal_share: float = 0.65,
     loyal_seed: int = _DEFAULT_LOYAL_SEED,
     idx_seed: int = _DEFAULT_IDX_SEED,
+    id_cols: Optional[List[str]] = None,
 ) -> DataFrame:
     """Add `customer_key` column.
 
-    Produces the same deterministic behaviour as before while making the
-    configuration (seeds and counts) explicit and documented.
+    When *id_cols* is provided the random draws are derived from hashes of
+    those columns, making the result deterministic regardless of partitioning.
     """
 
     choose_customer_udf = F.udf(
@@ -126,7 +143,13 @@ def add_dim_customer_key(
         LongType(),
     )
 
-    df = df.withColumn("rand_loyal", F.rand(loyal_seed)).withColumn("rand_idx", F.rand(idx_seed))
+    if id_cols is not None:
+        cols = [F.col(c) for c in id_cols]
+        df = df.withColumn("rand_loyal", _det_uniform(loyal_seed, *cols))
+        df = df.withColumn("rand_idx", _det_uniform(idx_seed, *cols))
+    else:
+        df = df.withColumn("rand_loyal", F.rand(loyal_seed))
+        df = df.withColumn("rand_idx", F.rand(idx_seed))
 
     df = df.withColumn(
         "customer_key",

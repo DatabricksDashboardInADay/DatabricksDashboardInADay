@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "databricks": {
+      "command": "/Users/robin.huebner/.ai-dev-kit/.venv/bin/python",
+      "args": ["/Users/robin.huebner/.ai-dev-kit/repo/databricks-mcp-server/run_server.py"],
+      "defer_loading": true,
+      "env": {"DATABRICKS_CONFIG_PROFILE": "databricksfree"}
+    }
+  }
+}
