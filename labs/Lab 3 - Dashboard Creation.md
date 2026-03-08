@@ -122,10 +122,6 @@ Counter visuals allow you to display a key metric for the current period alongsi
 
 6. Under **Comparison**, click **"+"** and select `MEASURE(total_net_revenue_usd)` again. Set **Years ago offset** to `1` and set **Change** format to `%`
 
-<div style="text-align:left;">
-  <img src="./artifacts/Dashboard_CounterSettings.png" width="30%">
-</div>
-
 7. Click on the value field `MEASURE(total_net_revenue_usd)` and navigate to the **Format** tab. Set the following:
    - **Type:** `$`
    - **Currency:** `US-Dollar ($)`
@@ -133,22 +129,14 @@ Counter visuals allow you to display a key metric for the current period alongsi
    - **Decimal places:** `Exact` → `0`
    - **Group separator:** ✅ enabled
 
-<div style="text-align:left;">
-  <img src="./artifacts/Dashboard_CounterFormat.png" width="30%">
-</div>
-
 8. Your counter visual should now show the current year's net revenue with a year-over-year comparison
-
-<div style="text-align:left;">
-  <img src="./artifacts/Dashboard_CounterResult.png" width="60%">
-</div>
 
 9. To create the second counter, right-click the widget and select **"Duplicate"**. Update the following settings in the copy:
    - **Title:** `Net Profit per Year [$]`
    - **Value:** change to `MEASURE(total_net_profit)`
    - **Comparison:** change to `MEASURE(total_net_profit)`
 
-**Step 7: Create Your First AI-Assisted Visual**
+**Step 7: Create Your First AI-Assisted Bar Chart**
 
 The Databricks Assistant can generate visuals directly from natural language prompts.
 
@@ -182,6 +170,12 @@ The Databricks Assistant can generate visuals directly from natural language pro
 8. Add the measures "total_cost_of_goods" and "total_net_revenue_usd" as tooltip
 9. Rename the tooltip values to "Total Costs of Goods [$]" and "Total Net Revenue [$]"
 10. Rename the title to "Net Profit per Month [$]"
+
+Your dashboard should look like this:
+
+<div style="text-align:left;">
+  <img src="./artifacts/Dashboard_FinancialHighlights.png" width="100%">
+</div>
 
 **Step 8: Create a Pie Chart and Explore Cross-Filtering**
 
@@ -229,10 +223,6 @@ Pivot tables allow you to explore your data across multiple dimensions simultane
    - Select `date` as the filter field
    - Set the range from `01 January 2020` to `31 December 2025`
 
-<div style="text-align:left;">
-  <img src="./artifacts/Dashboard_PivotFilter.png" width="30%">
-</div>
-
 6. Under **Rows**, click **"+"** and select `store_name`
 
 7. Under **Columns**, click **"+"** and add the following in order:
@@ -241,10 +231,6 @@ Pivot tables allow you to explore your data across multiple dimensions simultane
 
 8. Click on `product_category` in the columns and enable the **"Display total"** checkbox
 
-<div style="text-align:left;">
-  <img src="./artifacts/Dashboard_PivotDisplayTotal.png" width="30%">
-</div>
-
 9. Under **Values**, click **"+"** and select `MEASURE(total_net_revenue_usd)`
    - Change the **Display name** to `Total Net Revenue`
    - Navigate to the **Format** tab and configure:
@@ -252,15 +238,7 @@ Pivot tables allow you to explore your data across multiple dimensions simultane
      - **Currency:** `US-Dollar ($)`
      - **Decimal places:** `Exact` → `0`
 
-<div style="text-align:left;">
-  <img src="./artifacts/Dashboard_PivotFormat.png" width="30%">
-</div>
-
 10. Your pivot table should now show net revenue broken down by store (rows) and product category/subcategory (columns)
-
-<div style="text-align:left;">
-  <img src="./artifacts/Dashboard_PivotResult.png" width="100%">
-</div>
 
 **Step 11: Explore the Drill-Through Feature**
 
