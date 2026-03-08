@@ -2,7 +2,9 @@
 -- by joining the product and store dimensions.  This is the main analytical
 -- table used by dashboards and metric views.
 
-CREATE OR REPLACE MATERIALIZED VIEW gold.fact_coffee_sales AS
+CREATE OR REPLACE MATERIALIZED VIEW gold.fact_coffee_sales
+CLUSTER BY (store_key, date_key)
+AS
 SELECT
     fcs.*,
     dp.list_price_usd * fcs.quantity_sold                       AS gross_revenue_usd,
