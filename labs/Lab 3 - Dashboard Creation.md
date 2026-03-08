@@ -72,7 +72,7 @@ Global filters are helpful to apply a filter for multiple report pages. We are g
 
 7. Minimize the global filters by clicking on "Hide Global Filters"
 
-**Step 4: Add a Page Level Filter for the Store Name**
+**Step 4: Add a Page Level Filter for Store Name, Product Category, and Product Subcategory**
 
 In this step, you will add page-level filters for store and product to enable interactive exploration for business users.
 
