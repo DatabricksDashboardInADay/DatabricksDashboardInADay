@@ -3,7 +3,9 @@
     {
       "name": "8420be85",
       "displayName": "sm_fact_coffee_sales",
-      "asset_name": "sunny_bay_roastery.gold.sm_fact_coffee_sales_fallback"
+      "asset_name": "sunny_bay_roastery.gold.sm_fact_coffee_sales_fallback",
+      "catalog": "sunny_bay_roastery",
+      "schema": "gold"
     }
   ],
   "pages": [
@@ -13,10 +15,70 @@
       "layout": [
         {
           "widget": {
-            "name": "date",
+            "name": "date-range",
             "queries": [
               {
-                "name": "dashboards/01f0c4cb863a158d870d6b6e7a904c4a/datasets/01f0cebb69cc15ff9965b756e283d030_date",
+                "name": "dashboards/01f11a529b551200b609eafd80da2ccb/datasets/01f11a529b551365bf2d569d2cee4366_yearly(date)",
+                "query": {
+                  "datasetName": "8420be85",
+                  "fields": [
+                    {
+                      "name": "yearly(date)",
+                      "expression": "DATE_TRUNC(\"YEAR\", `date`)"
+                    },
+                    {
+                      "name": "yearly(date)_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "showTitle": true,
+                "title": "Date Range"
+              },
+              "selection": {
+                "defaultSelection": {
+                  "range": {
+                    "dataType": "DATETIME",
+                    "min": {
+                      "value": "2013-01-01T00:00:00.000"
+                    },
+                    "max": {
+                      "value": "2025-01-01T00:00:00.000"
+                    }
+                  }
+                }
+              },
+              "widgetType": "filter-date-range-picker",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "yearly(date)",
+                    "displayName": "YEARLY(date)",
+                    "queryName": "dashboards/01f11a529b551200b609eafd80da2ccb/datasets/01f11a529b551365bf2d569d2cee4366_yearly(date)"
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 1,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "date-1",
+            "queries": [
+              {
+                "name": "dashboards/01f11a529b551200b609eafd80da2ccb/datasets/01f11a529b551365bf2d569d2cee4366_date",
                 "query": {
                   "datasetName": "8420be85",
                   "fields": [
@@ -35,18 +97,31 @@
             ],
             "spec": {
               "version": 2,
+              "frame": {
+                "showTitle": true,
+                "title": "Date"
+              },
+              "selection": {
+                "defaultSelection": {
+                  "range": {
+                    "dataType": "DATE",
+                    "min": {
+                      "value": "2013-01-01T00:00:00.000"
+                    },
+                    "max": {
+                      "value": "2025-12-31T00:00:00.000"
+                    }
+                  }
+                }
+              },
               "widgetType": "filter-date-range-picker",
               "encodings": {
                 "fields": [
                   {
                     "fieldName": "date",
-                    "queryName": "dashboards/01f0c4cb863a158d870d6b6e7a904c4a/datasets/01f0cebb69cc15ff9965b756e283d030_date"
+                    "queryName": "dashboards/01f11a529b551200b609eafd80da2ccb/datasets/01f11a529b551365bf2d569d2cee4366_date"
                   }
                 ]
-              },
-              "frame": {
-                "showTitle": true,
-                "title": "Date"
               }
             }
           },
@@ -58,7 +133,8 @@
           }
         }
       ],
-      "pageType": "PAGE_TYPE_GLOBAL_FILTERS"
+      "pageType": "PAGE_TYPE_GLOBAL_FILTERS",
+      "layoutVersion": "GRID_V1"
     },
     {
       "name": "3b679596",
@@ -69,15 +145,17 @@
             "name": "7d07cbd4",
             "multilineTextboxSpec": {
               "lines": [
-                "# Sales Report"
+                "# Sunny Bay Performance Dashboard\n",
+                "\n",
+                "*We are on a mission to bring exceptional coffee to San Francisco since 2013. Use this dashboard to explore store performance 🏪, track profitability 💰, uncover growth opportunities 📈, and delight our customers ❤️*"
               ]
             }
           },
           "position": {
             "x": 0,
             "y": 0,
-            "width": 5,
-            "height": 3
+            "width": 10,
+            "height": 2
           }
         },
         {
@@ -90,9 +168,9 @@
             }
           },
           "position": {
-            "x": 5,
+            "x": 10,
             "y": 0,
-            "width": 1,
+            "width": 2,
             "height": 3
           }
         },
@@ -184,9 +262,9 @@
             }
           },
           "position": {
-            "x": 0,
+            "x": 4,
             "y": 4,
-            "width": 6,
+            "width": 8,
             "height": 6
           }
         },
@@ -231,8 +309,8 @@
           },
           "position": {
             "x": 0,
-            "y": 3,
-            "width": 2,
+            "y": 2,
+            "width": 3,
             "height": 1
           }
         },
@@ -241,7 +319,7 @@
             "name": "02790311",
             "queries": [
               {
-                "name": "dashboards/01f0c4cb863a158d870d6b6e7a904c4a/datasets/01f0cebb69cc15ff9965b756e283d030_product_category",
+                "name": "dashboards/01f11a529b551200b609eafd80da2ccb/datasets/01f11a529b551365bf2d569d2cee4366_product_category",
                 "query": {
                   "datasetName": "8420be85",
                   "fields": [
@@ -260,25 +338,25 @@
             ],
             "spec": {
               "version": 2,
+              "frame": {
+                "showTitle": true,
+                "title": "Category"
+              },
               "widgetType": "filter-single-select",
               "encodings": {
                 "fields": [
                   {
                     "fieldName": "product_category",
-                    "queryName": "dashboards/01f0c4cb863a158d870d6b6e7a904c4a/datasets/01f0cebb69cc15ff9965b756e283d030_product_category"
+                    "queryName": "dashboards/01f11a529b551200b609eafd80da2ccb/datasets/01f11a529b551365bf2d569d2cee4366_product_category"
                   }
                 ]
-              },
-              "frame": {
-                "showTitle": true,
-                "title": "Product Category"
               }
             }
           },
           "position": {
-            "x": 2,
-            "y": 3,
-            "width": 2,
+            "x": 3,
+            "y": 2,
+            "width": 3,
             "height": 1
           }
         },
@@ -287,7 +365,7 @@
             "name": "b9c786b0",
             "queries": [
               {
-                "name": "dashboards/01f0c4cb863a158d870d6b6e7a904c4a/datasets/01f0cebb69cc15ff9965b756e283d030_product_subcategory",
+                "name": "dashboards/01f11a529b551200b609eafd80da2ccb/datasets/01f11a529b551365bf2d569d2cee4366_product_subcategory",
                 "query": {
                   "datasetName": "8420be85",
                   "fields": [
@@ -306,25 +384,25 @@
             ],
             "spec": {
               "version": 2,
+              "frame": {
+                "showTitle": true,
+                "title": "Subcategory"
+              },
               "widgetType": "filter-single-select",
               "encodings": {
                 "fields": [
                   {
                     "fieldName": "product_subcategory",
-                    "queryName": "dashboards/01f0c4cb863a158d870d6b6e7a904c4a/datasets/01f0cebb69cc15ff9965b756e283d030_product_subcategory"
+                    "queryName": "dashboards/01f11a529b551200b609eafd80da2ccb/datasets/01f11a529b551365bf2d569d2cee4366_product_subcategory"
                   }
                 ]
-              },
-              "frame": {
-                "showTitle": true,
-                "title": "Product Subcategory"
               }
             }
           },
           "position": {
-            "x": 4,
-            "y": 3,
-            "width": 2,
+            "x": 6,
+            "y": 2,
+            "width": 4,
             "height": 1
           }
         },
@@ -352,6 +430,10 @@
             ],
             "spec": {
               "version": 3,
+              "frame": {
+                "showTitle": true,
+                "title": "Net Profit Online vs. Offline [$]"
+              },
               "widgetType": "pie",
               "encodings": {
                 "angle": {
@@ -372,6 +454,22 @@
                 },
                 "color": {
                   "fieldName": "store_online",
+                  "format": {
+                    "type": "alias",
+                    "mappings": [
+                      {
+                        "value": "true",
+                        "alias": "Online"
+                      },
+                      {
+                        "value": "false",
+                        "alias": "In-Store"
+                      }
+                    ]
+                  },
+                  "legend": {
+                    "hideTitle": true
+                  },
                   "scale": {
                     "type": "categorical",
                     "mappings": [
@@ -393,9 +491,9 @@
           },
           "position": {
             "x": 0,
-            "y": 10,
-            "width": 3,
-            "height": 8
+            "y": 11,
+            "width": 4,
+            "height": 7
           }
         },
         {
@@ -420,6 +518,10 @@
                       "expression": "`store_longitude`"
                     },
                     {
+                      "name": "store_name",
+                      "expression": "`store_name`"
+                    },
+                    {
                       "name": "measure(total_net_profit)",
                       "expression": "MEASURE(`total_net_profit`)"
                     }
@@ -430,6 +532,10 @@
             ],
             "spec": {
               "version": 2,
+              "frame": {
+                "showTitle": true,
+                "title": "Total Net Profit by Store [$]"
+              },
               "widgetType": "symbol-map",
               "encodings": {
                 "coordinates": {
@@ -476,41 +582,379 @@
                   "fieldName": "measure(total_net_profit)",
                   "scale": {
                     "type": "quantitative"
+                  },
+                  "format": {
+                    "type": "number-currency",
+                    "currencyCode": "USD",
+                    "abbreviation": "compact",
+                    "decimalPlaces": {
+                      "type": "max",
+                      "places": 0
+                    }
+                  },
+                  "displayName": "Total Net Profit"
+                },
+                "extra": [
+                  {
+                    "fieldName": "store_name",
+                    "displayName": "Store Name"
                   }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 4,
+            "y": 11,
+            "width": 8,
+            "height": 7
+          }
+        },
+        {
+          "widget": {
+            "name": "net-profit-1",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "8420be85",
+                  "fields": [
+                    {
+                      "name": "yearly(date)",
+                      "expression": "DATE_TRUNC(\"YEAR\", `date`)"
+                    },
+                    {
+                      "name": "measure(total_net_revenue_usd)",
+                      "expression": "MEASURE(`total_net_revenue_usd`)"
+                    }
+                  ],
+                  "disaggregated": false,
+                  "orders": [
+                    {
+                      "direction": "DESC",
+                      "expression": "DATE_TRUNC(\"YEAR\", `date`)"
+                    }
+                  ]
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "showTitle": true,
+                "title": "Net Revenue per Year [$]"
+              },
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "measure(total_net_revenue_usd)",
+                  "format": {
+                    "type": "number-currency",
+                    "currencyCode": "USD",
+                    "abbreviation": "compact",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 0
+                    },
+                    "significantFigures": {
+                      "type": "all"
+                    },
+                    "hideGroupSeparator": false
+                  }
+                },
+                "target": {
+                  "fieldName": "measure(total_net_revenue_usd)",
+                  "change": {
+                    "type": "percent"
+                  },
+                  "period": {
+                    "type": "relative-to-value-period",
+                    "offset": -1
+                  }
+                },
+                "period": {
+                  "fieldName": "yearly(date)"
                 }
               }
             }
           },
           "position": {
-            "x": 3,
-            "y": 10,
-            "width": 3,
-            "height": 8
+            "x": 0,
+            "y": 4,
+            "width": 4,
+            "height": 3
           }
-        }
-      ],
-      "pageType": "PAGE_TYPE_CANVAS"
-    },
-    {
-      "name": "400812e6",
-      "displayName": "Market Report",
-      "layout": [
+        },
         {
           "widget": {
-            "name": "f072785b",
+            "name": "22ee41e5",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "8420be85",
+                  "fields": [
+                    {
+                      "name": "yearly(date)",
+                      "expression": "DATE_TRUNC(\"YEAR\", `date`)"
+                    },
+                    {
+                      "name": "measure(total_net_profit)",
+                      "expression": "MEASURE(`total_net_profit`)"
+                    }
+                  ],
+                  "disaggregated": false,
+                  "orders": [
+                    {
+                      "direction": "DESC",
+                      "expression": "DATE_TRUNC(\"YEAR\", `date`)"
+                    }
+                  ]
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "showTitle": true,
+                "title": "Net Profit per Year [$]"
+              },
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "measure(total_net_profit)",
+                  "format": {
+                    "type": "number-currency",
+                    "currencyCode": "USD",
+                    "abbreviation": "compact",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 0
+                    },
+                    "significantFigures": {
+                      "type": "all"
+                    },
+                    "hideGroupSeparator": false
+                  }
+                },
+                "target": {
+                  "fieldName": "measure(total_net_profit)",
+                  "change": {
+                    "type": "percent"
+                  },
+                  "period": {
+                    "type": "relative-to-value-period",
+                    "offset": -1
+                  },
+                  "style": {
+                    "rules": [
+                      {
+                        "condition": {
+                          "operator": ">="
+                        },
+                        "color": "#00A972"
+                      }
+                    ]
+                  }
+                },
+                "period": {
+                  "fieldName": "yearly(date)"
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 7,
+            "width": 4,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "cc95a94e",
             "multilineTextboxSpec": {
               "lines": [
-                "# Market Report"
+                "## Geographic and Channel Breakdown"
               ]
             }
           },
           "position": {
             "x": 0,
-            "y": 0,
-            "width": 5,
-            "height": 3
+            "y": 10,
+            "width": 12,
+            "height": 1
           }
         },
+        {
+          "widget": {
+            "name": "c8c03eaf",
+            "multilineTextboxSpec": {
+              "lines": [
+                "## Financial Highlights"
+              ]
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 3,
+            "width": 12,
+            "height": 1
+          }
+        },
+        {
+          "widget": {
+            "name": "a4033d75",
+            "multilineTextboxSpec": {
+              "lines": [
+                "## Detailed Breakdown"
+              ]
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 18,
+            "width": 12,
+            "height": 1
+          }
+        },
+        {
+          "widget": {
+            "name": "d94bdb38",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "8420be85",
+                  "fields": [
+                    {
+                      "name": "store_name",
+                      "expression": "`store_name`"
+                    },
+                    {
+                      "name": "product_category",
+                      "expression": "`product_category`"
+                    },
+                    {
+                      "name": "product_subcategory",
+                      "expression": "`product_subcategory`"
+                    },
+                    {
+                      "name": "measure(total_net_revenue_usd)",
+                      "expression": "MEASURE(`total_net_revenue_usd`)"
+                    }
+                  ],
+                  "filters": [
+                    {
+                      "expression": "IN_RANGE(`date`, DATE'2020-01-01T00:00:00.000', DATE'2025-12-31T00:00:00.000')"
+                    }
+                  ],
+                  "cubeGroupingSets": {
+                    "sets": [
+                      {
+                        "fieldNames": [
+                          "store_name"
+                        ]
+                      },
+                      {
+                        "fieldNames": [
+                          "product_category",
+                          "product_subcategory"
+                        ]
+                      }
+                    ]
+                  },
+                  "disaggregated": false,
+                  "orders": [
+                    {
+                      "direction": "ASC",
+                      "expression": "`store_name`"
+                    },
+                    {
+                      "direction": "ASC",
+                      "expression": "`product_category`"
+                    },
+                    {
+                      "direction": "ASC",
+                      "expression": "`product_subcategory`"
+                    }
+                  ]
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "pivot",
+              "encodings": {
+                "rows": [
+                  {
+                    "fieldName": "store_name"
+                  }
+                ],
+                "columns": [
+                  {
+                    "fieldName": "product_category",
+                    "total": {
+                      "show": true
+                    }
+                  },
+                  {
+                    "fieldName": "product_subcategory"
+                  }
+                ],
+                "cell": {
+                  "type": "multi-cell",
+                  "fields": [
+                    {
+                      "fieldName": "measure(total_net_revenue_usd)",
+                      "cellType": "text",
+                      "format": {
+                        "type": "number-currency",
+                        "currencyCode": "USD",
+                        "abbreviation": "none",
+                        "decimalPlaces": {
+                          "type": "exact",
+                          "places": 0
+                        },
+                        "hideGroupSeparator": false
+                      },
+                      "displayName": "Total Net Revenue",
+                      "style": {
+                        "type": "basic",
+                        "rules": [
+                          {
+                            "condition": {
+                              "operand": {
+                                "type": "data-value",
+                                "value": "10000"
+                              },
+                              "operator": ">="
+                            },
+                            "backgroundColor": "#00A972"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 19,
+            "width": 12,
+            "height": 6
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    },
+    {
+      "name": "400812e6",
+      "displayName": "Market Report",
+      "layout": [
         {
           "widget": {
             "name": "8d4df45e",
@@ -521,9 +965,9 @@
             }
           },
           "position": {
-            "x": 5,
+            "x": 10,
             "y": 0,
-            "width": 1,
+            "width": 2,
             "height": 3
           }
         },
@@ -555,6 +999,10 @@
             ],
             "spec": {
               "version": 3,
+              "frame": {
+                "showTitle": true,
+                "title": "Net Profit by Product and Day of the Week [$]"
+              },
               "widgetType": "heatmap",
               "encodings": {
                 "x": {
@@ -571,6 +1019,7 @@
                 },
                 "color": {
                   "fieldName": "measure(total_net_profit)",
+                  "displayName": "Total Net Profit",
                   "scale": {
                     "type": "quantitative",
                     "colorRamp": {
@@ -588,12 +1037,169 @@
           "position": {
             "x": 0,
             "y": 3,
-            "width": 6,
+            "width": 12,
             "height": 8
+          }
+        },
+        {
+          "widget": {
+            "name": "01ddd31b",
+            "multilineTextboxSpec": {
+              "lines": [
+                "# Sunny Bay Market Report\n",
+                "\n",
+                "*We are on a mission to bring exceptional coffee to San Francisco since 2013. Use this dashboard to explore store performance 🏪, track profitability 💰, uncover growth opportunities 📈, and delight our customers ❤️*"
+              ]
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 10,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "01f9c833",
+            "queries": [
+              {
+                "name": "dashboards/01f11a529b551200b609eafd80da2ccb/datasets/01f11a529b551365bf2d569d2cee4366_store_name",
+                "query": {
+                  "datasetName": "8420be85",
+                  "fields": [
+                    {
+                      "name": "store_name",
+                      "expression": "`store_name`"
+                    },
+                    {
+                      "name": "store_name_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "showTitle": true,
+                "title": "Store Name"
+              },
+              "widgetType": "filter-single-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "store_name",
+                    "queryName": "dashboards/01f11a529b551200b609eafd80da2ccb/datasets/01f11a529b551365bf2d569d2cee4366_store_name"
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 2,
+            "width": 3,
+            "height": 1
+          }
+        },
+        {
+          "widget": {
+            "name": "8df7ee0c",
+            "queries": [
+              {
+                "name": "dashboards/01f11a529b551200b609eafd80da2ccb/datasets/01f11a529b551365bf2d569d2cee4366_product_category",
+                "query": {
+                  "datasetName": "8420be85",
+                  "fields": [
+                    {
+                      "name": "product_category",
+                      "expression": "`product_category`"
+                    },
+                    {
+                      "name": "product_category_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "showTitle": true,
+                "title": "Category"
+              },
+              "widgetType": "filter-single-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "product_category",
+                    "queryName": "dashboards/01f11a529b551200b609eafd80da2ccb/datasets/01f11a529b551365bf2d569d2cee4366_product_category"
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 3,
+            "y": 2,
+            "width": 3,
+            "height": 1
+          }
+        },
+        {
+          "widget": {
+            "name": "0ef853dc",
+            "queries": [
+              {
+                "name": "dashboards/01f11a529b551200b609eafd80da2ccb/datasets/01f11a529b551365bf2d569d2cee4366_product_subcategory",
+                "query": {
+                  "datasetName": "8420be85",
+                  "fields": [
+                    {
+                      "name": "product_subcategory",
+                      "expression": "`product_subcategory`"
+                    },
+                    {
+                      "name": "product_subcategory_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "showTitle": true,
+                "title": "Subcategory"
+              },
+              "widgetType": "filter-single-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "product_subcategory",
+                    "queryName": "dashboards/01f11a529b551200b609eafd80da2ccb/datasets/01f11a529b551365bf2d569d2cee4366_product_subcategory"
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 2,
+            "width": 4,
+            "height": 1
           }
         }
       ],
-      "pageType": "PAGE_TYPE_CANVAS"
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
     }
   ],
   "uiSettings": {
