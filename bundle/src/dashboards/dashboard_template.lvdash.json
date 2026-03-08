@@ -14,15 +14,17 @@
             "name": "7d07cbd4",
             "multilineTextboxSpec": {
               "lines": [
-                "# Sales Dashboard"
+                "# Sunny Bay Performance Dashboard\n",
+                "\n",
+                "*We are on a mission to bring exceptional coffee to San Francisco since 2013. Use this dashboard to explore store performance 🏪, track profitability 💰, uncover growth opportunities 📈, and delight our customers ❤️*"
               ]
             }
           },
           "position": {
             "x": 0,
             "y": 0,
-            "width": 5,
-            "height": 3
+            "width": 10,
+            "height": 2
           }
         },
         {
@@ -35,14 +37,57 @@
             }
           },
           "position": {
-            "x": 5,
+            "x": 10,
             "y": 0,
-            "width": 1,
+            "width": 2,
             "height": 3
           }
         }
       ],
-      "pageType": "PAGE_TYPE_CANVAS"
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    },
+    {
+      "name": "400812e6",
+      "displayName": "Market Report",
+      "layout": [
+        {
+          "widget": {
+            "name": "8d4df45e",
+            "multilineTextboxSpec": {
+              "lines": [
+                "![](https://i.ibb.co/cVGnntT/Screenshot-2025-10-16-at-22-04-25.png)"
+              ]
+            }
+          },
+          "position": {
+            "x": 10,
+            "y": 0,
+            "width": 2,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "01ddd31b",
+            "multilineTextboxSpec": {
+              "lines": [
+                "# Sunny Bay Market Report\n",
+                "\n",
+                "*We are on a mission to bring exceptional coffee to San Francisco since 2013. Use this dashboard to explore store performance 🏪, track profitability 💰, uncover growth opportunities 📈, and delight our customers ❤️*"
+              ]
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 10,
+            "height": 2
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
     }
   ],
   "uiSettings": {
