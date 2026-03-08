@@ -1,14 +1,7 @@
--- =======================================
--- GOLD: Materialized views on SILVER
--- =======================================
-CREATE OR REPLACE MATERIALIZED VIEW gold.dim_date AS
-SELECT * FROM silver.dim_date;
-CREATE OR REPLACE MATERIALIZED VIEW gold.dim_store AS
-SELECT * FROM silver.dim_store;
-CREATE OR REPLACE MATERIALIZED VIEW gold.dim_customer AS
-SELECT * FROM silver.dim_customer;
-CREATE OR REPLACE MATERIALIZED VIEW gold.dim_product AS
-SELECT * FROM silver.dim_product;
+-- Enriches the silver fact table with calculated revenue and cost columns
+-- by joining the product and store dimensions.  This is the main analytical
+-- table used by dashboards and metric views.
+
 CREATE OR REPLACE MATERIALIZED VIEW gold.fact_coffee_sales AS
 SELECT
     fcs.*,

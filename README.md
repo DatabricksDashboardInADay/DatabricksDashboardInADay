@@ -1,4 +1,4 @@
-# Data Analyst in a Day
+# Databricks Dashboards in a Day
 
 ## Step 1 – Create a Databricks Free Account
 

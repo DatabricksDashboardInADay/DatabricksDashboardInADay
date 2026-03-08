@@ -48,7 +48,7 @@ SDP allows non-engineers to safely contribute to data transformation logic.
 <div style="text-align:left;">
   <img src="./artifacts/SDP_Transformations.png" width="30%">
 </div>
-6. Open **`silver.sql`** and ensure that invalid quantities are removed before silver by adding the following constraint to the table **fact_coffee_sales**:
+6. Open **`silver/fact_coffee_sales.sql`** and ensure that invalid quantities are removed before silver by adding the following constraint to the table **fact_coffee_sales**:
 ```sql
 CONSTRAINT valid_quantity EXPECT (quantity_sold > 0) ON VIOLATION DROP ROW
 ```
@@ -76,7 +76,7 @@ FROM STREAM read_files(
 
 ### Add a New Derived Column (Gross Revenue in EUR)
 
-1. Make sure you are now in the file **`gold.sql`**
+1. Make sure you are now in the file **`gold/fact_coffee_sales.sql`**
 2. Add a new calculated column to the table **fact_coffee_sales** that computes gross revenue in EUR using a fixed conversion rate of **1.1**:
 
 ```sql
@@ -91,7 +91,7 @@ FROM STREAM read_files(
 
 ### Create a New Aggregated Gold Table for Revenue by Store
 
-1. At the bottom of **`gold.sql`**, add a new gold table that aggregates the total revenue for each store:
+1. Create a new file **`gold/total_revenue_by_year.sql`** and add a new gold table that aggregates the total revenue for each store:
 
 ```sql
 CREATE OR REFRESH MATERIALIZED VIEW gold.total_revenue_by_year AS

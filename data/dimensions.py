@@ -1,5 +1,6 @@
 from typing import Dict, List, Optional
 import math
+import warnings
 
 from pyspark.sql import Column, DataFrame, functions as F, types as T, SparkSession
 from pyspark.sql.types import IntegerType, LongType
@@ -73,7 +74,9 @@ def add_dim_product_key(
     columns, making the result deterministic regardless of partitioning.
     """
 
-    choose_product_udf = F.udf(_choose_product_py, IntegerType())
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", UserWarning)
+        choose_product_udf = F.udf(_choose_product_py, IntegerType())
 
     if id_cols is not None:
         cols = [F.col(c) for c in id_cols]
@@ -136,12 +139,14 @@ def add_dim_customer_key(
     those columns, making the result deterministic regardless of partitioning.
     """
 
-    choose_customer_udf = F.udf(
-        lambda store_key, r_loyal, r_idx: _choose_customer_py(
-            store_key, r_loyal, r_idx, max_customers_per_store, n_loyal_customers, loyal_share
-        ),
-        LongType(),
-    )
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", UserWarning)
+        choose_customer_udf = F.udf(
+            lambda store_key, r_loyal, r_idx: _choose_customer_py(
+                store_key, r_loyal, r_idx, max_customers_per_store, n_loyal_customers, loyal_share
+            ),
+            LongType(),
+        )
 
     if id_cols is not None:
         cols = [F.col(c) for c in id_cols]
