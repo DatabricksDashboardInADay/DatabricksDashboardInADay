@@ -9,6 +9,12 @@ By the end of this lab, you will be able to:
 - Configure page-level and global filters (date, store, product) to enable rich interactivity.
 - Leverage AI-assisted visual creation with natural-language prompts to accelerate dashboard building.
 
+Your final dashboard should look like this:
+
+<div style="text-align:left;">
+  <img src="./artifacts/Dashboard_Final.png" width="100%">
+</div>
+
 ## Introduction
 
 **What Are AI/BI Dashboards?**
@@ -33,7 +39,6 @@ AI/BI Dashboards can be stored as a templates which contain the corporate identi
   <img src="./artifacts/Dashboard_EditDraft.png" width="50%">
 </div>
 
-
 **Step 2: Configure the Metric View as a Data Source**
 
 Every AI/BI Dashboard must have one or more data sources, which are used to create the visualizations.
@@ -45,8 +50,105 @@ Every AI/BI Dashboard must have one or more data sources, which are used to crea
   <img src="./artifacts/Dashboard_AddDataSource.png" width="30%">
 </div>
 
+**Step 3: Add a Global Filter**
 
-**Step 3: Create Your First AI-Assisted Visual**
+Global filters are helpful to apply a filter for multiple report pages. We are going to filter out all the sales before 2015.
+
+1. Click on the "Show Global Filters" icon
+
+<div style="text-align:left;">
+  <img src="./artifacts/Dashboard_GlobalFilters.png" width="50%">
+</div>
+
+2. Click on the "+" icon to add a new global filter widget
+3. Select the "Date Range Picker" as the filter type
+4. Choose date as a field
+5. Rename the widget from "date" to "Date"
+6. Change the filter from "Jan 01, 2015" to "Dec 31, 2025", which will become the default for the global filter
+
+<div style="text-align:left;">
+  <img src="./artifacts/Dashboard_GlobalFilters2.png" width="20%">
+</div>
+
+7. Minimize the global filters by clicking on "Hide Global Filters"
+
+**Step 4: Add a Page Level Filter for the Store Name**
+
+In this step, you will add page-level filters for store and product to enable interactive exploration for business users.
+
+1. Click on the "Add a filter" icon
+
+<div style="text-align:left;">
+  <img src="./artifacts/Dashboard_PageFilter.png" width="25%">
+</div>
+
+2. Select "Multiple values" as the filter type in the widget settings
+3. Choose the value "store_name" in the fields selection
+4. Rename the title from "store_name" to "Store Name"
+5. Duplicate the filter widget twice, by selecting it, pressing "CTRL + C", and "CTRL + V"
+6. Rename the first duplicate to "Product Category", remove the existing value from fields, and select "product_category"
+7. Rename the second duplicate to "Product Subcategory", remove the existing value from fields, and select "product_subcategory"
+8. Filter the product category for "Food", and see how the values in the filter product subcategory are affected
+
+**Step 5: Add Section Headers**
+
+Text widgets can be used as section headers to structure your dashboard into logical sections.
+
+1. Click the "Add a text box" icon to add a new text widget
+2. Enter `Financial Highlights` as the text and format it as a **Heading**
+3. Resize the text box to span the full width of the dashboard
+4. Repeat the same steps to create two more section headers:
+   - `Sales by Location & Channel`
+   - `Deep Dive`
+
+5. Move the section headers to the correct position above each section of your dashboard. Your final structure should look like this:
+
+   - 📌 **Financial Highlights** → above the KPI counters and bar chart
+   - 📌 **Sales by Location & Channel** → above the donut chart and map
+   - 📌 **Deep Dive** → above the pivot/detail table
+
+**Step 6: Add KPI Counter Visuals for Revenue and Profit**
+
+Counter visuals allow you to display a key metric for the current period alongside a comparison to a previous period.
+
+1. Click the "Add a visualization" icon to add a new widget to the dashboard
+2. Select **"Counter"** as the visualization type
+
+3. Enable the **Title** checkbox and enter `Net Revenue per Year [$]`
+
+4. Under **Date**, click **"+"** and select `YEARLY(date)`
+
+5. Under **Value**, click **"+"** and select `MEASURE(total_net_revenue_usd)`
+
+6. Under **Comparison**, click **"+"** and select `MEASURE(total_net_revenue_usd)` again. Set **Years ago offset** to `1` and set **Change** format to `%`
+
+<div style="text-align:left;">
+  <img src="./artifacts/Dashboard_CounterSettings.png" width="30%">
+</div>
+
+7. Click on the value field `MEASURE(total_net_revenue_usd)` and navigate to the **Format** tab. Set the following:
+   - **Type:** `$`
+   - **Currency:** `US-Dollar ($)`
+   - **Abbreviation:** `Compact`
+   - **Decimal places:** `Exact` → `0`
+   - **Group separator:** ✅ enabled
+
+<div style="text-align:left;">
+  <img src="./artifacts/Dashboard_CounterFormat.png" width="30%">
+</div>
+
+8. Your counter visual should now show the current year's net revenue with a year-over-year comparison
+
+<div style="text-align:left;">
+  <img src="./artifacts/Dashboard_CounterResult.png" width="60%">
+</div>
+
+9. To create the second counter, right-click the widget and select **"Duplicate"**. Update the following settings in the copy:
+   - **Title:** `Net Profit per Year [$]`
+   - **Value:** change to `MEASURE(total_net_profit)`
+   - **Comparison:** change to `MEASURE(total_net_profit)`
+
+**Step 7: Create Your First AI-Assisted Visual**
 
 The Databricks Assistant can generate visuals directly from natural language prompts.
 
@@ -81,65 +183,28 @@ The Databricks Assistant can generate visuals directly from natural language pro
 9. Rename the tooltip values to "Total Costs of Goods [$]" and "Total Net Revenue [$]"
 10. Rename the title to "Net Profit per Month [$]"
 
-**Step 4: Add a Page Level Filter for the Store Name**
-
-In this step, you will add page-level filters for store and product to enable interactive exploration for business users.
-
-1. Click on the "Add a filter" icon
-
-<div style="text-align:left;">
-  <img src="./artifacts/Dashboard_PageFilter.png" width="25%">
-</div>
-
-2. Select "Multiple values" as the filter type in the widget settings
-3. Choose the value "store_name" in the fields selection
-4. Rename the title from "store_name" to "Store Name"
-5. Duplicate the filter widget twice, by selecting it, pressing "CTRL + C", and "CTRL + V"
-6. Rename the first duplicate to "Product Category", remove the existing value from fields, and select "product_category"
-7. Rename the second duplicate to "Product Subcategory", remove the existing value from fields, and select "product_subcategory"
-8. Filter the product category for "Food", and see how the values in the filter product subcategory are affected
-
-**Step 5: Add a Global Filter**
-
-Global filters are helpful to apply a filter for multiple report pages. We are going to filter out all the sales before 2015.
-
-1. Click on the "Show Global Filters" icon
-
-<div style="text-align:left;">
-  <img src="./artifacts/Dashboard_GlobalFilters.png" width="50%">
-</div>
-
-2. Click on the "+" icon to add a new global filter widget
-3. Select the "Date Range Picker" as the filter type
-4. Choose date as a field
-5. Rename the widget from "date" to "Date"
-6. Change the filter from "Jan 01, 2015" to "Dec 31, 2025", which will become the default for the global filter
-
-<div style="text-align:left;">
-  <img src="./artifacts/Dashboard_GlobalFilters2.png" width="20%">
-</div>
-
-7. Minimize the global filters by clicking on "Hide Global Filters"
-
-**Step 6: Explore Cross-Filtering**
+**Step 8: Create a Pie Chart and Explore Cross-Filtering**
 
 1. Make sure that all report level filters are not applied
 2. Create a new visualization by clicking on "Add visualization"
 3. Select the "Pie" as visualization type
+4. Add the title to "Net Profit Online vs. Offline [$]"
 4. Choose the "total_net_profit" as the angle, and "store_online" as the color
 5. Change the colors for the values "true", and "false" 
 6. Rename the angle title to "Net Profit [$]"
 7. Activate labels for this visualization
+8. Open the formatting of Color, and add the aliases "Online" and "In-Store"
 8. Click on the one of the values of the pie chart, and see how the cross-filtering functionality effects the bar chart
 
 <div style="text-align:left;">
   <img src="./artifacts/Dashboard_CrossFiltering.png" width="40%">
 </div>
 
-**Step 7: Create a Map Visualization**
+**Step 9: Create a Map Visualization**
 
 1. Create a new visualization by clicking on "Add visualization"
 2. Select "Point map" as visualization type
+3. Add the title "Total Net Profit by Store [$]"
 3. Select the dimensions "store_latitude", and "store_longitude" for the coordinates
 4. Choose the measure "total_net_profit" as the size
 5. Use the dimension "product_category" as the color
@@ -150,7 +215,54 @@ Global filters are helpful to apply a filter for multiple report pages. We are g
   <img src="./artifacts/Dashboard_MapFullScreen.png" width="30%">
 </div>
 
-**Step 8: Explore the Drill-Through Feature**
+**Step 10: Add a Pivot Table for Detailed Sales Breakdown**
+
+Pivot tables allow you to explore your data across multiple dimensions simultaneously — perfect for a detailed breakdown of revenue by store and product.
+
+1. Navigate to the **"Sales Report"** tab and scroll down to the **"Deep Dive"** section
+2. Click the **"Add a visualization"** icon and select **"Pivot"** as the visualization type
+3. Rename the title to `Revenue Breakdown by Store & Product [$]`
+4. Select `sm_fact_coffee_sales` as the dataset
+
+5. Add a visual filter to limit the date range:
+   - Click **"+"** next to **Filter fields**
+   - Select `date` as the filter field
+   - Set the range from `01 January 2020` to `31 December 2025`
+
+<div style="text-align:left;">
+  <img src="./artifacts/Dashboard_PivotFilter.png" width="30%">
+</div>
+
+6. Under **Rows**, click **"+"** and select `store_name`
+
+7. Under **Columns**, click **"+"** and add the following in order:
+   - `product_category`
+   - `product_subcategory`
+
+8. Click on `product_category` in the columns and enable the **"Display total"** checkbox
+
+<div style="text-align:left;">
+  <img src="./artifacts/Dashboard_PivotDisplayTotal.png" width="30%">
+</div>
+
+9. Under **Values**, click **"+"** and select `MEASURE(total_net_revenue_usd)`
+   - Change the **Display name** to `Total Net Revenue`
+   - Navigate to the **Format** tab and configure:
+     - **Type:** `$`
+     - **Currency:** `US-Dollar ($)`
+     - **Decimal places:** `Exact` → `0`
+
+<div style="text-align:left;">
+  <img src="./artifacts/Dashboard_PivotFormat.png" width="30%">
+</div>
+
+10. Your pivot table should now show net revenue broken down by store (rows) and product category/subcategory (columns)
+
+<div style="text-align:left;">
+  <img src="./artifacts/Dashboard_PivotResult.png" width="100%">
+</div>
+
+**Step 11: Explore the Drill-Through Feature**
 
 1. Clone the report page "Sales Report", and rename the clone to "Market Report"
 2. Remove all the visuals and report-level filters, but keep the text boxes on the top
@@ -172,7 +284,7 @@ Global filters are helpful to apply a filter for multiple report pages. We are g
 13. The filter is propagated to the "Market Report", and the revenue for each product grouped by day of the week is displayed
 14. Reset the filter by clicking "Reset all to default"
 
-**Step 9: Publish the Report**
+**Step 12: Publish the Report**
 
 1. Congratulations, the report is ready for production. Click on "Publish" to make the report available for report consumers. 
 
@@ -184,7 +296,7 @@ Global filters are helpful to apply a filter for multiple report pages. We are g
 3. Click on the "View Published" button to switch to the perspective of a **Dashboard Consumer**
 4. Download the Dashboard as a PDF by clicking on the kebab menue and "Download as PDF"
 
-**Step 10: View the Report as a Consumer**
+**Step 13: View the Report as a Consumer**
 
 1. Open the Databricks One UI
 
@@ -202,4 +314,3 @@ Business users can:
 - Filter by store and product to answer ad-hoc questions.
 - Use cross-filtering and drill-through for deeper analysis.
 - Access the report in Databricks One UI as dashboard consumers.
-
