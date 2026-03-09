@@ -16,7 +16,7 @@ variables:
     description: The gold schema to use
   warehouse_id:
     lookup:
-      warehouse: "nal-serverless-sql"
+      warehouse: "Serverless Starter Warehouse"
 targets:
   dev:
     mode: development

@@ -366,12 +366,16 @@ def create_dim_store() -> DataFrame:
 
 def create_dim_date(
     start_date: str = "2010-01-01",
-    end_date: str = "2025-12-31",
+    end_date: Optional[str] = None,
     season_weights: Optional[dict] = None,
     dow_weights: Optional[dict] = None,
     us_public_holidays: Optional[List[str]] = None,
 ) -> DataFrame:
     """Create a simple date dimension with ISO-like day_of_week and seasonal flags."""
+
+    if end_date is None:
+        from datetime import date
+        end_date = f"{date.today().year}-12-31"
 
     if season_weights is None:
         season_weights = {"winter": 1.10, "spring": 1.00, "summer": 0.95, "autumn": 1.15}
