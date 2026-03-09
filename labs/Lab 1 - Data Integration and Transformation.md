@@ -33,7 +33,7 @@ SDP allows non-engineers to safely contribute to data transformation logic.
 
 ## Instructions
 
-### Add a Data Quality Constraint to the Silver Layer
+**Step 1: Add a Data Quality Constraint to the Silver Layer**
 1. Open **Jobs & Pipelines** in the Databricks UI
 <div style="text-align:left;">
   <img src="./artifacts/SDP_JobPipelines.png" width="15%">
@@ -78,7 +78,7 @@ SDP allows non-engineers to safely contribute to data transformation logic.
   <img src="./artifacts/SDP_Expectations.png" width="50%">
 </div>
 
-### Add a New Derived Column (Gross Revenue in EUR)
+**Step 2: Add a New Derived Column (Gross Revenue in EUR)**
 
 1. Make sure you are now in the file **`gold/fact_coffee_sales.sql`**
 2. Add a new calculated column to the table **fact_coffee_sales** that computes gross revenue in EUR using a fixed conversion rate of **1.1**:
@@ -94,7 +94,7 @@ SDP allows non-engineers to safely contribute to data transformation logic.
   <img src="./artifacts/SDP_NewColumn.png" width="15%">
 </div>
 
-### Create a New Aggregated Gold Table for Revenue by Store
+**Step 3: Create a New Aggregated Gold Table for Revenue by Store**
 
 1. Create a new file **`gold/total_revenue_by_year.sql`** and add a new gold table that aggregates the total revenue for each store:
 
