@@ -38,7 +38,7 @@ Once Lab 0 has finished deploying the initial assets, you can decide where you w
 | Path | Best For | Lab Sequence |
 |------|----------|-------------|
 | **SDP (default)** | Data engineers, pipeline-oriented users | Lab 1 → Lab 2 → Lab 3 → Lab 4 |
-| **SQL Analyst** | SQL analysts, BI analysts, Power BI / Fabric users | Lab 1 [SQL] → Lab 2 [SQL] → Lab 3 [SQL] → Lab 2 → Lab 3 → Lab 4 |
+| **SQL Analyst** | SQL analysts, BI analysts | Lab 1 [SQL] → Lab 2 [SQL] → Lab 3 [SQL] → Lab 2 → Lab 3 → Lab 4 |
 
 **SQL Analyst track:**
 1. **Lab 1 [SQL]** – Build the medallion architecture with pure SQL ([guide](labs/Lab%201%20-%20%5BSQL%5D%20Data%20Integration%20and%20Transformation.md))
