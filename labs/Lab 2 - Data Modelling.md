@@ -181,6 +181,55 @@ measures:
     expr: measure(total_net_revenue_usd) - measure(total_cost_of_goods)
 ```
 
+**(Optional) Step 6: GUI driven creation**
+
+Databricks recently introduced a GUI to create Metric Views that will allow for a more convenient modelling approach. This is currently in Public Preview and still could change (hence the optional section). We will create the same Metric View from above in this section using the GUI driven approach.
+
+1. Navigate to the `Gold` schema and create a new Metric View as you did at the beginning of this Module. Provide a name of your choice. 
+
+2. If the YAML editor opened, switch to the UI view. If the UI view opened, you can skip this step.
+
+![alt text](./artifacts/MetricView_SwitchToYAML.png)
+
+3. You now need to navigate to your source table again which is again `sunny_bay_roastery.gold.fact_coffee_sales`. Navigate to it using the Unity Catalog hierarchie. Add it to the Metric View.
+
+![alt text](./artifacts/MetricView_UI_SelectSource.png)
+
+4. We will now create our first join. In the overview page, expand the Metric View Canvas by clicking the Arrow button and then click the Join button (2 circles)
+
+![alt text](./artifacts/MetricView_UI_OpenJoinDialog.png)
+
+5. Add the `dim_product` table and define the Join Condition using the appropriate columns (see YAML for reference, if need).
+
+![alt text](./artifacts/MetricView_UI_DefineJoin.png)
+
+6. In the following dialog, only select the `Product Name`, `Product Subcategory` and `Product Category`attributes. Delete all other ones, including those coming from the `fact_coffee_sales` table. 
+
+![alt text](./artifacts/MetricView_UI_DimensionConf.png)
+
+7. Create a few measures in the Measures section. You can use those expression that you created using the YAML part.
+
+![alt text](./artifacts/MetricView_UI_Measure.png)
+
+8. You can further play around the the UI to add more dimensions and measures. 
+
+TIP: you can switch back and forth using the above mentioned switch at the top. To create exactly the same Metric View from above, you can copy the YAML definition over and see/change the results using the GUI. Finally, the Metric View that you defined above will look like this in the UI editor:
+
+![alt text](./artifacts/MetricView_UI_Final.png)
+
+
+You can save or abandon the Metric View you just created. We don't need it in the subsequent steps. The point of that excercise was to introduce the Metric View GUI.
+
+
+
+
+
+
+
+
+
+
+
 ## What Happens Next?
 
 You created a simple Metric View and users will be able to directly query business metrics without writing SQL joins or recalculating KPIs.
