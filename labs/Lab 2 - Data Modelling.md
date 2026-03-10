@@ -32,16 +32,26 @@ They allow consistent reporting, simplify complex SQL logic, and centralize metr
 
 **Step 1: Create an Empty Metric View**
 
+
 1. Navigate to the gold schema using the Catalog Explorer and create a new Metric View by selecting it after clicking the New Button.
 
 ![alt text](./artifacts/MetricView_CreateMetricView.png)
 
 2. Input the name `sm_fact_coffee_sales` for Your Metric View
-3. Delete the provided sample code. You will create your own Metric View from scratch.
 
 ![alt text](./artifacts/MetricView_SetName.png)
 
-**Step 2: Add Table Relationships to the Metric View**
+3. (Optional) In some cases, the editor defaults to the new UI editing mode, which is in preview. For this step, we will proceed with the YAML mode. If you see a "Select Source" dialog, close it for now...
+
+![alt text](./artifacts/MetricView_CloseSource.png)
+
+...and change the editor to the YAML mode. 
+
+![alt text](./artifacts/MetricView_SwitchToYAML.png)
+
+4. Delete all sample code, if exists.
+
+### Add source table and relationships to the Metric View
 
 1. Define your source, which is the base table of the metric view and typically the fact table of our star/snowflake schema. In your case, this will be `sunny_bay_roastery.gold.fact_coffee_sales`. Copy the following code snippet to the top of your Metric View definition. Note that the version attribute determines which features are available. We will use version 1.1.
 
