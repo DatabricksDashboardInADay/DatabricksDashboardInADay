@@ -30,7 +30,7 @@ They allow consistent reporting, simplify complex SQL logic, and centralize metr
 
 ## Instructions
 
-### Create an empty Metric View
+**Step 1: Create an Empty Metric View**
 
 1. Navigate to the gold schema using the Catalog Explorer and create a new Metric View by selecting it after clicking the New Button.
 
@@ -40,18 +40,7 @@ They allow consistent reporting, simplify complex SQL logic, and centralize metr
 
 ![alt text](./artifacts/MetricView_SetName.png)
 
-3. (Optional) In some cases, the editor defaults to the new UI editing mode, which is in preview. For this step, we will proceed with the YAML mode. If you see a "Select Source" dialog, close it for now...
-
-![alt text](./artifacts/MetricView_CloseSource.png)
-
-...and change the editor to the YAML mode. 
-
-![alt text](./artifacts/MetricView_SwitchToYAML.png)
-
-
-3. Delete the provided sample code if any. You will create your own Metric View from scratch.
-
-### Add source table relationships to the Metric View
+### Add table relationships to the Metric View
 
 1. Define your source, which is the base table of the metric view and typically the fact table of our star/snowflake schema. In your case, this will be `sunny_bay_roastery.gold.fact_coffee_sales`. Copy the following code snippet to the top of your Metric View definition. Note that the version attribute determines which features are available. We will use version 1.1.
 
@@ -73,7 +62,7 @@ joins:
 
 4. Add a final join to the **store** dimension table named `sunny_bay_roastery.gold.dim_store`. The join columns are named `store_key` on both sides. Set the name attribute to `store`.
 
-### Define Dimensional Attributes
+**Step 3: Define Dimensional Attributes**
 
 1. Now that we have our joins defined, we can select which dimensional attributes our Metric View should contain. We can automatically select all attributes that exist by simply adding the table name as an expression which will add a array-column containing all attributes. However, this will bloat the model and add complexity that might not be helpful to end users. Instead you will select the product name by adding the follwing snippet:
 
@@ -106,7 +95,7 @@ dimensions:
 
 
 
-### Define Measures
+**Step 4: Define Measures**
 
 1. As the last step, create a basic measure which will sum the total net revenue. The approach is very similar to adding dimension attributes. Add the following code snippet to the buttom of your Metric View definition:
 ```YAML
@@ -119,9 +108,9 @@ measures:
 
 3. We will add third measure named `total_net_profit`, that will substract the second measure `total_cost_of_goods` from the first measure `total_net_revenue_usd`. This will be our profit. The expression is `measure(total_net_revenue_usd) - measure(total_cost_of_goods)`.
 
-3. Save your progress and troubleshoot your definition in case you see any errors.
+4. Save your progress and troubleshoot your definition in case you see any errors.
 
-### Final steps
+**Step 5: Final Steps**
 
 You have now published the Metric View to Unity Catalog by saving the YAML. This makes the metric view discoverable and available to teams and tools, including Databricks Dashboards and downstream analytics, provided they have access inherited from the schema. 
 

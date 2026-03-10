@@ -1,4 +1,8 @@
-# Data Analyst in a Day
+# Databricks Dashboards in a Day
+
+<div style="text-align:left;">
+  <img src="./labs/artifacts/Dashboard_Final.png" width="100%">
+</div>
 
 ## Step 1 – Create a Databricks Free Account
 

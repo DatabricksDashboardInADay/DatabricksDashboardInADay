@@ -1,17 +1,44 @@
 from typing import List, Optional
-from pyspark.sql import DataFrame, SparkSession, functions as F
+import math as _math
+
+from pyspark.sql import Column, DataFrame, SparkSession, functions as F
+
+
+# ---------------------------------------------------------------------------
+# Partition-independent deterministic random helpers (hash-based)
+# ---------------------------------------------------------------------------
+
+def _det_uniform(seed: int, *id_cols: Column) -> Column:
+    """Partition-independent uniform [0, 1] value, deterministic per row."""
+    h = F.hash(*id_cols, F.lit(seed))
+    return F.pmod(h.cast("long"), F.lit(2147483647)).cast("double") / F.lit(2147483647.0)
+
+
+def _det_normal(seed: int, *id_cols: Column) -> Column:
+    """Partition-independent standard-normal value, deterministic per row (Box-Muller)."""
+    u1 = F.greatest(_det_uniform(seed, *id_cols), F.lit(1e-10))
+    u2 = _det_uniform(seed + 7919, *id_cols)          # offset by a prime
+    return F.sqrt(F.lit(-2.0) * F.log(u1)) * F.cos(F.lit(2.0 * _math.pi) * u2)
 
 
 def add_random_noise_features(
     df: DataFrame,
     stddev: float = 0.05,
     seed: Optional[int] = 1,
+    id_cols: Optional[List[str]] = None,
 ) -> DataFrame:
     """
     Adds column:
       - random_impact_factor (double, clamped to [0.1, 2.0])
+
+    When *id_cols* is provided the noise is derived from a hash of those
+    columns, making the result deterministic regardless of partitioning.
     """
-    z = F.randn(seed) if seed is not None else F.randn()
+    if id_cols is not None:
+        cols = [F.col(c) for c in id_cols]
+        z = _det_normal(seed if seed is not None else 0, *cols)
+    else:
+        z = F.randn(seed) if seed is not None else F.randn()
     noise = F.lit(float(stddev)) * z
     factor_raw = F.lit(1.0) + noise
 
@@ -335,12 +362,16 @@ def explode_by_simulated_volume(
 ) -> DataFrame:
     """
     Explode rows according to simulated_volume (integer). Rows with <=0 produce no output.
+
+    Keeps a ``_txn_seq`` column (1-based sequence index per original row) so
+    that downstream hash-based random functions can uniquely identify each
+    exploded row.
     """
     df = df.withColumn(volume_col, F.coalesce(F.col(volume_col), F.lit(0)).cast("int"))
 
     # sequence needs the column name in the SQL expression
     df = df.withColumn("volume_seq", F.expr(f"sequence(1, {volume_col})"))
-    df = df.withColumn("_seq_item", F.explode("volume_seq")).drop("volume_seq", "_seq_item")
+    df = df.withColumn("_txn_seq", F.explode("volume_seq")).drop("volume_seq")
 
     return df
 
@@ -381,18 +412,30 @@ def add_quantity_sold(
     p1: float = 0.80,
     p2: float = 0.15,
     p3: float = 0.04,
-    seed: Optional[int] = None,
+    seed: Optional[int] = 42,
+    id_cols: Optional[List[str]] = None,
 ) -> DataFrame:
     """
     Adds column:
       - quantity_sold (int)
+
+    When *id_cols* is provided the draw is derived from a hash of those
+    columns, making the result deterministic regardless of partitioning.
     """
-    rand = F.rand(seed) if seed is not None else F.rand()
+    _seed = seed if seed is not None else 42
+
+    if id_cols is not None:
+        cols = [F.col(c) for c in id_cols]
+        rand_val = _det_uniform(_seed, *cols)
+        rand_val2 = _det_uniform(_seed + 31, *cols)
+    else:
+        rand_val = F.rand(seed) if seed is not None else F.rand()
+        rand_val2 = F.rand(seed + 31 if seed is not None else None) if seed is not None else F.rand()
 
     return df.withColumn(
         "quantity_sold",
-        F.when(rand < p1, F.lit(1))
-         .when(rand < p1 + p2, F.lit(2))
-         .when(rand < p1 + p2 + p3, F.lit(3))
-         .otherwise(F.floor(F.rand(seed) * 2 + 4).cast("int"))
+        F.when(rand_val < p1, F.lit(1))
+         .when(rand_val < p1 + p2, F.lit(2))
+         .when(rand_val < p1 + p2 + p3, F.lit(3))
+         .otherwise(F.floor(rand_val2 * 2 + 4).cast("int"))
     )
