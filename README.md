@@ -45,5 +45,3 @@ Once Lab 0 has finished deploying the initial assets, you can decide where you w
 2. **Lab 2 [SQL]** – Explore data, create views, use the Databricks Assistant ([guide](labs/Lab%202%20-%20%5BSQL%5D%20SQL%20Analyst%20Essentials.md))
 3. **Lab 3 [SQL]** – Schedule queries, set up alerts, upload CSV data, explore Databricks One ([guide](labs/Lab%203%20-%20%5BSQL%5D%20Monitoring%20and%20Self-Service.md))
 4. Then continue with shared **Lab 2** (Metric Views) → **Lab 3** (Dashboards) → **Lab 4** (Genie)
-
-For facilitator routing guidance and detailed scope, see [SQL Analyst Lab Takeover Guide](docs/sql_analyst_lab_takeover.md).

@@ -217,7 +217,8 @@ SELECT
     END AS status
 FROM sunny_bay_roastery.gold.vw_monthly_revenue_summary mrs
 JOIN sunny_bay_roastery.gold.revenue_targets_2025 rt
-  ON mrs.store_name = rt.store_name;
+  ON mrs.store_name = rt.store_name
+  AND mrs.year = rt.target_year;
 ```
 
 Query the view for 2025 to see which stores are meeting their targets:

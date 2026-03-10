@@ -39,9 +39,7 @@ FROM STREAM read_files(
 );
 
 -- Coffee sales fact (Parquet -> silver streaming)
-CREATE OR REFRESH STREAMING TABLE silver.fact_coffee_sales (
-  CONSTRAINT valid_quantity EXPECT (quantity_sold > 0) ON VIOLATION DROP ROW
-) AS
+CREATE OR REFRESH STREAMING TABLE silver.fact_coffee_sales AS
 SELECT
     *
 FROM STREAM read_files(

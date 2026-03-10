@@ -37,6 +37,8 @@ Before you start, please verify:
 - You have completed **Lab 0** and the synthetic data has been generated.
 - You have access to a **SQL Warehouse** (Serverless Starter Warehouse or Pro).
 
+> **Note:** All queries in the SQL labs use the default catalog name `sunny_bay_roastery`. If your facilitator configured a different catalog name in Lab 0, replace `sunny_bay_roastery` with your catalog name throughout.
+
 ### Connect to a SQL Warehouse
 
 1. In the Databricks sidebar, click **SQL Warehouses**.
