@@ -41,7 +41,7 @@ They allow consistent reporting, simplify complex SQL logic, and centralize metr
 
 ![alt text](./artifacts/MetricView_SetName.png)
 
-3. (Optional) In some cases, the editor defaults to the new UI editing mode, which is in preview. For this step, we will proceed with the YAML mode. If you see a "Select Source" dialog, close it for now...
+3. (Optional) In some cases, the editor defaults to the new UI editing mode, which is in preview. In this step, we will proceed with the YAML mode. If you see a "Select Source" dialog, close it for now...
 
 ![alt text](./artifacts/MetricView_CloseSource.png)
 
@@ -49,7 +49,7 @@ They allow consistent reporting, simplify complex SQL logic, and centralize metr
 
 ![alt text](./artifacts/MetricView_SwitchToYAML.png)
 
-4. Delete all sample code, if exists.
+4. Delete all sample code, if any exists.
 
 ### Add source table and relationships to the Metric View
 
@@ -180,6 +180,54 @@ measures:
   - name: total_net_profit
     expr: measure(total_net_revenue_usd) - measure(total_cost_of_goods)
 ```
+
+**(Optional) Step 6: GUI driven creation**
+
+Databricks recently introduced a GUI to create Metric Views that will allow for a more convenient modelling approach. This is currently in Public Preview and still could change (hence the optional section). We will create the same Metric View from above in this section using the GUI driven approach.
+
+1. Navigate to the `gold` schema and create a new Metric View as you did at the beginning of this Module. Provide a name of your choice. 
+
+2. If the YAML editor opened, switch to the UI view. If the UI view opened, you can skip this step.
+
+![alt text](./artifacts/MetricView_SwitchToYAML.png)
+
+3. You now need to navigate to your source table again which is again `sunny_bay_roastery.gold.fact_coffee_sales`. Navigate to it using the Unity Catalog hierarchie. Add it to the Metric View.
+
+![alt text](./artifacts/MetricView_UI_SelectSource.png)
+
+4. We will now create our first join. In the overview page, expand the Metric View Canvas by clicking the Arrow button and then click the Join button (2 circles)
+
+![alt text](./artifacts/MetricView_UI_OpenJoinDialog.png)
+
+5. Add the `dim_product` table and define the Join Condition using the appropriate columns (see YAML for reference, if need).
+
+![alt text](./artifacts/MetricView_UI_DefineJoin.png)
+
+6. In the following dialog, only select the `Product Name`, `Product Subcategory` and `Product Category`attributes. 
+
+7. See the results of your join-configuration. To get back to the overview page, click the back button. 
+
+
+![alt text](./artifacts/MetricView_UI_JoinResultAndBack.png)
+
+
+8. Here, delete all other ones, including those coming from the `fact_coffee_sales` table. 
+
+![alt text](./artifacts/MetricView_UI_DimensionConf.png)
+
+9. Create a few measures in the Measures section. You can use those expression that you created using the YAML part.
+
+![alt text](./artifacts/MetricView_UI_Measure.png)
+
+10. You can further play around the the UI to add more dimensions and measures. 
+
+**TIP**: you can switch back and forth using the above mentioned switch at the top. To create exactly the same Metric View from above, you can copy the YAML definition over and see/change the results using the GUI. Finally, the Metric View that you defined above will look like this in the UI editor:
+
+![alt text](./artifacts/MetricView_UI_Final.png)
+
+
+You can save or abandon the Metric View you just created. We don't need it in the subsequent steps. The point of that excercise was to introduce the Metric View GUI.
+
 
 ## What Happens Next?
 
