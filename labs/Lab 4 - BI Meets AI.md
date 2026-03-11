@@ -36,9 +36,10 @@ Before you start, please verify:
 
 ![](./artifacts/Genie_SetDataSource.png)
 
-4. Once the Genie space is created, fill in the basic information under "Configure" -> "Settings" :
+4. Once the Genie space is created, fill in the basic information under "Configure" -> "About" :
    - **Title:** `Sunny Bay Sales Genie`  
    - **Description:**   “Ask questions about Sunny Bay Roastery coffee sales, customers, products, and stores using governed metrics from the Sunny Bay metric view.”  
+   - Alternatively, you can use the AI generated description, which is more elaborate.
    
 ![](./artifacts/Genie_BasicSettings.png)
 
