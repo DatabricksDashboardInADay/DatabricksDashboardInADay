@@ -33,7 +33,7 @@ SDP allows non-engineers to safely contribute to data transformation logic.
 
 ## Instructions
 
-### Add a Data Quality Constraint to the Silver Layer
+**Step 1: Add a Data Quality Constraint to the Silver Layer**
 1. Open **Jobs & Pipelines** in the Databricks UI
 <div style="text-align:left;">
   <img src="./artifacts/SDP_JobPipelines.png" width="15%">
@@ -48,23 +48,27 @@ SDP allows non-engineers to safely contribute to data transformation logic.
 <div style="text-align:left;">
   <img src="./artifacts/SDP_Transformations.png" width="30%">
 </div>
-6. Open **`silver.sql`** and ensure that invalid quantities are removed before silver by adding the following constraint to the table **fact_coffee_sales**:
-```sql
-CONSTRAINT valid_quantity EXPECT (quantity_sold > 0) ON VIOLATION DROP ROW
-```
+6. Open `silver/fact_coffee_sales.sql` and ensure that invalid quantities are removed before silver by adding the following constraint to the table `fact_coffee_sales`:
+
+   ```sql
+   CONSTRAINT valid_quantity EXPECT (quantity_sold > 0) ON VIOLATION DROP ROW
+   ```
+
 7. This ensures that downstream analytics do not include negative or zero-sold quantities. How many rows did not meet the expectations?
 8. You can confirm your code with this example solution:
-```sql
-CREATE OR REFRESH STREAMING TABLE silver.fact_coffee_sales (
-  CONSTRAINT valid_quantity EXPECT (quantity_sold > 0) ON VIOLATION DROP ROW
-) AS
-SELECT
-    *
-FROM STREAM read_files(
-  '/Volumes/${catalog}/bronze/raw/fact_coffee_sales/',
-  format => 'parquet'
-);
-```
+
+   ```sql
+   CREATE OR REFRESH STREAMING TABLE silver.fact_coffee_sales (
+     CONSTRAINT valid_quantity EXPECT (quantity_sold > 0) ON VIOLATION DROP ROW
+   ) AS
+   SELECT
+       *
+   FROM STREAM read_files(
+     '/Volumes/${catalog}/bronze/raw/fact_coffee_sales/',
+     format => 'parquet'
+   );
+   ```
+
 9. Run the pipeline with a full table refresh to re-process all the data
 <div style="text-align:left;">
   <img src="./artifacts/SDP_RunPipelineWithFullTableRefresh.png" width="30%">
@@ -74,14 +78,15 @@ FROM STREAM read_files(
   <img src="./artifacts/SDP_Expectations.png" width="50%">
 </div>
 
-### Add a New Derived Column (Gross Revenue in EUR)
+**Step 2: Add a New Derived Column (Gross Revenue in EUR)**
 
-1. Make sure you are now in the file **`gold.sql`**
+1. Make sure you are now in the file **`gold/fact_coffee_sales.sql`**
 2. Add a new calculated column to the table **fact_coffee_sales** that computes gross revenue in EUR using a fixed conversion rate of **1.1**:
 
-```sql
-(dp.list_price_usd * fcs.quantity_sold) * 1.1 AS gross_revenue_eur
-```
+   ```sql
+   (dp.list_price_usd * fcs.quantity_sold) * 1.1 AS gross_revenue_eur
+   ```
+
 3. This mirrors the USD metric and prepares multi‑currency reporting.
 4. Run the pipeline **without** a full table refresh to re-process all the data
 5. Find the new column in the Unity Catalog
@@ -89,18 +94,19 @@ FROM STREAM read_files(
   <img src="./artifacts/SDP_NewColumn.png" width="15%">
 </div>
 
-### Create a New Aggregated Gold Table for Revenue by Store
+**Step 3: Create a New Aggregated Gold Table for Revenue by Store**
 
-1. At the bottom of **`gold.sql`**, add a new gold table that aggregates the total revenue for each store:
+1. Create a new file **`gold/total_revenue_by_year.sql`** and add a new gold table that aggregates the total revenue for each store:
 
-```sql
-CREATE OR REFRESH MATERIALIZED VIEW gold.total_revenue_by_year AS
-SELECT
-    store_key AS store_key,
-    SUM(gross_revenue_usd) AS total_gross_revenue_usd
-FROM gold.fact_coffee_sales
-GROUP BY store_key;
-```
+   ```sql
+   CREATE OR REFRESH MATERIALIZED VIEW gold.total_revenue_by_year AS
+   SELECT
+       store_key AS store_key,
+       SUM(gross_revenue_usd) AS total_gross_revenue_usd
+   FROM gold.fact_coffee_sales
+   GROUP BY store_key;
+   ```
+
 2. Run only the new table by clicking on the "Dataset action" icon:
 <div style="text-align:left;">
   <img src="./artifacts/SDP_DatasetAction.png" width="70%">

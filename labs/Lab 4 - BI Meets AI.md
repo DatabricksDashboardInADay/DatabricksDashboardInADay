@@ -25,7 +25,7 @@ Before you start, please verify:
 - The **Sunny Bay Coffee Sales metric view** `sm_fact_coffee_sales_genie` from Lab 2 is created and published in Unity Catalog (this is the provided Metric View).
 - A **SQL warehouse** (Pro or serverless) is available and selectable for Genie queries.  
 
-### Create the “Sunny Bay Sales Genie” Space
+**Step 1: Create the "Sunny Bay Sales Genie" Space**
 
 1. In the Databricks workspace, open **Genie** from the left navigation.  
 2. Click **New space**.  
@@ -36,9 +36,10 @@ Before you start, please verify:
 
 ![](./artifacts/Genie_SetDataSource.png)
 
-4. Once the Genie space is created, fill in the basic information under "Configure" -> "Settings" :
+4. Once the Genie space is created, fill in the basic information under "Configure" -> "About" :
    - **Title:** `Sunny Bay Sales Genie`  
    - **Description:**   “Ask questions about Sunny Bay Roastery coffee sales, customers, products, and stores using governed metrics from the Sunny Bay metric view.”  
+   - Alternatively, you can use the AI generated description, which is more elaborate.
    
 ![](./artifacts/Genie_BasicSettings.png)
 
@@ -61,7 +62,7 @@ Before you start, please verify:
 9. (Optional) By clicking on `Show SQL`, you can review the SQL query that Genie created to select data from your Metric View.
 
 
-### Optimize the Genie Space for High Quality (Knowledge & Semantics)
+**Step 2: Optimize the Genie Space for High Quality (Knowledge & Semantics)**
 
 #### Additional context
 
@@ -77,7 +78,7 @@ Before you start, please verify:
 
 1. Additionally, you can add a provided SQL query. The purpose is to provide a SQL query yourself for a given question instead of letting Genie generate it. For frequently asked questions, this will provide a higher level of trust to users. Navigate to the instruction setting and open the `SQL Queries` pane. 
 
-5. The question we want to provide a query for will be `Show online and offline sales per year.` For the SQL query, provide this one:
+2. The question we want to provide a query for will be `Show online and offline sales per year.` For the SQL query, provide this one:
 
 ```SQL
 SELECT
@@ -97,9 +98,9 @@ ORDER BY
   fiscal_year,
   store_online
 ```
-7. Save the query by clicking the `Save`button. 
+3. Save the query by clicking the `Save` button. 
 
-8. Open a new chat and ask above mentioned query. You notice that for this specific question, the provided query will be executed.
+4. Open a new chat and ask above mentioned query. You notice that for this specific question, the provided query will be executed.
 
 #### Trusted Assets
 
@@ -132,7 +133,7 @@ ORDER BY
 
 ![](./artifacts/Genie_TrustedAsset.png)
 
-### Extend Genies Knowledge with additional data
+**Step 3: Extend Genie's Knowledge with Additional Data**
 
 1. Let's assume you want to separately analyse all products that are Fair Trade certified. Unfortunately, this information is not available anywhere in your data model, but you have a file that lists all these products using their product key. You can download such a file [here](./artifacts/Genie_FairTrade.csv) (the download button in Github is in the top right corner). 
 
@@ -146,7 +147,7 @@ ORDER BY
 
 ![](./artifacts/Genie_FairTradeAnswer.png)
 
-4. (Optional) Review the SQL query that was generated. You will see that the file is joined to the Metric View or used as a filter in a subquery, depending how Genie chooses to create the query.
+5. (Optional) Review the SQL query that was generated. You will see that the file is joined to the Metric View or used as a filter in a subquery, depending how Genie chooses to create the query.
 
 ## What happend next?
 
