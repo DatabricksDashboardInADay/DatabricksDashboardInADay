@@ -1,4 +1,4 @@
-# ☕ Lab 2 [SQL] – SQL Analyst Essentials: Views, Queries & the Assistant
+# ☕ [SQL] SQL Analyst Essentials: Views, Queries & the Assistant
 
 ## 🎯 Learning Objectives
 By the end of this lab, you will:
@@ -8,7 +8,7 @@ By the end of this lab, you will:
 - Use the **Databricks Assistant** to generate, refine, explain, and optimise SQL queries  
 - (Optional) Visually explore an existing **Lakeflow Designer** pipeline without writing Spark code
 
-> **Note:** This is the **SQL Analyst** path for Lab 2. If your facilitator has directed you to the shared track, proceed directly to **Lab 2 – Data Modelling (Metric Views)**. Both paths are fully compatible with Labs 3–4.
+> **Note:** This is a **SQL Analyst** deep dive. If your facilitator has directed you to the shared track, proceed directly to **Lab 2 – Data Modelling (Metric Views)**. Both paths are fully compatible with Labs 3–4.
 
 ## Introduction
 
@@ -199,7 +199,7 @@ The Databricks SQL Editor lets you save queries for later reuse and share them w
 **💡 Why save queries?**
 
 - Saved queries are versioned — you can see edit history.
-- They can be shared with team members or used as the basis for **scheduled queries** and **alerts** (covered in Lab 3 [SQL]).
+- They can be shared with team members or used as the basis for **scheduled queries** and **alerts** (covered in [SQL] Monitoring and Self-Service).
 - They serve as documentation of your analytical work.
 
 ### Databricks Assistant Deep-Dive
@@ -323,7 +323,7 @@ These views and queries form the foundation of your analyst workflow. In the nex
 
 ## What Happens Next?
 
-Proceed to **Lab 3 [SQL] – Monitoring and Self-Service** to productionise your work with scheduled queries, alerts, CSV upload, and the Databricks One experience.
+Proceed to **[SQL] Monitoring and Self-Service** (in the Deep Dives folder) to productionise your work with scheduled queries, alerts, CSV upload, and the Databricks One experience.
 
 After completing the [SQL] labs, continue with:
 - **Lab 2** – Data Modelling (Metric Views)

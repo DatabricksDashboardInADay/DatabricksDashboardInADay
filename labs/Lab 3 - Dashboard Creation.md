@@ -12,7 +12,7 @@ By the end of this lab, you will be able to:
 Your final dashboard should look like this:
 
 <div style="text-align:left;">
-  <img src="./artifacts/Dashboard_Final.png" width="100%">
+  <img src="./artifacts/screenshots/Dashboard_Final.png" width="100%">
 </div>
 
 ## Introduction
@@ -36,7 +36,7 @@ AI/BI Dashboards can be stored as a templates which contain the corporate identi
 4. Click on "Edit Draft" to switch to the **Dashboard Creator** perspective
 
 <div style="text-align:left;">
-  <img src="./artifacts/Dashboard_EditDraft.png" width="50%">
+  <img src="./artifacts/screenshots/Dashboard_EditDraft.png" width="50%">
 </div>
 
 **Step 2: Configure the Metric View as a Data Source**
@@ -47,7 +47,7 @@ Every AI/BI Dashboard must have one or more data sources, which are used to crea
 2. Click on "Add data source", and select the Metric View from Lab 2 as the data source
 
 <div style="text-align:left;">
-  <img src="./artifacts/Dashboard_AddDataSource.png" width="30%">
+  <img src="./artifacts/screenshots/Dashboard_AddDataSource.png" width="30%">
 </div>
 
 **Step 3: Add a Global Filter**
@@ -57,7 +57,7 @@ Global filters are helpful to apply a filter for multiple report pages. We are g
 1. Click on the "Show Global Filters" icon
 
 <div style="text-align:left;">
-  <img src="./artifacts/Dashboard_GlobalFilters.png" width="50%">
+  <img src="./artifacts/screenshots/Dashboard_GlobalFilters.png" width="50%">
 </div>
 
 2. Click on the "+" icon to add a new global filter widget
@@ -67,7 +67,7 @@ Global filters are helpful to apply a filter for multiple report pages. We are g
 6. Change the Default Value from `Jan 01, 2015` to `Dec 31, 2025`, which will become the default for the global filter
 
 <div style="text-align:left;">
-  <img src="./artifacts/Dashboard_GlobalFilters2.png" width="20%">
+  <img src="./artifacts/screenshots/Dashboard_GlobalFilters2.png" width="20%">
 </div>
 
 7. Minimize the global filters by clicking on "Hide Global Filters"
@@ -83,7 +83,7 @@ In this step, you will add page-level filters for store and product to enable in
 1. Click on the `Add a filter` icon
 
 <div style="text-align:left;">
-  <img src="./artifacts/Dashboard_PageFilter.png" width="25%">
+  <img src="./artifacts/screenshots/Dashboard_PageFilter.png" width="25%">
 </div>
 
 2. Select `Multiple values` as the filter type in the widget settings
@@ -95,7 +95,7 @@ In this step, you will add page-level filters for store and product to enable in
 8. Take a moment to explore the filters — click through the dropdowns to familiarize yourself with the available stores and products.
 9. Select `Beans` as the `Category` and notice how the `Subcategory` filter automatically updates to only show relevant options — this is cascading filters in action.
 <div style="text-align:left;">
-  <img src="./artifacts/Dashboard_CascadingFilter.png" width="60%">
+  <img src="./artifacts/screenshots/Dashboard_CascadingFilter.png" width="60%">
 </div>
 
 **Step 5: Add Section Headers**
@@ -121,7 +121,7 @@ Counter visuals allow you to display a key metric for the current period alongsi
 
 1. Click the `Add a visualization` icon to add a new widget to the dashboard
 <div style="text-align:left;">
-  <img src="./artifacts/Dashboard_AddVisualization.png" width="60%">
+  <img src="./artifacts/screenshots/Dashboard_AddVisualization.png" width="60%">
 </div>
 2. Select **`Counter`** as the visualization type
 3. Enable the **Title** checkbox and enter `Net Revenue per Year [$]`
@@ -152,25 +152,25 @@ The Databricks Assistant can generate visuals directly from natural language pro
 1. Click the `Add a visualization` icon to add a new widget to the dashboard
 2. Ask the AI Assistant in the visualization to "_Create a bar chart that shows the net profit over date aggregated by month_"
 <div style="text-align:left;">
-  <img src="./artifacts/Dashboard_VisualPrompt.png" width="60%">
+  <img src="./artifacts/screenshots/Dashboard_VisualPrompt.png" width="60%">
 </div>
 3. Press "Accept" when you are satisfied with the visualization. If not, press "Reject", and refine the prompt.
 
 <div style="text-align:left;">
-  <img src="./artifacts/Dashboard_Accept.png" width="60%">
+  <img src="./artifacts/screenshots/Dashboard_Accept.png" width="60%">
 </div>
 
 4. Change the format of the Net Profit to the type "$" with no decimal places.
 
 <div style="text-align:left;">
-  <img src="./artifacts/Dashboard_YAxisFormat.png" width="30%">
+  <img src="./artifacts/screenshots/Dashboard_YAxisFormat.png" width="30%">
 </div>
 
 5. Rename the axis title to "Net Profit [$]"
 6. To group the sales by store, click on the "+" next to the "Color" field in the widget settings, and choose the value "store_name"
 
 <div style="text-align:left;">
-  <img src="./artifacts/Dashboard_GroupByStore.png" width="30%">
+  <img src="./artifacts/screenshots/Dashboard_GroupByStore.png" width="30%">
 </div>
 
 7. Add the measures "total_cost_of_goods" and "total_net_revenue_usd" as tooltip
@@ -180,7 +180,7 @@ The Databricks Assistant can generate visuals directly from natural language pro
 Your dashboard should look like this:
 
 <div style="text-align:left;">
-  <img src="./artifacts/Dashboard_FinancialHighlights.png" width="100%">
+  <img src="./artifacts/screenshots/Dashboard_FinancialHighlights.png" width="100%">
 </div>
 
 **Step 8: Create a Pie Chart and Explore Cross-Filtering**
@@ -197,7 +197,7 @@ Your dashboard should look like this:
 10. Click on the one of the values of the pie chart, and see how the cross-filtering functionality effects the bar chart
 
 <div style="text-align:left;">
-  <img src="./artifacts/Dashboard_CrossFiltering.png" width="40%">
+  <img src="./artifacts/screenshots/Dashboard_CrossFiltering.png" width="40%">
 </div>
 
 **Step 9: Create a Map Visualization**
@@ -212,7 +212,7 @@ Your dashboard should look like this:
 8. Click on the kebab menu of the map visual and click on `View fullscreen`
 
 <div style="text-align:left;">
-  <img src="./artifacts/Dashboard_MapFullScreen.png" width="30%">
+  <img src="./artifacts/screenshots/Dashboard_MapFullScreen.png" width="30%">
 </div>
 
 **Step 10: Add a Pivot Table for Detailed Sales Breakdown**
@@ -260,7 +260,7 @@ Pivot tables allow you to explore your data across multiple dimensions simultane
 11. Drill into the market report by rightclicking on the value for one store, clicking `drill to`, and `Market Report` 
 
 <div style="text-align:left;">
-  <img src="./artifacts/Dashboard_DrillThrough.png" width="30%">
+  <img src="./artifacts/screenshots/Dashboard_DrillThrough.png" width="30%">
 </div>
 
 12. The filter is propagated to the `Market Report`, and the revenue for each product grouped by day of the week is displayed
@@ -271,7 +271,7 @@ Pivot tables allow you to explore your data across multiple dimensions simultane
 1. Congratulations, the report is ready for production. Click on `Publish` to make the report available for report consumers. 
 
 <div style="text-align:left;">
-  <img src="./artifacts/Dashboard_Publish.png" width="15%">
+  <img src="./artifacts/screenshots/Dashboard_Publish.png" width="15%">
 </div>
 
 2. Select the `Individual data permissions` and click publish
@@ -283,7 +283,7 @@ Pivot tables allow you to explore your data across multiple dimensions simultane
 1. Open the Databricks One UI
 
 <div style="text-align:left;">
-  <img src="./artifacts/Dashboard_DatabricksOne.png" width="15%">
+  <img src="./artifacts/screenshots/Dashboard_DatabricksOne.png" width="15%">
 </div>
 
 2. Search for the report, or click on `Dashboards` to find all available dashboards

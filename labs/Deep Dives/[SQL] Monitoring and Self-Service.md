@@ -1,4 +1,4 @@
-# 🧪 Lab 3 [SQL] – Monitoring and Self-Service: Alerts, Schedules & CSV Upload
+# 🧪 [SQL] Monitoring and Self-Service: Alerts, Schedules & CSV Upload
 
 ## 🎯 Learning Objectives
 By the end of this lab, you will:
@@ -8,13 +8,13 @@ By the end of this lab, you will:
 - Create a view that compares **actual vs. target** revenue  
 - Navigate **Databricks One** to find dashboards, data assets, and Genie from a single experience  
 
-> **Note:** This is the **SQL Analyst** path for Lab 3. If your facilitator has directed you to the shared track, proceed directly to **Lab 2 – Data Modelling (Metric Views)**. Both paths are fully compatible with Labs 2–4.
+> **Note:** This is a **SQL Analyst** deep dive. If your facilitator has directed you to the shared track, proceed directly to **Lab 2 – Data Modelling (Metric Views)**. Both paths are fully compatible with Labs 2–4.
 
 ## Introduction
 
 **Why This Lab?**
 
-In Lab 2 [SQL] you explored data and created reusable views. Now it's time to productionise your work:
+In [SQL] SQL Analyst Essentials you explored data and created reusable views. Now it's time to productionise your work:
 
 - **Scheduled queries** automate recurring reports so you don't have to run them manually every day  
 - **Alerts** monitor your data and notify you when something needs attention — a revenue drop, a data quality issue, or a missed target  
@@ -26,7 +26,7 @@ This is how analysts move from ad-hoc exploration to reliable, monitored workflo
 ## Instructions
 
 Before you start, please verify:
-- You have completed **Lab 2 [SQL]** and the views `vw_monthly_revenue_summary` and `vw_product_performance` exist in Unity Catalog.
+- You have completed **[SQL] SQL Analyst Essentials** and the views `vw_monthly_revenue_summary` and `vw_product_performance` exist in Unity Catalog.
 - Your **SQL Warehouse** (Serverless Starter Warehouse or Pro) is running.
 - The **SQL Editor** is open and connected to your warehouse.
 
@@ -134,7 +134,7 @@ One of the most common analyst workflows is bringing in external reference data 
 
 A sample revenue target file has been provided for this exercise:
 
-**`labs/artifacts/SQL_Store_Revenue_Targets_2025.csv`**
+**`labs/artifacts/[SQL] Monitoring and Self-Service/SQL_Store_Revenue_Targets_2025.csv`**
 
 This file contains monthly revenue targets for each Sunny Bay store in 2025:
 
@@ -239,7 +239,7 @@ ORDER BY month, status DESC, variance_pct ASC;
 **🔍 Try it yourself:**
 
 Think of another CSV file that would be useful to upload. For example:
-- A list of products that are Fair Trade certified (hint: check `labs/artifacts/Genie_FairTrade.csv`)
+- A list of products that are Fair Trade certified (hint: check `labs/artifacts/Lab 4 - BI Meets AI/Genie_FairTrade.csv`)
 - Regional marketing campaign dates and budgets
 - Customer satisfaction survey results by store
 

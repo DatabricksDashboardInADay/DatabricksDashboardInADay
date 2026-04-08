@@ -52,7 +52,7 @@ Before you start, please verify:
 In this step you will load the raw CSV and Parquet files from the Unity Catalog Volume into managed bronze tables.
 
 1. Open the **SQL Editor** in the Databricks sidebar.
-2. Open the notebook **`Create Bronze Tables.dbquery.ipynb`** from the folder `labs/Lab 1 - [SQL] Data Integration and Transformation/` in your workspace. Alternatively, copy the SQL below into a new query tab.
+2. Open the notebook **`Create Bronze Tables.dbquery.ipynb`** from the folder `labs/artifacts/Lab 1 - [SQL] Data Integration and Transformation/` in your workspace. Alternatively, copy the SQL below into a new query tab.
 3. Run the full query. This loads all five tables into the `bronze` schema:
 
 ```sql
@@ -267,7 +267,7 @@ This is a common analyst workflow for bringing in ad-hoc reference data (targets
 
 If you run into errors you can't resolve, you can review the full SQL notebooks in the folder:
 
-**`labs/Lab 1 - [SQL] Data Integration and Transformation/`**
+**`labs/artifacts/Lab 1 - [SQL] Data Integration and Transformation/`**
 
 - `Create Bronze Tables.dbquery.ipynb`
 - `Create Silver Tables.dbquery.ipynb`
