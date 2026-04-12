@@ -1,5 +1,7 @@
 # Databricks Dashboards in a Day
 
+A hands-on workshop covering the full Databricks BI stack — from data integration to dashboards and AI-powered analytics. Use it for instructor-led trainings or self-paced learning. This project is open source — contributions and feedback are welcome!
+
 <div style="text-align:left;">
   <img src="./labs/artifacts/screenshots/Dashboard_Final.png" width="100%">
 </div>
