@@ -43,8 +43,8 @@ SELECT
     ROUND(SUM(fcs.gross_revenue_usd), 2) AS total_revenue_usd,
     ROUND(SUM(fcs.net_revenue_usd), 2) AS total_net_revenue_usd,
     COUNT(*) AS total_orders
-FROM sunny_bay_roastery.gold.fact_coffee_sales fcs
-JOIN sunny_bay_roastery.gold.dim_store ds
+FROM sunny_bay_roastery.gold.fact_coffee_sales_sql fcs
+JOIN sunny_bay_roastery.gold.dim_store_sql ds
   ON fcs.store_key = ds.store_key
 GROUP BY ds.store_name
 ORDER BY total_revenue_usd DESC;
@@ -60,8 +60,8 @@ SELECT
     dp.product_category,
     ROUND(SUM(fcs.gross_revenue_usd), 2) AS total_revenue_usd,
     SUM(fcs.quantity_sold) AS total_units_sold
-FROM sunny_bay_roastery.gold.fact_coffee_sales fcs
-JOIN sunny_bay_roastery.gold.dim_product dp
+FROM sunny_bay_roastery.gold.fact_coffee_sales_sql fcs
+JOIN sunny_bay_roastery.gold.dim_product_sql dp
   ON fcs.product_key = dp.product_key
 GROUP BY dp.product_name, dp.product_category
 ORDER BY total_revenue_usd DESC
@@ -78,8 +78,8 @@ SELECT
     dd.day_of_week,
     ROUND(SUM(fcs.gross_revenue_usd), 2) AS total_revenue_usd,
     COUNT(*) AS total_orders
-FROM sunny_bay_roastery.gold.fact_coffee_sales fcs
-JOIN sunny_bay_roastery.gold.dim_date dd
+FROM sunny_bay_roastery.gold.fact_coffee_sales_sql fcs
+JOIN sunny_bay_roastery.gold.dim_date_sql dd
   ON fcs.date_key = dd.date_key
 GROUP BY dd.day_name, dd.day_of_week
 ORDER BY dd.day_of_week;
@@ -94,8 +94,8 @@ SELECT
     dd.year,
     ROUND(SUM(fcs.gross_revenue_usd), 2) AS annual_revenue_usd,
     COUNT(*) AS total_orders
-FROM sunny_bay_roastery.gold.fact_coffee_sales fcs
-JOIN sunny_bay_roastery.gold.dim_date dd
+FROM sunny_bay_roastery.gold.fact_coffee_sales_sql fcs
+JOIN sunny_bay_roastery.gold.dim_date_sql dd
   ON fcs.date_key = dd.date_key
 GROUP BY dd.year
 ORDER BY dd.year;
@@ -129,10 +129,10 @@ SELECT
     ROUND(SUM(fcs.cost_of_goods_usd), 2) AS monthly_cogs_usd,
     ROUND(SUM(fcs.gross_revenue_usd) - SUM(fcs.cost_of_goods_usd) - SUM(fcs.vat_usd), 2) AS monthly_profit_usd,
     COUNT(*) AS monthly_orders
-FROM sunny_bay_roastery.gold.fact_coffee_sales fcs
-JOIN sunny_bay_roastery.gold.dim_date dd
+FROM sunny_bay_roastery.gold.fact_coffee_sales_sql fcs
+JOIN sunny_bay_roastery.gold.dim_date_sql dd
   ON fcs.date_key = dd.date_key
-JOIN sunny_bay_roastery.gold.dim_store ds
+JOIN sunny_bay_roastery.gold.dim_store_sql ds
   ON fcs.store_key = ds.store_key
 GROUP BY dd.year, dd.month, ds.store_name, ds.is_online;
 ```
@@ -163,8 +163,8 @@ SELECT
     SUM(fcs.quantity_sold)                                          AS total_units_sold,
     ROUND(SUM(fcs.gross_revenue_usd) / NULLIF(SUM(fcs.quantity_sold), 0), 2) AS avg_revenue_per_unit,
     RANK() OVER (ORDER BY SUM(fcs.gross_revenue_usd) DESC)         AS revenue_rank
-FROM sunny_bay_roastery.gold.fact_coffee_sales fcs
-JOIN sunny_bay_roastery.gold.dim_product dp
+FROM sunny_bay_roastery.gold.fact_coffee_sales_sql fcs
+JOIN sunny_bay_roastery.gold.dim_product_sql dp
   ON fcs.product_key = dp.product_key
 GROUP BY dp.product_name, dp.product_category, dp.product_subcategory;
 ```
@@ -222,8 +222,8 @@ The **Databricks Assistant** is an AI-powered copilot built into the SQL Editor.
 
 ```sql
 SELECT store_name, SUM(gross_revenue_usd) AS revenue
-FROM sunny_bay_roastery.gold.fact_coffee_sales fcs
-JOIN sunny_bay_roastery.gold.dim_store ds ON fcs.store_key = ds.store_key
+FROM sunny_bay_roastery.gold.fact_coffee_sales_sql fcs
+JOIN sunny_bay_roastery.gold.dim_store_sql ds ON fcs.store_key = ds.store_key
 GROUP BY store_name;
 ```
 
@@ -248,8 +248,8 @@ SELECT
       (SUM(fcs.gross_revenue_usd) - LAG(SUM(fcs.gross_revenue_usd)) OVER (ORDER BY dd.year, dd.month))
       / NULLIF(LAG(SUM(fcs.gross_revenue_usd)) OVER (ORDER BY dd.year, dd.month), 0) * 100
     , 2) AS mom_growth_pct
-FROM sunny_bay_roastery.gold.fact_coffee_sales fcs
-JOIN sunny_bay_roastery.gold.dim_date dd ON fcs.date_key = dd.date_key
+FROM sunny_bay_roastery.gold.fact_coffee_sales_sql fcs
+JOIN sunny_bay_roastery.gold.dim_date_sql dd ON fcs.date_key = dd.date_key
 GROUP BY dd.year, dd.month
 ORDER BY dd.year, dd.month;
 ```
@@ -270,9 +270,9 @@ SELECT * FROM (
     product_name,
     store_name,
     SUM(gross_revenue_usd) AS total_rev
-  FROM sunny_bay_roastery.gold.fact_coffee_sales fcs
-  JOIN sunny_bay_roastery.gold.dim_product dp ON fcs.product_key = dp.product_key
-  JOIN sunny_bay_roastery.gold.dim_store ds ON fcs.store_key = ds.store_key
+  FROM sunny_bay_roastery.gold.fact_coffee_sales_sql fcs
+  JOIN sunny_bay_roastery.gold.dim_product_sql dp ON fcs.product_key = dp.product_key
+  JOIN sunny_bay_roastery.gold.dim_store_sql ds ON fcs.store_key = ds.store_key
   GROUP BY product_name, store_name
 )
 WHERE total_rev > 10000

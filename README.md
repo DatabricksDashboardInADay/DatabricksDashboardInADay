@@ -32,7 +32,7 @@ Sunny Bay uses **Databricks** for analytics; you will too.
 ## Step 3 – Choose Your Starting Point
 
 ### ✅ Instructions
-The labs are modular — you can start from any lab. Lab 0 pre-deploys all necessary assets (pipelines, Metric View, dashboards), so feel free to skip ahead to the topics that interest you most. Lab 1 comes in two flavors: **SDP** (Spark Declarative Pipelines) and **SQL**. Both produce the same gold tables, so Labs 2–4 work identically regardless of which you choose.
+The labs are modular — you can start from any lab. Lab 0 pre-deploys all necessary assets (pipelines, Metric View, dashboards), so feel free to skip ahead to the topics that interest you most. Lab 1 comes in two flavors: **SDP** (Spark Declarative Pipelines) and **SQL**. The SQL path uses a `_sql` suffix on its table names to avoid conflicts with SDP streaming tables. Labs 2–4 use the SDP-created gold tables, which are always available after Lab 0.
 
 | Lab | Topic | Guide |
 |-----|-------|-------|

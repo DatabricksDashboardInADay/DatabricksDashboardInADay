@@ -9,13 +9,11 @@ By the end of this lab, you will:
 - Create an aggregated gold table for reporting  
 - Verify results using Unity Catalog and the Databricks SQL Editor
 
-> **Note:** This is the **SQL Analyst** path for Lab 1. If your facilitator has directed you to the Spark Declarative Pipelines (SDP) path, use **Lab 1 – Data Integration and Transformation** instead. Both paths produce the same gold tables and are fully compatible with Labs 2–4.
-
 ## Introduction
 
 **Why a SQL-Only Path?**
 
-Many analysts work primarily in SQL and may not use Spark notebooks or declarative pipelines day-to-day. This lab provides a familiar SQL workflow that achieves the same medallion-architecture outcomes as the SDP path:
+Many analysts work primarily in SQL and may not use Spark notebooks or Spark Declarative Pipelines day-to-day. This lab provides a familiar SQL workflow that achieves the same medallion-architecture outcomes as the SDP path:
 
 - All transformations are standard SQL — no Python, no Spark APIs  
 - You run queries directly in the **Databricks SQL Editor** attached to a **SQL Warehouse**  
@@ -27,9 +25,9 @@ The medallion architecture organises data into three layers:
 
 | Layer | Purpose | Tables in this lab |
 |-------|---------|-------------------|
-| **Bronze** | Raw ingestion — load files as-is into managed tables | `dim_customer`, `dim_date`, `dim_product`, `dim_store`, `fact_coffee_sales` |
+| **Bronze** | Raw ingestion — load files as-is into managed tables | `dim_customer_sql`, `dim_date_sql`, `dim_product_sql`, `dim_store_sql`, `fact_coffee_sales_sql` |
 | **Silver** | Cleansed — remove invalid records, standardise types | Same table names in the `silver` schema |
-| **Gold** | Business-ready — add calculated metrics, join facts to dimensions | `fact_coffee_sales` (enriched), `dim_*` tables, `total_revenue_by_year` |
+| **Gold** | Business-ready — add calculated metrics, join facts to dimensions | `fact_coffee_sales_sql` (enriched), `dim_*_sql` tables, `total_revenue_by_year_sql` |
 
 ## Instructions
 
@@ -57,7 +55,7 @@ In this step you will load the raw CSV and Parquet files from the Unity Catalog 
 
 ```sql
 -- Customer dimension (CSV)
-CREATE OR REPLACE TABLE sunny_bay_roastery.bronze.dim_customer AS
+CREATE OR REPLACE TABLE sunny_bay_roastery.bronze.dim_customer_sql AS
 SELECT * FROM read_files(
   '/Volumes/sunny_bay_roastery/bronze/raw/dim_customer/',
   format => 'csv',
@@ -66,7 +64,7 @@ SELECT * FROM read_files(
 );
 
 -- Date dimension (CSV)
-CREATE OR REPLACE TABLE sunny_bay_roastery.bronze.dim_date AS
+CREATE OR REPLACE TABLE sunny_bay_roastery.bronze.dim_date_sql AS
 SELECT * FROM read_files(
   '/Volumes/sunny_bay_roastery/bronze/raw/dim_date/',
   format => 'csv',
@@ -75,7 +73,7 @@ SELECT * FROM read_files(
 );
 
 -- Product dimension (CSV)
-CREATE OR REPLACE TABLE sunny_bay_roastery.bronze.dim_product AS
+CREATE OR REPLACE TABLE sunny_bay_roastery.bronze.dim_product_sql AS
 SELECT * FROM read_files(
   '/Volumes/sunny_bay_roastery/bronze/raw/dim_product/',
   format => 'csv',
@@ -84,7 +82,7 @@ SELECT * FROM read_files(
 );
 
 -- Store dimension (CSV)
-CREATE OR REPLACE TABLE sunny_bay_roastery.bronze.dim_store AS
+CREATE OR REPLACE TABLE sunny_bay_roastery.bronze.dim_store_sql AS
 SELECT * FROM read_files(
   '/Volumes/sunny_bay_roastery/bronze/raw/dim_store/',
   format => 'csv',
@@ -93,7 +91,7 @@ SELECT * FROM read_files(
 );
 
 -- Coffee sales fact (Parquet)
-CREATE OR REPLACE TABLE sunny_bay_roastery.bronze.fact_coffee_sales AS
+CREATE OR REPLACE TABLE sunny_bay_roastery.bronze.fact_coffee_sales_sql AS
 SELECT * FROM read_files(
   '/Volumes/sunny_bay_roastery/bronze/raw/fact_coffee_sales/',
   format => 'parquet'
@@ -118,24 +116,24 @@ Now you will promote the bronze data into the silver layer, applying a basic dat
 
 ```sql
 -- Date dimension
-CREATE OR REPLACE TABLE sunny_bay_roastery.silver.dim_date AS
-SELECT * FROM sunny_bay_roastery.bronze.dim_date;
+CREATE OR REPLACE TABLE sunny_bay_roastery.silver.dim_date_sql AS
+SELECT * FROM sunny_bay_roastery.bronze.dim_date_sql;
 
 -- Store dimension
-CREATE OR REPLACE TABLE sunny_bay_roastery.silver.dim_store AS
-SELECT * FROM sunny_bay_roastery.bronze.dim_store;
+CREATE OR REPLACE TABLE sunny_bay_roastery.silver.dim_store_sql AS
+SELECT * FROM sunny_bay_roastery.bronze.dim_store_sql;
 
 -- Customer dimension
-CREATE OR REPLACE TABLE sunny_bay_roastery.silver.dim_customer AS
-SELECT * FROM sunny_bay_roastery.bronze.dim_customer;
+CREATE OR REPLACE TABLE sunny_bay_roastery.silver.dim_customer_sql AS
+SELECT * FROM sunny_bay_roastery.bronze.dim_customer_sql;
 
 -- Product dimension
-CREATE OR REPLACE TABLE sunny_bay_roastery.silver.dim_product AS
-SELECT * FROM sunny_bay_roastery.bronze.dim_product;
+CREATE OR REPLACE TABLE sunny_bay_roastery.silver.dim_product_sql AS
+SELECT * FROM sunny_bay_roastery.bronze.dim_product_sql;
 
 -- Coffee sales fact (filter invalid quantities)
-CREATE OR REPLACE TABLE sunny_bay_roastery.silver.fact_coffee_sales AS
-SELECT * FROM sunny_bay_roastery.bronze.fact_coffee_sales
+CREATE OR REPLACE TABLE sunny_bay_roastery.silver.fact_coffee_sales_sql AS
+SELECT * FROM sunny_bay_roastery.bronze.fact_coffee_sales_sql
 WHERE quantity_sold > 0;
 ```
 
@@ -153,10 +151,10 @@ Run this query to see how many rows were filtered out:
 
 ```sql
 SELECT
-  (SELECT COUNT(*) FROM sunny_bay_roastery.bronze.fact_coffee_sales) AS bronze_rows,
-  (SELECT COUNT(*) FROM sunny_bay_roastery.silver.fact_coffee_sales) AS silver_rows,
-  (SELECT COUNT(*) FROM sunny_bay_roastery.bronze.fact_coffee_sales)
-    - (SELECT COUNT(*) FROM sunny_bay_roastery.silver.fact_coffee_sales) AS rows_removed;
+  (SELECT COUNT(*) FROM sunny_bay_roastery.bronze.fact_coffee_sales_sql) AS bronze_rows,
+  (SELECT COUNT(*) FROM sunny_bay_roastery.silver.fact_coffee_sales_sql) AS silver_rows,
+  (SELECT COUNT(*) FROM sunny_bay_roastery.bronze.fact_coffee_sales_sql)
+    - (SELECT COUNT(*) FROM sunny_bay_roastery.silver.fact_coffee_sales_sql) AS rows_removed;
 ```
 
 ### Create Gold Tables
@@ -168,20 +166,20 @@ The gold layer joins fact data with dimension tables and adds calculated busines
 
 ```sql
 -- Dimension tables promoted to gold
-CREATE OR REPLACE TABLE sunny_bay_roastery.gold.dim_date AS
-SELECT * FROM sunny_bay_roastery.silver.dim_date;
+CREATE OR REPLACE TABLE sunny_bay_roastery.gold.dim_date_sql AS
+SELECT * FROM sunny_bay_roastery.silver.dim_date_sql;
 
-CREATE OR REPLACE TABLE sunny_bay_roastery.gold.dim_store AS
-SELECT * FROM sunny_bay_roastery.silver.dim_store;
+CREATE OR REPLACE TABLE sunny_bay_roastery.gold.dim_store_sql AS
+SELECT * FROM sunny_bay_roastery.silver.dim_store_sql;
 
-CREATE OR REPLACE TABLE sunny_bay_roastery.gold.dim_customer AS
-SELECT * FROM sunny_bay_roastery.silver.dim_customer;
+CREATE OR REPLACE TABLE sunny_bay_roastery.gold.dim_customer_sql AS
+SELECT * FROM sunny_bay_roastery.silver.dim_customer_sql;
 
-CREATE OR REPLACE TABLE sunny_bay_roastery.gold.dim_product AS
-SELECT * FROM sunny_bay_roastery.silver.dim_product;
+CREATE OR REPLACE TABLE sunny_bay_roastery.gold.dim_product_sql AS
+SELECT * FROM sunny_bay_roastery.silver.dim_product_sql;
 
 -- Enriched fact table with business metrics
-CREATE OR REPLACE TABLE sunny_bay_roastery.gold.fact_coffee_sales AS
+CREATE OR REPLACE TABLE sunny_bay_roastery.gold.fact_coffee_sales_sql AS
 SELECT
     fcs.*,
     dp.list_price_usd * fcs.quantity_sold                       AS gross_revenue_usd,
@@ -189,18 +187,18 @@ SELECT
     ds.tax_rate * dp.list_price_usd * fcs.quantity_sold         AS vat_usd,
     dp.cost_of_goods_usd * fcs.quantity_sold                    AS cost_of_goods_usd,
     (dp.list_price_usd * fcs.quantity_sold) * 1.1               AS gross_revenue_eur
-FROM sunny_bay_roastery.silver.fact_coffee_sales fcs
-JOIN sunny_bay_roastery.silver.dim_product dp
+FROM sunny_bay_roastery.silver.fact_coffee_sales_sql fcs
+JOIN sunny_bay_roastery.silver.dim_product_sql dp
   ON fcs.product_key = dp.product_key
-JOIN sunny_bay_roastery.silver.dim_store ds
+JOIN sunny_bay_roastery.silver.dim_store_sql ds
   ON fcs.store_key = ds.store_key;
 
 -- Aggregated revenue by store
-CREATE OR REPLACE TABLE sunny_bay_roastery.gold.total_revenue_by_year AS
+CREATE OR REPLACE TABLE sunny_bay_roastery.gold.total_revenue_by_year_sql AS
 SELECT
     store_key AS store_key,
     SUM(gross_revenue_usd) AS total_gross_revenue_usd
-FROM sunny_bay_roastery.gold.fact_coffee_sales
+FROM sunny_bay_roastery.gold.fact_coffee_sales_sql
 GROUP BY store_key;
 ```
 
@@ -208,7 +206,7 @@ GROUP BY store_key;
 
 **💡 What just happened?**
 
-The enriched `fact_coffee_sales` table now contains five new business columns:
+The enriched `fact_coffee_sales_sql` table now contains five new business columns:
 
 | Column | Formula | Purpose |
 |--------|---------|---------|
@@ -218,7 +216,7 @@ The enriched `fact_coffee_sales` table now contains five new business columns:
 | `cost_of_goods_usd` | `cost_of_goods_usd × quantity_sold` | Total COGS |
 | `gross_revenue_eur` | `gross_revenue_usd × 1.1` | EUR conversion (fixed rate) |
 
-The `total_revenue_by_year` table provides a pre-aggregated summary for quick store-level reporting.
+The `total_revenue_by_year_sql` table provides a pre-aggregated summary for quick store-level reporting.
 
 **🔍 Try it yourself — Verify the gold data:**
 
@@ -231,8 +229,8 @@ SELECT
     ROUND(SUM(fcs.net_revenue_usd), 2) AS total_net_revenue_usd,
     ROUND(SUM(fcs.cost_of_goods_usd), 2) AS total_cogs_usd,
     COUNT(*) AS total_orders
-FROM sunny_bay_roastery.gold.fact_coffee_sales fcs
-JOIN sunny_bay_roastery.gold.dim_store ds
+FROM sunny_bay_roastery.gold.fact_coffee_sales_sql fcs
+JOIN sunny_bay_roastery.gold.dim_store_sql ds
   ON fcs.store_key = ds.store_key
 GROUP BY ds.store_name
 ORDER BY total_revenue_usd DESC;
@@ -283,10 +281,11 @@ These contain the complete, tested SQL for each layer.
 | **Authoring** | SQL Editor / `.dbquery.ipynb` notebooks | `.sql` files in bundle |
 | **Data quality** | `WHERE` clause filtering | `CONSTRAINT ... EXPECT` declarations |
 | **Table type** | Managed Delta tables (`CREATE OR REPLACE TABLE`) | Streaming tables + materialized views |
+| **Table names** | `*_sql` suffix (e.g. `fact_coffee_sales_sql`) | Original names (e.g. `fact_coffee_sales`) |
 | **Orchestration** | Manual execution (or scheduled queries) | Automated pipeline with dependency tracking |
 | **Best for** | Ad-hoc analysis, analyst self-service | Production ETL, continuous processing |
 
-Both paths produce identical gold-layer table names (`dim_date`, `dim_store`, `dim_customer`, `dim_product`, `fact_coffee_sales`, `total_revenue_by_year`) so Labs 2–4 work the same regardless of which path you chose.
+The SQL path uses a `_sql` suffix on all table names (e.g. `fact_coffee_sales_sql`) so they do not conflict with the streaming tables created by the SDP pipeline. Labs 2–4 use the SDP-created gold tables, which are always available after Lab 0.
 
 ## What Happens Next?
 
