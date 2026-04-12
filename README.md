@@ -49,5 +49,5 @@ Deep dives are standalone labs that go deeper into a specific topic. They can be
 
 | Deep Dive | What to Expect | Prerequisite |
 |-----------|---------------|--------------|
-| **[SQL] SQL Analyst Essentials** ([guide](labs/Deep%20Dives/%5BSQL%5D%20SQL%20Analyst%20Essentials.md)) | Explore data with ad-hoc queries, create reusable SQL views, and use the Databricks Assistant to generate and optimise SQL. | Lab 1 [SQL] |
+| **[SQL] SQL Analyst Essentials** ([guide](labs/Deep%20Dives/%5BSQL%5D%20SQL%20Analyst%20Essentials.md)) | Explore data with ad-hoc queries, create reusable SQL views, and use Genie Code to generate and optimise SQL. | Lab 1 [SQL] |
 | **[SQL] Monitoring and Self-Service** ([guide](labs/Deep%20Dives/%5BSQL%5D%20Monitoring%20and%20Self-Service.md)) | Schedule recurring queries, set up SQL alerts, upload CSV data for self-service analysis, and explore Databricks One. | [SQL] SQL Analyst Essentials |

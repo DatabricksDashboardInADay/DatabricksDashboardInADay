@@ -147,7 +147,7 @@ Counter visuals allow you to display a key metric for the current period alongsi
 
 **Step 7: Create Your First AI-Assisted Bar Chart**
 
-The Databricks Assistant can generate visuals directly from natural language prompts.
+Genie Code can generate visuals directly from natural language prompts.
 
 1. Click the `Add a visualization` icon to add a new widget to the dashboard
 2. Ask the AI Assistant in the visualization to "_Create a bar chart that shows the net profit over date aggregated by month_"

@@ -1,11 +1,11 @@
-# ☕ [SQL] SQL Analyst Essentials: Views, Queries & the Assistant
+# ☕ [SQL] SQL Analyst Essentials: Views, Queries & Genie Code
 
 ## 🎯 Learning Objectives
 By the end of this lab, you will:
 - Run exploratory queries against the gold layer to validate and understand the data you built in Lab 1 [SQL]  
 - Create reusable **SQL Views** that encapsulate common business questions  
 - **Save and organise** queries in the Databricks SQL Editor  
-- Use the **Databricks Assistant** to generate, refine, explain, and optimise SQL queries  
+- Use **Genie Code** to generate, refine, explain, and optimise SQL queries  
 - (Optional) Visually explore an existing **Lakeflow Designer** pipeline without writing Spark code
 
 > **Note:** This is a **SQL Analyst** deep dive. If your facilitator has directed you to the shared track, proceed directly to **Lab 2 – Data Modelling (Metric Views)**. Both paths are fully compatible with Labs 3–4.
@@ -18,7 +18,7 @@ In Lab 1 [SQL] you built a complete medallion architecture using pure SQL. Now i
 
 - Explore the data with ad-hoc queries to answer business questions  
 - Wrap repeatable logic into views so others can reuse your work  
-- Leverage the Databricks Assistant to accelerate and learn as you go  
+- Leverage Genie Code to accelerate and learn as you go  
 
 This mirrors the "day in the life of a SQL analyst" workflow — start with questions, promote answers into reusable assets, and use AI to move faster.
 
@@ -202,13 +202,13 @@ The Databricks SQL Editor lets you save queries for later reuse and share them w
 - They can be shared with team members or used as the basis for **scheduled queries** and **alerts** (covered in [SQL] Monitoring and Self-Service).
 - They serve as documentation of your analytical work.
 
-### Databricks Assistant Deep-Dive
+### Genie Code Deep-Dive
 
-The **Databricks Assistant** is an AI-powered copilot built into the SQL Editor. It can generate queries, explain existing ones, debug errors, and suggest optimisations — all using the table and column metadata from Unity Catalog.
+**Genie Code** is an AI-powered copilot built into the SQL Editor. It can generate queries, explain existing ones, debug errors, and suggest optimisations — all using the table and column metadata from Unity Catalog.
 
 #### Exercise 1: Generate a Query from Natural Language
 
-1. In the SQL Editor, click the **Assistant** icon (or press `Cmd+I` / `Ctrl+I`).
+1. In the SQL Editor, click the **Genie Code** icon (or press `Cmd+I` / `Ctrl+I`).
 2. Type the following prompt:
 
 > *"Show me the monthly profit trend for the online store only, for the years 2023 and 2024"*
@@ -227,11 +227,11 @@ JOIN sunny_bay_roastery.gold.dim_store_sql ds ON fcs.store_key = ds.store_key
 GROUP BY store_name;
 ```
 
-2. Select the query text, open the Assistant, and ask:
+2. Select the query text, open Genie Code, and ask:
 
 > *"Add a column showing each store's percentage of total revenue, and order by revenue descending"*
 
-3. Review the Assistant's suggestion. It should add a window function like `SUM(...) OVER ()` to compute the total, then divide.
+3. Review the Genie Code suggestion. It should add a window function like `SUM(...) OVER ()` to compute the total, then divide.
 4. Accept or modify the suggestion, then run the query.
 
 #### Exercise 3: Explain an Unfamiliar Query
@@ -254,11 +254,11 @@ GROUP BY dd.year, dd.month
 ORDER BY dd.year, dd.month;
 ```
 
-2. Select the entire query, open the Assistant, and ask:
+2. Select the entire query, open Genie Code, and ask:
 
 > *"Explain this query step by step"*
 
-3. Read the explanation. The Assistant should identify the `LAG()` window function, the month-over-month growth calculation, and the `NULLIF` guard against division by zero.
+3. Read the explanation. Genie Code should identify the `LAG()` window function, the month-over-month growth calculation, and the `NULLIF` guard against division by zero.
 
 #### Exercise 4: Optimise a Query
 
@@ -279,17 +279,17 @@ WHERE total_rev > 10000
 ORDER BY total_rev DESC;
 ```
 
-2. Select the query, open the Assistant, and ask:
+2. Select the query, open Genie Code, and ask:
 
 > *"Can you simplify this query and suggest any performance improvements?"*
 
-3. The Assistant should suggest using a `HAVING` clause instead of the outer `SELECT * FROM (...)` pattern, and may recommend selecting only needed columns instead of `SELECT *`.
+3. Genie Code should suggest using a `HAVING` clause instead of the outer `SELECT * FROM (...)` pattern, and may recommend selecting only needed columns instead of `SELECT *`.
 
-**💡 Tips for working with the Assistant:**
+**💡 Tips for working with Genie Code:**
 
-- The Assistant uses Unity Catalog metadata, so it knows your table names, column types, and relationships.
+- Genie Code uses Unity Catalog metadata, so it knows your table names, column types, and relationships.
 - Be specific in your prompts — mention table names, time ranges, and expected output format.
-- Always review generated SQL before running it. The Assistant is a copilot, not autopilot.
+- Always review generated SQL before running it. Genie Code is a copilot, not autopilot.
 
 ### Explore Lakeflow Designer (Optional)
 
@@ -317,7 +317,7 @@ You have now:
 - Explored the gold data with ad-hoc queries
 - Created two reusable views (`vw_monthly_revenue_summary`, `vw_product_performance`)
 - Saved and organised queries in the SQL Editor
-- Used the Databricks Assistant to generate, refine, explain, and optimise SQL
+- Used Genie Code to generate, refine, explain, and optimise SQL
 
 These views and queries form the foundation of your analyst workflow. In the next lab, you will learn how to **schedule queries**, set up **alerts** for automated monitoring, and **upload external data** (like budget targets) for self-service analysis.
 

@@ -236,19 +236,19 @@ GROUP BY ds.store_name
 ORDER BY total_revenue_usd DESC;
 ```
 
-### Explore with the Databricks Assistant (Optional)
+### Explore with Genie Code (Optional)
 
-The **Databricks Assistant** can help you write and refine SQL queries interactively. Try the following:
+**Genie Code** can help you write and refine SQL queries interactively. Try the following:
 
-1. In the SQL Editor, click on the **Assistant** icon (or press `Cmd+I` / `Ctrl+I`).
-2. Ask the Assistant: *"Show me the top 5 products by gross revenue in 2024"*
+1. In the SQL Editor, click on the **Genie Code** icon (or press `Cmd+I` / `Ctrl+I`).
+2. Ask Genie Code: *"Show me the top 5 products by gross revenue in 2024"*
 3. Review the generated SQL, run it, and inspect the results.
 4. Try follow-up questions:
    - *"Now break that down by store"*
    - *"Add the cost of goods and calculate profit margin as a percentage"*
    - *"Which day of the week has the highest average order value?"*
 
-The Assistant uses the table and column metadata from Unity Catalog. Because your gold tables have clear names and standard column conventions, it can generate accurate queries without additional context.
+Genie Code uses the table and column metadata from Unity Catalog. Because your gold tables have clear names and standard column conventions, it can generate accurate queries without additional context.
 
 ### Upload and Explore a CSV File (Optional)
 
