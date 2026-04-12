@@ -30,7 +30,7 @@ Before you start, please verify:
 - Your **SQL Warehouse** (Serverless Starter Warehouse or Pro) is running.
 - The **SQL Editor** is open and connected to your warehouse.
 
-### Schedule a Recurring Query
+**Step 1: Schedule a Recurring Query**
 
 Scheduled queries run automatically at set intervals and can notify you when results are ready. You will schedule a monthly revenue summary to run daily.
 
@@ -73,7 +73,7 @@ ORDER BY month DESC, store_name;
 - Scheduled queries are ideal for daily/weekly reports, data freshness checks, and KPI monitoring.
 - You can pause or delete the schedule at any time from the query settings.
 
-### Create a SQL Alert
+**Step 2: Create a SQL Alert**
 
 SQL Alerts monitor the result of a query and trigger a notification when a condition is met. You will create an alert that fires when any store's monthly revenue falls below a threshold.
 
@@ -126,7 +126,7 @@ This query returns rows only when a store's current-month revenue is below $50,0
 
 Create a second alert that monitors product performance. For example: *"Alert me if any product's total units sold drops below 100 in the current month."* Use the `vw_product_performance` view or write a new query.
 
-### Upload a CSV File and Explore Self-Service Data
+**Step 3: Upload a CSV File and Explore Self-Service Data**
 
 One of the most common analyst workflows is bringing in external reference data — budgets, targets, competitor benchmarks, or ad-hoc lookup files — and joining it to existing enterprise data. Databricks makes this simple with **file upload to Unity Catalog**.
 
@@ -243,7 +243,7 @@ Think of another CSV file that would be useful to upload. For example:
 - Regional marketing campaign dates and budgets
 - Customer satisfaction survey results by store
 
-### Discover Databricks One
+**Step 4: Discover Databricks One**
 
 **Databricks One** is the unified home experience that brings together dashboards, data assets, queries, Genie spaces, and more in a single searchable interface. As a SQL analyst, this is your starting point for finding and consuming insights.
 

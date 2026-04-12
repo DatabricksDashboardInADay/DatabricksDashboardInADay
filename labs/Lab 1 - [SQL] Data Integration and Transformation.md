@@ -37,7 +37,7 @@ Before you start, please verify:
 
 > **Note:** All queries in the SQL labs use the default catalog name `sunny_bay_roastery`. If your facilitator configured a different catalog name in Lab 0, replace `sunny_bay_roastery` with your catalog name throughout.
 
-### Connect to a SQL Warehouse
+**Step 1: Connect to a SQL Warehouse**
 
 1. In the Databricks sidebar, click **SQL Warehouses**.
 2. If the **Serverless Starter Warehouse** is available, start it (or confirm it is running).
@@ -45,7 +45,7 @@ Before you start, please verify:
 4. Open the **SQL Editor** from the sidebar — this is where you will run all queries in this lab.
 5. In the top-right of the SQL Editor, confirm your warehouse is selected as the compute target.
 
-### Create Bronze Tables
+**Step 2: Create Bronze Tables**
 
 In this step you will load the raw CSV and Parquet files from the Unity Catalog Volume into managed bronze tables.
 
@@ -107,7 +107,7 @@ SELECT * FROM read_files(
 - Parquet files are self-describing — no additional options are needed.
 - Each `CREATE OR REPLACE TABLE` creates a managed Delta table in the `bronze` schema.
 
-### Create Silver Tables
+**Step 3: Create Silver Tables**
 
 Now you will promote the bronze data into the silver layer, applying a basic data quality filter to remove invalid sales records.
 
@@ -157,7 +157,7 @@ SELECT
     - (SELECT COUNT(*) FROM sunny_bay_roastery.silver.fact_coffee_sales_sql) AS rows_removed;
 ```
 
-### Create Gold Tables
+**Step 4: Create Gold Tables**
 
 The gold layer joins fact data with dimension tables and adds calculated business metrics.
 
@@ -236,7 +236,7 @@ GROUP BY ds.store_name
 ORDER BY total_revenue_usd DESC;
 ```
 
-### Explore with Genie Code (Optional)
+**Step 5: Explore with Genie Code (Optional)**
 
 **Genie Code** can help you write and refine SQL queries interactively. Try the following:
 
@@ -250,7 +250,7 @@ ORDER BY total_revenue_usd DESC;
 
 Genie Code uses the table and column metadata from Unity Catalog. Because your gold tables have clear names and standard column conventions, it can generate accurate queries without additional context.
 
-### Upload and Explore a CSV File (Optional)
+**Step 6: Upload and Explore a CSV File (Optional)**
 
 Databricks allows you to upload CSV or Excel files directly and query them alongside your existing data.
 

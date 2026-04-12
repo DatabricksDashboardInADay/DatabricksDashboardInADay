@@ -29,7 +29,7 @@ Before you start, please verify:
 - Your **SQL Warehouse** (Serverless Starter Warehouse or Pro) is running.
 - The **SQL Editor** is open and connected to your warehouse.
 
-### Explore the Gold Layer with Ad-Hoc Queries
+**Step 1: Explore the Gold Layer with Ad-Hoc Queries**
 
 In this step you will write a few queries to explore the gold data and answer business questions for Sunny Bay Roastery. Run each query in the **SQL Editor**.
 
@@ -109,7 +109,7 @@ ORDER BY dd.year;
 
 Take a moment to look at the results. Can you spot the COVID-19 impact in 2020–2022? Which store surprises you?
 
-### Create Reusable SQL Views
+**Step 2: Create Reusable SQL Views**
 
 Ad-hoc queries are great for exploration, but business users need consistent, repeatable reports. **SQL Views** let you wrap a query into a reusable object that anyone with access can query by name.
 
@@ -186,7 +186,7 @@ ORDER BY revenue_rank;
 
 Create a third view of your own design. For example, a `vw_store_daily_summary` that shows daily order counts and revenue per store. What would Mr. Bean want to see every morning?
 
-### Save and Organise Queries
+**Step 3: Save and Organise Queries**
 
 The Databricks SQL Editor lets you save queries for later reuse and share them with your team.
 
@@ -202,7 +202,7 @@ The Databricks SQL Editor lets you save queries for later reuse and share them w
 - They can be shared with team members or used as the basis for **scheduled queries** and **alerts** (covered in [SQL] Monitoring and Self-Service).
 - They serve as documentation of your analytical work.
 
-### Genie Code Deep-Dive
+**Step 4: Genie Code Deep-Dive**
 
 **Genie Code** is an AI-powered copilot built into the SQL Editor. It can generate queries, explain existing ones, debug errors, and suggest optimisations — all using the table and column metadata from Unity Catalog.
 
@@ -291,7 +291,7 @@ ORDER BY total_rev DESC;
 - Be specific in your prompts — mention table names, time ranges, and expected output format.
 - Always review generated SQL before running it. Genie Code is a copilot, not autopilot.
 
-### Explore Lakeflow Designer (Optional)
+**Step 5: Explore Lakeflow Designer (Optional)**
 
 **Lakeflow Designer** is a visual, low-code interface for building data pipelines. In this optional step, you will explore an existing pipeline visually — no Spark or Python required.
 
