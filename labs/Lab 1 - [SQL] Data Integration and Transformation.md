@@ -8,6 +8,7 @@ By the end of this lab, you will:
 - Enrich a gold fact table with derived business metrics (revenue, cost, VAT, currency conversion)  
 - Create an aggregated gold table for reporting  
 - Verify results using Unity Catalog and the Databricks SQL Editor
+- (Optional) Use **Genie Code** on a new dashboard to build from all tables in **`sunny_bay_roastery.gold`** with a single natural-language prompt
 
 ## Introduction
 
@@ -250,7 +251,35 @@ ORDER BY total_revenue_usd DESC;
 
 Genie Code uses the table and column metadata from Unity Catalog. Because your gold tables have clear names and standard column conventions, it can generate accurate queries without additional context.
 
-**Step 6: Upload and Explore a CSV File (Optional)**
+**Step 6: Build a Sales Analytics Dashboard with Genie Code (Optional)**
+
+In **Step 5** you used Genie Code inside the **SQL Editor** to write queries. In this optional step you use **Genie Code** on a **new dashboard**: one prompt is enough for it to wire up data and visuals from your gold schema — you do not need to add data sources or name the dashboard yourself first.
+
+1. In the sidebar, open **Dashboards**.
+2. Click **Create Dashboard** to start a blank dashboard.
+3. Click the **Genie Code** icon in the toolbar.
+4. Try a prompt such as:
+
+   > *"Hey Genie, can you build me a great dashboard based on all the tables in the schema sunny_bay_roastery.gold?"*
+
+   Genie Code can suggest a dashboard title, attach the relevant tables from that schema, and create visuals (KPIs, trends, breakdowns, and more) in one go. Accept or adjust what it proposes.
+
+5. From there, refine in plain language — e.g. add a chart, change a title, or tweak a measure — or edit widgets manually. Optionally **Publish** when you are happy.
+
+**💡 What just happened?**
+
+- **Genie Code** uses **Unity Catalog** metadata for `sunny_bay_roastery.gold`, so it understands your fact and dimension tables and can join them without you picking tables one by one.
+- You get from curated tables to a working dashboard quickly; **Lab 3** goes deeper on manual layout, filters, and polish.
+
+**Example — what you might see**
+
+The screenshot below is one possible result (layout and figures vary by prompt and workspace version).
+
+<div style="text-align:left;">
+  <img src="./artifacts/screenshots/Lab1_SQL_GenieCode_SalesAnalyticsDashboard.png" width="100%">
+</div>
+
+**Step 7: Upload and Explore a CSV File (Optional)**
 
 Databricks allows you to upload CSV or Excel files directly and query them alongside your existing data.
 

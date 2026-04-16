@@ -291,6 +291,10 @@ ORDER BY total_rev DESC;
 - Be specific in your prompts — mention table names, time ranges, and expected output format.
 - Always review generated SQL before running it. Genie Code is a copilot, not autopilot.
 
+**Optional — Genie Code in the AI/BI Dashboard editor**
+
+If you want to go further with **Genie Code** outside the SQL Editor, open **Lab 1 [SQL] — Step 6: Build a Sales Analytics Dashboard with Genie Code (Optional)**. There you **Create Dashboard**, open **Genie Code**, and ask it to build a dashboard from the **`sunny_bay_roastery.gold`** schema in one prompt — it can name the dashboard, add data, and create visuals; see the lab for an example screenshot and refinement tips.
+
 **Step 5: Explore Lakeflow Designer (Optional)**
 
 **Lakeflow Designer** is a visual, low-code interface for building data pipelines. In this optional step, you will explore an existing pipeline visually — no Spark or Python required.
