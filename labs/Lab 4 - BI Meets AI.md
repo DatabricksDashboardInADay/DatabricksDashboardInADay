@@ -51,7 +51,7 @@ Before you start, please verify:
     - Describe the business context: Sunny Bay Roastery, coffee sales, currencies, time grain, etc. 
     - Clarify metric meanings
     - Specify standard aggregations and filters (e.g., “Prefer last 30 days when no date is specified”).
-    - To save you from typing, you can past [this text](./artifacts/Lab 4 - BI Meets AI/Genie_Instructions.txt).
+    - To save you from typing, you can paste [this text](./artifacts/Lab%204%20-%20BI%20Meets%20AI/Genie_Instructions.txt).
     
 ![](./artifacts/screenshots/Genie_Instructions.png)
 
@@ -135,7 +135,9 @@ ORDER BY
 
 **Step 3: Extend Genie's Knowledge with Additional Data**
 
-1. Let's assume you want to separately analyse all products that are Fair Trade certified. Unfortunately, this information is not available anywhere in your data model, but you have a file that lists all these products using their product key. You can download such a file [here](./artifacts/Lab 4 - BI Meets AI/Genie_FairTrade.csv) (the download button in Github is in the top right corner). 
+1. Let's assume you want to separately analyse all products that are Fair Trade certified. Unfortunately, this information is not available anywhere in your data model, but you have a file that lists all these products using their product key. You can download such a file [here](./artifacts/Lab%204%20-%20BI%20Meets%20AI/Genie_FairTrade.csv) (the download button in Github is in the top right corner). 
+
+
 
 2. Open a new chat and click the `Attach a file` button and navigate to the file that you downloaded. Select this file and upload to Genie.
 
