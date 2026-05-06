@@ -270,7 +270,7 @@ On purpose, you did not yet use any advanced features such as complex calulation
       - gross revenue
 ```
 
-Review [provided YAML](./artifacts/Lab 2 - Data Modelling/MetricView_Definition.yaml) template for reference. This structure includes source, joins, detailed dimensions, measures with formulas, business-friendly display names, and formatting. 
+Review [provided YAML](./artifacts/Lab%202%20-%20Data%20Modelling/MetricView_Definition.yaml) template for reference. This structure includes source, joins, detailed dimensions, measures with formulas, business-friendly display names, and formatting. 
 
 **Important:** You will need this Metric View in a subsequent section. Please create it with the name `sm_fact_coffee_sales_genie`.
 
