@@ -139,7 +139,7 @@ ORDER BY
 
 
 
-2. Open a new chat and click the `Attach a file` button and navigate to the file that you downloaded. Select this file and upload to Genie.
+2. Open a new chat and click the `Attach a file` button and navigate to the file that you downloaded. Select this file and upload to Genie. Make sure to select the `Chat` mode as only here this option is available.
 
 ![](./artifacts/screenshots/Genie_UploadData.png)
 
