@@ -59,7 +59,7 @@ Before you start, please verify:
 
 ![](./artifacts/screenshots/Genie_TestQuestion.png)
 
-9. (Optional) By clicking on `Show SQL`, you can review the SQL query that Genie created to select data from your Metric View.
+9. (Optional) By clicking on `Show Code`, you can review the SQL query that Genie created to select data from your Metric View. Find that option below the result (table or chart) --> `Source`
 
 
 **Step 2: Optimize the Genie Space for High Quality (Knowledge & Semantics)**
