@@ -59,7 +59,7 @@ Before you start, please verify:
 
 ![](./artifacts/screenshots/Genie_TestQuestion.png)
 
-9. (Optional) By clicking on `Show SQL`, you can review the SQL query that Genie created to select data from your Metric View.
+9. (Optional) By clicking on `Show Code`, you can review the SQL query that Genie created to select data from your Metric View. Find that option below the result (table or chart) --> `Source`
 
 
 **Step 2: Optimize the Genie Space for High Quality (Knowledge & Semantics)**
@@ -139,7 +139,7 @@ ORDER BY
 
 
 
-2. Open a new chat and click the `Attach a file` button and navigate to the file that you downloaded. Select this file and upload to Genie.
+2. Open a new chat and click the `Attach a file` button and navigate to the file that you downloaded. Select this file and upload to Genie. Make sure to select the `Chat` mode as only here this option is available.
 
 ![](./artifacts/screenshots/Genie_UploadData.png)
 
@@ -151,21 +151,10 @@ ORDER BY
 
 5. (Optional) Review the SQL query that was generated. You will see that the file is joined to the Metric View or used as a filter in a subquery, depending how Genie chooses to create the query.
 
-## What happend next?
+## What happens next?
 
 You have now created a Genie Space and provided some context information to optimize Genie's understanding of your data. The more context Genie gets via provided metadata, the more accurate it's answers will be. 
 
 Please note that there are more modelling features available in Genie, that we didn't need to use as we provided a high quality data source already. Alternatively, you can provide tables or view (as opposed to a Metric View) as data source and define the relation ships, table and column descriptions in the Genie Space directly. 
 
 Your Genie Space administrators, we encourage you to look into the [benchmarking](https://learn.microsoft.com/en-us/azure/databricks/genie/benchmarks) and [monitoring](https://learn.microsoft.com/en-us/azure/databricks/genie/set-up#history).
-
-
-
-
-
-
-
-
-
-
-
