@@ -39,7 +39,9 @@ SDP allows non-engineers to safely contribute to data transformation logic.
   <img src="./artifacts/screenshots/SDP_JobPipelines.png" width="15%">
 </div>
 2. Click on the pipeline with the **suffix sunny_bay_roastery**
+
 3. Explore the Pipeline Monitoring UI
+
 4. Click on "Edit Pipeline" and confirm to open the source code
 <div style="text-align:left;">
   <img src="./artifacts/screenshots/SDP_EditPipeline.png" width="30%">
@@ -48,7 +50,7 @@ SDP allows non-engineers to safely contribute to data transformation logic.
 <div style="text-align:left;">
   <img src="./artifacts/screenshots/SDP_Transformations.png" width="30%">
 </div>
-6. Open `silver/fact_coffee_sales.sql` and ensure that invalid quantities are removed before silver by adding the following constraint to the table `fact_coffee_sales`:
+6. Open `silver/fact_coffee_sales.sql` and ensure that invalid quantities are removed before silver by adding the following constraint to the table `fact_coffee_sales`. If you're unsure where to place it, check the example solution in step 8:
 
    ```sql
    CONSTRAINT valid_quantity EXPECT (quantity_sold > 0) ON VIOLATION DROP ROW
