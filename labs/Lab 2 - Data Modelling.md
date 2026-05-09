@@ -270,9 +270,7 @@ On purpose, you did not yet use any advanced features such as complex calulation
       - gross revenue
 ```
 
-Review the [provided YAML](./artifacts/Lab%202%20-%20Data%20Modelling/MetricView_Definition.yaml) template for reference. This structure includes source, joins, detailed dimensions, measures with formulas, business-friendly display names, and formatting.
-
 > [!NOTE]
 > A richer metric view named `sm_fact_coffee_sales_genie` has already been pre-deployed to your catalog. It includes additional customer dimensions, formatting, synonyms, and windowed measures — providing richer context for AI agents. You can explore it in your catalog at `<catalog>.gold.sm_fact_coffee_sales_genie`.
 
-Once your Metric View is available in Unity Catalog, proceed to the next section.
+Once you explored the Metric Views in Unity Catalog, proceed to the next section.
