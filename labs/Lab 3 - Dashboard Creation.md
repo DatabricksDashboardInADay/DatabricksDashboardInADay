@@ -123,7 +123,8 @@ Counter visuals allow you to display a key metric for the current period alongsi
 <div style="text-align:left;">
   <img src="./artifacts/screenshots/Dashboard_AddVisualization.png" width="60%">
 </div>
-2. Select `Counter` as the visualization type
+
+2. Select **`Counter`** as the visualization type
 
 3. Enable the **Title** checkbox and enter `Net Revenue per Year [$]`
 
