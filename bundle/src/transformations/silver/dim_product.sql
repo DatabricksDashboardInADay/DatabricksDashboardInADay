@@ -7,5 +7,6 @@ SELECT
     *
 FROM STREAM read_files(
   '/Volumes/${catalog}/bronze/raw/dim_product/',
-  format => 'csv'
+  format => 'csv',
+  rescuedDataColumn => 'None'
 );
