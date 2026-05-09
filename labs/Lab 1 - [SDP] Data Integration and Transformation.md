@@ -114,7 +114,7 @@ SDP allows non-engineers to safely contribute to data transformation logic.
    GROUP BY store_key;
    ```
 
-2. Run only the new table by clicking on the "Dataset action" icon:
+2. Run only the new table by clicking on the `Dataset action` icon:
 <div style="text-align:left;">
   <img src="./artifacts/screenshots/SDP_DatasetAction.png" width="70%">
 </div>
