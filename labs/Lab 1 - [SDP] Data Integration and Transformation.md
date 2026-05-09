@@ -38,6 +38,7 @@ SDP allows non-engineers to safely contribute to data transformation logic.
 <div style="text-align:left;">
   <img src="./artifacts/screenshots/SDP_JobPipelines.png" width="15%">
 </div>
+
 2. Click on the pipeline with the **suffix sunny_bay_roastery**
 
 3. Explore the Pipeline Monitoring UI
@@ -46,10 +47,12 @@ SDP allows non-engineers to safely contribute to data transformation logic.
 <div style="text-align:left;">
   <img src="./artifacts/screenshots/SDP_EditPipeline.png" width="30%">
 </div>
+
 5. Expand the Workspace and open the transformations folder
 <div style="text-align:left;">
   <img src="./artifacts/screenshots/SDP_Transformations.png" width="30%">
 </div>
+
 6. Open `silver/fact_coffee_sales.sql` and ensure that invalid quantities are removed before silver by adding the following constraint to the table `fact_coffee_sales`. If you're unsure where to place it, check the example solution in step 8:
 
    ```sql
