@@ -40,9 +40,9 @@ Before you start, please verify:
    - **Title:** `Sunny Bay Sales Genie`  
    - **Description:**   “Ask questions about Sunny Bay Roastery coffee sales, customers, products, and stores using governed metrics from the Sunny Bay metric view.”  
    - Alternatively, you can use the AI generated description, which is more elaborate.
-   
-![](./artifacts/screenshots/Genie_BasicSettings.png)
+   - **Thumbnail:** Download the [Genie Space thumbnail](./artifacts/Lab%204%20-%20BI%20Meets%20AI/genie_thumbnail.jpeg) and upload it as the thumbnail image for your Genie Space.
 
+![](./artifacts/screenshots/Genie_BasicSettings.png)
 
 5. Select a **Pro or serverless SQL warehouse** to run queries.  
 6. Click **Save** to save the changes to the Genie space.  
