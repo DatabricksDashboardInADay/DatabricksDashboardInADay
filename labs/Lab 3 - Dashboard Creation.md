@@ -124,8 +124,11 @@ Counter visuals allow you to display a key metric for the current period alongsi
   <img src="./artifacts/screenshots/Dashboard_AddVisualization.png" width="60%">
 </div>
 2. Select **`Counter`** as the visualization type
+
 3. Enable the **Title** checkbox and enter `Net Revenue per Year [$]`
+
 4. Resize the widget to a width of `4` and a height of `3`
+
 5. Under **Date**, click **"+"** and select `YEARLY(date)`
 
 6. Under **Value**, click **"+"** and select `MEASURE(total_net_revenue_usd)`
