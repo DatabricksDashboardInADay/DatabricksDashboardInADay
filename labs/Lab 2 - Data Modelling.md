@@ -63,7 +63,7 @@ They allow consistent reporting, simplify complex SQL logic, and centralize metr
 
 ![alt text](./artifacts/screenshots/MetricView_UI_OpenJoinDialog.png)
 
-2. Add the `dim_product` table and define the Join Condition using the appropriate columns (see YAML for reference, if need).
+2. Add the `dim_product` table and define the Join Condition using the columns with the `_key` suffix (e.g., `product_key`).
 
 ![alt text](./artifacts/screenshots/MetricView_UI_DefineJoin.png)
 
@@ -83,16 +83,18 @@ They allow consistent reporting, simplify complex SQL logic, and centralize metr
 > [!TIP]
 > If you are curious about other dimensions, you can of course select them as well.
 
-6. Here, delete all other ones, including those coming from the `fact_coffee_sales` table. You can delete the dimensions in bulk.
+6. For each dimension you can enter a `Display Name`. This is the bridge between technical column names used by developers (e.g., `product_category`) and human-readable labels for business users (e.g., `Product Category`).
+
+![alt text](./artifacts/screenshots/MetricView_UI_DimensionConf.png)
+
+7. Here, delete all other ones, including those coming from the `fact_coffee_sales` table. You can delete the dimensions in bulk.
 
 > [!NOTE]
 > It is best practice to hide non-relevant and technical columns from business users who consume metric views. This keeps the model clean and easy to navigate.
 
 ![alt text](./artifacts/screenshots/MetricView_UI_DimensionConf1.png)
 
-![alt text](./artifacts/screenshots/MetricView_UI_DimensionConf.png)
-
-7. Congratulations for creating the basic semantic model of Sunny Bay Roastery. In the next step we are going to integrate measures.
+8. Congratulations for creating the basic semantic model of Sunny Bay Roastery. In the next step we are going to integrate measures.
 
 ![alt text](./artifacts/screenshots/MetricView_UI_DataModel.png)
 
@@ -116,6 +118,8 @@ They allow consistent reporting, simplify complex SQL logic, and centralize metr
    - `total_net_profit` with expression `measure(total_net_revenue_usd) - measure(total_cost_of_goods)`
 
 5. Try creating a new measure using **Genie Code**. Click on `+ Add` and select `Generate with Genie Code`. Describe the measure you want in natural language — for example, "average revenue per order". This is especially helpful for building complex measures without writing the expression from scratch.
+
+![alt text](./artifacts/screenshots/MetricView_UI_GenieCode.png)
 
 **TIP**: you can switch back and forth using the above mentioned switch at the top. To create exactly the same Metric View from above, you can copy the YAML definition over and see/change the results using the GUI. Finally, the Metric View that you defined above will look like this in the UI editor:
 
