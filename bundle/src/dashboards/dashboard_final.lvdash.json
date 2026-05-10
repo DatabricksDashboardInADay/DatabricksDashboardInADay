@@ -15,79 +15,19 @@
       "layout": [
         {
           "widget": {
-            "name": "date-range",
-            "queries": [
-              {
-                "name": "dashboards/01f11a529b551200b609eafd80da2ccb/datasets/01f11a529b551365bf2d569d2cee4366_yearly(date)",
-                "query": {
-                  "datasetName": "8420be85",
-                  "fields": [
-                    {
-                      "name": "yearly(date)",
-                      "expression": "DATE_TRUNC(\"YEAR\", `date`)"
-                    },
-                    {
-                      "name": "yearly(date)_associativity",
-                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
-                    }
-                  ],
-                  "disaggregated": false
-                }
-              }
-            ],
-            "spec": {
-              "version": 2,
-              "frame": {
-                "showTitle": true,
-                "title": "Date Range"
-              },
-              "selection": {
-                "defaultSelection": {
-                  "range": {
-                    "dataType": "DATETIME",
-                    "min": {
-                      "value": "2013-01-01T00:00:00.000"
-                    },
-                    "max": {
-                      "value": "2025-01-01T00:00:00.000"
-                    }
-                  }
-                }
-              },
-              "widgetType": "filter-date-range-picker",
-              "encodings": {
-                "fields": [
-                  {
-                    "fieldName": "yearly(date)",
-                    "displayName": "YEARLY(date)",
-                    "queryName": "dashboards/01f11a529b551200b609eafd80da2ccb/datasets/01f11a529b551365bf2d569d2cee4366_yearly(date)"
-                  }
-                ]
-              }
-            }
-          },
-          "position": {
-            "x": 0,
-            "y": 0,
-            "width": 1,
-            "height": 2
-          }
-        },
-        {
-          "widget": {
             "name": "date-1",
             "queries": [
               {
-                "name": "dashboards/01f11a529b551200b609eafd80da2ccb/datasets/01f11a529b551365bf2d569d2cee4366_date",
+                "name": "dashboards/01f14cacef8f1f99b457687df758a649/datasets/01f14cacef9011e1b96868f00c64d202_date_date",
                 "query": {
                   "datasetName": "8420be85",
                   "fields": [
                     {
-                      "name": "date",
-                      "expression": "`date`"
+                      "name": "date_date",
+                      "expression": "`date_date`"
                     },
                     {
-                      "name": "date_associativity",
+                      "name": "date_date_associativity",
                       "expression": "COUNT_IF(`associative_filter_predicate_group`)"
                     }
                   ],
@@ -118,8 +58,8 @@
               "encodings": {
                 "fields": [
                   {
-                    "fieldName": "date",
-                    "queryName": "dashboards/01f11a529b551200b609eafd80da2ccb/datasets/01f11a529b551365bf2d569d2cee4366_date"
+                    "fieldName": "date_date",
+                    "queryName": "dashboards/01f14cacef8f1f99b457687df758a649/datasets/01f14cacef9011e1b96868f00c64d202_date_date"
                   }
                 ]
               }
@@ -188,20 +128,20 @@
                       "expression": "`store_name`"
                     },
                     {
-                      "name": "measure(total_cost_of_goods)",
-                      "expression": "MEASURE(`total_cost_of_goods`)"
+                      "name": "measure(total_cost_of_goods_usd)",
+                      "expression": "MEASURE(`total_cost_of_goods_usd`)"
                     },
                     {
                       "name": "measure(total_net_revenue_usd)",
                       "expression": "MEASURE(`total_net_revenue_usd`)"
                     },
                     {
-                      "name": "monthly(date)",
-                      "expression": "DATE_TRUNC(\"MONTH\", `date`)"
+                      "name": "monthly(date_date)",
+                      "expression": "DATE_TRUNC(\"MONTH\", `date_date`)"
                     },
                     {
-                      "name": "measure(total_net_profit)",
-                      "expression": "MEASURE(`total_net_profit`)"
+                      "name": "measure(total_profit_usd)",
+                      "expression": "MEASURE(`total_profit_usd`)"
                     }
                   ],
                   "disaggregated": false
@@ -210,16 +150,21 @@
             ],
             "spec": {
               "version": 3,
+              "frame": {
+                "title": "Net Profit per Month [$]",
+                "showTitle": true,
+                "showDescription": false
+              },
               "widgetType": "bar",
               "encodings": {
                 "x": {
-                  "fieldName": "monthly(date)",
+                  "fieldName": "monthly(date_date)",
                   "scale": {
                     "type": "temporal"
                   }
                 },
                 "y": {
-                  "fieldName": "measure(total_net_profit)",
+                  "fieldName": "measure(total_profit_usd)",
                   "format": {
                     "type": "number-currency",
                     "currencyCode": "USD",
@@ -247,17 +192,12 @@
                 },
                 "extra": [
                   {
-                    "fieldName": "measure(total_cost_of_goods)"
+                    "fieldName": "measure(total_cost_of_goods_usd)"
                   },
                   {
                     "fieldName": "measure(total_net_revenue_usd)"
                   }
                 ]
-              },
-              "frame": {
-                "title": "Net Profit per Month [$]",
-                "showTitle": true,
-                "showDescription": false
               }
             }
           },
@@ -416,8 +356,8 @@
                   "datasetName": "8420be85",
                   "fields": [
                     {
-                      "name": "measure(total_net_profit)",
-                      "expression": "MEASURE(`total_net_profit`)"
+                      "name": "measure(total_profit_usd)",
+                      "expression": "MEASURE(`total_profit_usd`)"
                     },
                     {
                       "name": "store_online",
@@ -437,7 +377,7 @@
               "widgetType": "pie",
               "encodings": {
                 "angle": {
-                  "fieldName": "measure(total_net_profit)",
+                  "fieldName": "measure(total_profit_usd)",
                   "scale": {
                     "type": "quantitative"
                   },
@@ -522,8 +462,8 @@
                       "expression": "`store_name`"
                     },
                     {
-                      "name": "measure(total_net_profit)",
-                      "expression": "MEASURE(`total_net_profit`)"
+                      "name": "measure(total_profit_usd)",
+                      "expression": "MEASURE(`total_profit_usd`)"
                     }
                   ],
                   "disaggregated": false
@@ -579,7 +519,7 @@
                   }
                 },
                 "size": {
-                  "fieldName": "measure(total_net_profit)",
+                  "fieldName": "measure(total_profit_usd)",
                   "scale": {
                     "type": "quantitative"
                   },
@@ -620,8 +560,8 @@
                   "datasetName": "8420be85",
                   "fields": [
                     {
-                      "name": "yearly(date)",
-                      "expression": "DATE_TRUNC(\"YEAR\", `date`)"
+                      "name": "yearly(date_date)",
+                      "expression": "DATE_TRUNC(\"YEAR\", `date_date`)"
                     },
                     {
                       "name": "measure(total_net_revenue_usd)",
@@ -632,7 +572,7 @@
                   "orders": [
                     {
                       "direction": "DESC",
-                      "expression": "DATE_TRUNC(\"YEAR\", `date`)"
+                      "expression": "DATE_TRUNC(\"YEAR\", `date_date`)"
                     }
                   ]
                 }
@@ -673,7 +613,7 @@
                   }
                 },
                 "period": {
-                  "fieldName": "yearly(date)"
+                  "fieldName": "yearly(date_date)"
                 }
               }
             }
@@ -695,19 +635,19 @@
                   "datasetName": "8420be85",
                   "fields": [
                     {
-                      "name": "yearly(date)",
-                      "expression": "DATE_TRUNC(\"YEAR\", `date`)"
+                      "name": "yearly(date_date)",
+                      "expression": "DATE_TRUNC(\"YEAR\", `date_date`)"
                     },
                     {
-                      "name": "measure(total_net_profit)",
-                      "expression": "MEASURE(`total_net_profit`)"
+                      "name": "measure(total_profit_usd)",
+                      "expression": "MEASURE(`total_profit_usd`)"
                     }
                   ],
                   "disaggregated": false,
                   "orders": [
                     {
                       "direction": "DESC",
-                      "expression": "DATE_TRUNC(\"YEAR\", `date`)"
+                      "expression": "DATE_TRUNC(\"YEAR\", `date_date`)"
                     }
                   ]
                 }
@@ -722,7 +662,7 @@
               "widgetType": "counter",
               "encodings": {
                 "value": {
-                  "fieldName": "measure(total_net_profit)",
+                  "fieldName": "measure(total_profit_usd)",
                   "format": {
                     "type": "number-currency",
                     "currencyCode": "USD",
@@ -738,7 +678,7 @@
                   }
                 },
                 "target": {
-                  "fieldName": "measure(total_net_profit)",
+                  "fieldName": "measure(total_profit_usd)",
                   "change": {
                     "type": "percent"
                   },
@@ -758,7 +698,7 @@
                   }
                 },
                 "period": {
-                  "fieldName": "yearly(date)"
+                  "fieldName": "yearly(date_date)"
                 }
               }
             }
@@ -846,7 +786,7 @@
                   ],
                   "filters": [
                     {
-                      "expression": "IN_RANGE(`date`, DATE'2020-01-01T00:00:00.000', DATE'2025-12-31T00:00:00.000')"
+                      "expression": "IN_RANGE(`date_date`, DATE'2020-01-01', DATE'2025-12-31')"
                     }
                   ],
                   "cubeGroupingSets": {
@@ -884,6 +824,10 @@
             ],
             "spec": {
               "version": 3,
+              "frame": {
+                "title": "pivot",
+                "showTitle": true
+              },
               "widgetType": "pivot",
               "encodings": {
                 "rows": [
@@ -981,8 +925,8 @@
                   "datasetName": "8420be85",
                   "fields": [
                     {
-                      "name": "measure(total_net_profit)",
-                      "expression": "MEASURE(`total_net_profit`)"
+                      "name": "measure(total_profit_usd)",
+                      "expression": "MEASURE(`total_profit_usd`)"
                     },
                     {
                       "name": "day_of_week",
@@ -1018,7 +962,7 @@
                   }
                 },
                 "color": {
-                  "fieldName": "measure(total_net_profit)",
+                  "fieldName": "measure(total_profit_usd)",
                   "displayName": "Total Net Profit",
                   "scale": {
                     "type": "quantitative",
