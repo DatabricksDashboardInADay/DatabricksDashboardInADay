@@ -25,10 +25,11 @@ AI/BI Dashboards in Databricks are interactive, web-based reports that combine t
 
 Before you start, please verify:
 - The **Sunny Bay Coffee Sales Metric View** `sm_fact_coffee_sales` from Lab 2 is created and published in Unity Catalog.
+- A **SQL warehouse** (Pro or serverless) is available for running dashboard queries.
 
 **Step 1: Open the AI/BI Dashboard Template**
 
-AI/BI Dashboards can be stored as a templates which contain the corporate identity, logos, and more elements that should be standardized.
+AI/BI Dashboards can be stored as templates which contain the corporate identity, logos, and more elements that should be standardized.
 
 1. In the Databricks workspace, open **Dashboards** from the left navigation.
 2. Open the Dashboard "[Template] Sunny Bay Roastery - Sales Report"
@@ -54,7 +55,7 @@ Every AI/BI Dashboard must have one or more data sources, which are used to crea
 
 Global filters are helpful to apply a filter for multiple report pages. We are going to filter out all the sales before 2015.
 
-1. Click on the "Show Global Filters" icon
+1. Click on the "Show Global Filters" icon (you need to click on a report such as `Sales Report` before)
 
 <div style="text-align:left;">
   <img src="./artifacts/screenshots/Dashboard_GlobalFilters.png" width="50%">
@@ -123,9 +124,13 @@ Counter visuals allow you to display a key metric for the current period alongsi
 <div style="text-align:left;">
   <img src="./artifacts/screenshots/Dashboard_AddVisualization.png" width="60%">
 </div>
+
 2. Select **`Counter`** as the visualization type
+
 3. Enable the **Title** checkbox and enter `Net Revenue per Year [$]`
+
 4. Resize the widget to a width of `4` and a height of `3`
+
 5. Under **Date**, click **"+"** and select `YEARLY(date)`
 
 6. Under **Value**, click **"+"** and select `MEASURE(total_net_revenue_usd)`
@@ -142,8 +147,8 @@ Counter visuals allow you to display a key metric for the current period alongsi
 
 10. To create the second counter, right-click the widget and select **"Duplicate"**. Update the following settings in the copy:
    - **Title:** `Net Profit per Year [$]`
-   - **Value:** change to `MEASURE(total_net_profit)`
-   - **Comparison:** change to `MEASURE(total_net_profit)`
+   - **Value:** change to `MEASURE(total_net_profit_usd)`
+   - **Comparison:** change to `MEASURE(total_net_profit_usd)`
 
 **Step 7: Create Your First AI-Assisted Bar Chart**
 
@@ -173,7 +178,7 @@ Genie Code can generate visuals directly from natural language prompts.
   <img src="./artifacts/screenshots/Dashboard_GroupByStore.png" width="30%">
 </div>
 
-7. Add the measures "total_cost_of_goods" and "total_net_revenue_usd" as tooltip
+7. Add the measures "total_cost_of_goods_usd" and "total_net_revenue_usd" as tooltip
 8. Rename the tooltip values to "Total Costs of Goods [$]" and "Total Net Revenue [$]"
 9. Rename the title to "Net Profit per Month [$]"
 
@@ -189,12 +194,12 @@ Your dashboard should look like this:
 2. Create a new visualization by clicking on `Add visualization`
 3. Select the `Pie` as visualization type
 4. Add the title to `Net Profit Online vs. Offline [$]`
-5. Choose the `total_net_profit` as the `angle`, and `store_online` as the `color`
-6. Select your prefered colors for the values `true`, and `false` 
+5. Choose the `total_net_profit_usd` as the `angle`, and `store_online` as the `color`
+6. Select your preferred colors for the values `true`, and `false` 
 7. Open the formatting of Color, and add the aliases "Online" and "In-Store"
 8. Rename the angle `Display name` to "Net Profit [$]"
 9. Activate labels for this visualization 
-10. Click on the one of the values of the pie chart, and see how the cross-filtering functionality effects the bar chart
+10. Click on one of the values of the pie chart, and see how the cross-filtering functionality affects the bar chart
 
 <div style="text-align:left;">
   <img src="./artifacts/screenshots/Dashboard_CrossFiltering.png" width="40%">
@@ -206,7 +211,7 @@ Your dashboard should look like this:
 2. Select `Point map` as `visualization type`
 3. Add the title `Total Net Profit by Store [$]`
 4. Select the dimensions `store_latitude`, and `store_longitude` for the coordinates
-5. Choose the measure `total_net_profit` as the size
+5. Choose the measure `total_net_profit_usd` as the size
 6. Use the dimension `product_category` as the color
 7. Rename the color's `Legend title` to `Product Category`
 8. Click on the kebab menu of the map visual and click on `View fullscreen`
@@ -252,12 +257,12 @@ Pivot tables allow you to explore your data across multiple dimensions simultane
 3. Create a new visualization by clicking on `Add visualization`
 4. Select the visualization type `Heatmap`
 5. Choose `day_of_week` for the x-axis, and `product_name` for the y-axis
-6. Select `total_net_profit` as the color
+6. Select `total_net_profit_usd` as the color
 7. Activate labels for this visualization
 8. Rename the value to "Net Profit by Day of Week and Product [$]"
 9. Change the x-axis scale type to `categorical`
 10. Jump back to `Sales Report` page
-11. Drill into the market report by rightclicking on the value for one store, clicking `drill to`, and `Market Report` 
+11. Drill into the market report by right-clicking on the value for one store, clicking `drill to`, and `Market Report` 
 
 <div style="text-align:left;">
   <img src="./artifacts/screenshots/Dashboard_DrillThrough.png" width="30%">

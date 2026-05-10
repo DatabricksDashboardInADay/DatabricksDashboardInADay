@@ -324,6 +324,7 @@ def add_total_impact_features(
     output_col: str = "total_impact_factor",
     output_volume_col: str = "simulated_volume",
     base_volume_col: str = "base_volume",
+    volume_scale: float = 1.0,
 ) -> DataFrame:
     """
     Adds:
@@ -351,7 +352,7 @@ def add_total_impact_features(
         df = df.withColumn(output_col, total_expr.cast("double"))
 
     if base_volume_col in df.columns:
-        df = df.withColumn(output_volume_col, (F.col(base_volume_col).cast("double") * F.col(output_col)).cast("int"))
+        df = df.withColumn(output_volume_col, (F.col(base_volume_col).cast("double") * F.col(output_col) * F.lit(float(volume_scale))).cast("int"))
 
     return df
 

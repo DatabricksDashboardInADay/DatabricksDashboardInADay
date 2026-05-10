@@ -38,23 +38,32 @@ SDP allows non-engineers to safely contribute to data transformation logic.
 <div style="text-align:left;">
   <img src="./artifacts/screenshots/SDP_JobPipelines.png" width="15%">
 </div>
+
 2. Click on the pipeline with the **suffix sunny_bay_roastery**
+
 3. Explore the Pipeline Monitoring UI
-4. Click on "Edit Pipeline" and confirm to open the source code
+
+4. Click on `Edit Pipeline` and confirm `Open source code in Git`
 <div style="text-align:left;">
   <img src="./artifacts/screenshots/SDP_EditPipeline.png" width="30%">
 </div>
-5. Expand the Workspace and open the transformations folder
+
+5. Click on `Switch to associated pipeline`. Expand the Workspace and open the transformations folder.
 <div style="text-align:left;">
   <img src="./artifacts/screenshots/SDP_Transformations.png" width="30%">
 </div>
-6. Open `silver/fact_coffee_sales.sql` and ensure that invalid quantities are removed before silver by adding the following constraint to the table `fact_coffee_sales`:
+
+6. Open `silver/fact_coffee_sales.sql` and ensure that invalid quantities are removed before silver by adding the following constraint to the table `fact_coffee_sales`. If you're unsure where to place it, check the example solution in step 8:
 
    ```sql
    CONSTRAINT valid_quantity EXPECT (quantity_sold > 0) ON VIOLATION DROP ROW
    ```
 
-7. This ensures that downstream analytics do not include negative or zero-sold quantities. How many rows did not meet the expectations?
+7. Run the pipeline with a full table refresh to re-process all the data. This ensures that downstream analytics do not include negative or zero-sold quantities. How many rows did not meet the expectations?
+<div style="text-align:left;">
+  <img src="./artifacts/screenshots/SDP_RunPipelineWithFullTableRefresh.png" width="30%">
+</div>
+
 8. You can confirm your code with this example solution:
 
    ```sql
@@ -69,11 +78,7 @@ SDP allows non-engineers to safely contribute to data transformation logic.
    );
    ```
 
-9. Run the pipeline with a full table refresh to re-process all the data
-<div style="text-align:left;">
-  <img src="./artifacts/screenshots/SDP_RunPipelineWithFullTableRefresh.png" width="30%">
-</div>
-10. Analyse the effect of the expectation column
+9. Analyse the effect of the expectation column
 <div style="text-align:left;">
   <img src="./artifacts/screenshots/SDP_Expectations.png" width="50%">
 </div>
@@ -107,7 +112,7 @@ SDP allows non-engineers to safely contribute to data transformation logic.
    GROUP BY store_key;
    ```
 
-2. Run only the new table by clicking on the "Dataset action" icon:
+2. Run only the new table by clicking on the `Dataset action` icon:
 <div style="text-align:left;">
   <img src="./artifacts/screenshots/SDP_DatasetAction.png" width="70%">
 </div>

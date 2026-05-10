@@ -40,9 +40,9 @@ Before you start, please verify:
    - **Title:** `Sunny Bay Sales Genie`  
    - **Description:**   “Ask questions about Sunny Bay Roastery coffee sales, customers, products, and stores using governed metrics from the Sunny Bay metric view.”  
    - Alternatively, you can use the AI generated description, which is more elaborate.
-   
-![](./artifacts/screenshots/Genie_BasicSettings.png)
+   - **Thumbnail:** Download the [Genie Space thumbnail](./artifacts/Lab%204%20-%20BI%20Meets%20AI/genie_thumbnail.jpeg) and upload it as the thumbnail image for your Genie Space.
 
+![](./artifacts/screenshots/Genie_BasicSettings.png)
 
 5. Select a **Pro or serverless SQL warehouse** to run queries.  
 6. Click **Save** to save the changes to the Genie space.  
@@ -125,7 +125,7 @@ GROUP BY ALL
 ORDER BY
   fiscal_year,
   store_online  
-````
+```
 
 3. Notice that a parameter named `onlinesales` has been added to the query (`:onlinesales`) and a configuration option was added. Verify that the data type is set to `string` by clicking the cog symbol. Type `false` in the text pane to set a default value.
 
@@ -153,8 +153,8 @@ ORDER BY
 
 ## What happens next?
 
-You have now created a Genie Space and provided some context information to optimize Genie's understanding of your data. The more context Genie gets via provided metadata, the more accurate it's answers will be. 
+You have now created a Genie Space and provided some context information to optimize Genie's understanding of your data. The more context Genie gets via provided metadata, the more accurate its answers will be. 
 
-Please note that there are more modelling features available in Genie, that we didn't need to use as we provided a high quality data source already. Alternatively, you can provide tables or view (as opposed to a Metric View) as data source and define the relation ships, table and column descriptions in the Genie Space directly. 
+Please note that there are more modelling features available in Genie, that we didn't need to use as we provided a high quality data source already. Alternatively, you can provide tables or views (as opposed to a Metric View) as data source and define the relationships, table and column descriptions in the Genie Space directly. 
 
-Your Genie Space administrators, we encourage you to look into the [benchmarking](https://learn.microsoft.com/en-us/azure/databricks/genie/benchmarks) and [monitoring](https://learn.microsoft.com/en-us/azure/databricks/genie/set-up#history).
+As Genie Space administrators, we encourage you to look into the [benchmarking](https://learn.microsoft.com/en-us/azure/databricks/genie/benchmarks) and [monitoring](https://learn.microsoft.com/en-us/azure/databricks/genie/set-up#history).
