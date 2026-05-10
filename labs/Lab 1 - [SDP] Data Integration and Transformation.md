@@ -53,13 +53,16 @@ SDP allows non-engineers to safely contribute to data transformation logic.
   <img src="./artifacts/screenshots/SDP_Transformations.png" width="30%">
 </div>
 
-6. Open `silver/fact_coffee_sales.sql` and ensure that invalid quantities are removed before silver by adding the following constraint to the table `fact_coffee_sales`. If you're unsure where to place it, check the example solution in step 9:
+6. Open `silver/fact_coffee_sales.sql` and ensure that invalid quantities are removed before silver by adding the following constraint to the table `fact_coffee_sales`. If you're unsure where to place it, check the example solution in step 8:
 
    ```sql
    CONSTRAINT valid_quantity EXPECT (quantity_sold > 0) ON VIOLATION DROP ROW
    ```
 
-7. This ensures that downstream analytics do not include negative or zero-sold quantities. 
+7. Run the pipeline with a full table refresh to re-process all the data. This ensures that downstream analytics do not include negative or zero-sold quantities. How many rows did not meet the expectations?
+<div style="text-align:left;">
+  <img src="./artifacts/screenshots/SDP_RunPipelineWithFullTableRefresh.png" width="30%">
+</div>
 
 8. You can confirm your code with this example solution:
 
@@ -75,12 +78,7 @@ SDP allows non-engineers to safely contribute to data transformation logic.
    );
    ```
 
-9. Run the pipeline with a full table refresh to re-process all the data. How many rows did not meet the expectations?
-<div style="text-align:left;">
-  <img src="./artifacts/screenshots/SDP_RunPipelineWithFullTableRefresh.png" width="30%">
-</div>
-
-10. Analyse the effect of the expectation column
+9. Analyse the effect of the expectation column
 <div style="text-align:left;">
   <img src="./artifacts/screenshots/SDP_Expectations.png" width="50%">
 </div>

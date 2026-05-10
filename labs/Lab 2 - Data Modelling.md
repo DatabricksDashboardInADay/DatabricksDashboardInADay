@@ -5,9 +5,9 @@ By the end of this lab, you will:
 - Understand how [Databricks Metric Views](https://learn.microsoft.com/azure/databricks/metric-views/) will allow you to add business semantics using relationships and calculations to your data
 - Create a metric view with
     - relationships to our tables to allow implicit joining of tables.
-    - dimensions and measures with attributes and common calcutions
-    - formating instructions and synomyns
-- Publish the metric view to make it available in Unity Catalog to make it accessable by subsequent features and tools such as Databricks Dashboards.
+    - dimensions and measures with attributes and common calculations
+    - formatting instructions and synonyms
+- Publish the metric view to make it available in Unity Catalog to make it accessible by subsequent features and tools such as Databricks Dashboards.
 
 ## Introduction
 
@@ -50,7 +50,7 @@ They allow consistent reporting, simplify complex SQL logic, and centralize metr
 
 4. Click on `Select source` to choose the fact table.
 
-5. You now need to navigate to your source table again which is again `sunny_bay_roastery.gold.fact_coffee_sales`. Navigate to it using the Unity Catalog hierarchie. Add it to the Metric View.
+5. You now need to navigate to your source table again which is again `sunny_bay_roastery.gold.fact_coffee_sales`. Navigate to it using the Unity Catalog hierarchy. Add it to the Metric View.
 
 ![alt text](./artifacts/screenshots/MetricView_UI_SelectSource.png)
 
@@ -103,7 +103,7 @@ They allow consistent reporting, simplify complex SQL logic, and centralize metr
 > [!NOTE]
 > Measures define the calculations that business users can query — e.g., `SUM(net_revenue_usd)` to get total revenue across any combination of dimensions.
 
-1. Now, we are going to create three measures for `total_net_revenue_usd`, `total_cost_of_goods`, and `total_net_profit`.
+1. Now, we are going to create three measures for `total_net_revenue_usd`, `total_cost_of_goods_usd`, and `total_net_profit_usd`.
 
 2. Open `Measures` and click on `+ Add`. 
 
@@ -114,8 +114,8 @@ They allow consistent reporting, simplify complex SQL logic, and centralize metr
 ![alt text](./artifacts/screenshots/MetricView_UI_TotalNetRevenue.png)
 
 4. Now apply the exact same step for the other two measures:
-   - `total_cost_of_goods` with expression `SUM(cost_of_goods_usd)`
-   - `total_net_profit` with expression `measure(total_net_revenue_usd) - measure(total_cost_of_goods)`
+   - `total_cost_of_goods_usd` with expression `SUM(cost_of_goods_usd)`
+   - `total_net_profit_usd` with expression `measure(total_net_revenue_usd) - measure(total_cost_of_goods_usd)`
 
 5. Try creating a new measure using **Genie Code**. Click on `+ Add` and select `Generate with Genie Code`. Describe the measure you want in natural language — for example, "average revenue per order". This is especially helpful for building complex measures without writing the expression from scratch.
 
@@ -125,12 +125,12 @@ They allow consistent reporting, simplify complex SQL logic, and centralize metr
 
 ![alt text](./artifacts/screenshots/MetricView_UI_Final.png)
 
-**Step 5: Final Steps**
+**Step 4: Final Steps**
 1. Click on `Save`.
 
 2. You have now published the Metric View to Unity Catalog by saving the YAML. This makes the metric view discoverable and available to teams and tools, including Databricks Dashboards and downstream analytics, provided they have access inherited from the schema. 
 
-2. If you got any errors you couldn't resolve yourself, review the full definition and compare with your results:
+3. If you got any errors you couldn't resolve yourself, review the full definition and compare with your results:
 
 ```YAML
 version: 1.1
@@ -180,17 +180,17 @@ dimensions:
 measures:
   - name: total_net_revenue_usd
     expr: SUM(net_revenue_usd)
-  - name: total_cost_of_goods
+  - name: total_cost_of_goods_usd
     expr: SUM(cost_of_goods_usd)
-  - name: total_net_profit
-    expr: measure(total_net_revenue_usd) - measure(total_cost_of_goods)
+  - name: total_net_profit_usd
+    expr: measure(total_net_revenue_usd) - measure(total_cost_of_goods_usd)
 ```
 
 ## What Happens Next?
 
 You created a simple Metric View and users will be able to directly query business metrics without writing SQL joins or recalculating KPIs.
 
-On purpose, you did not yet use any advanced features such as complex calulations, synomyns, formatting, etc. We encourage you to look into more advanced calculations and modelling capabilites such as:
+On purpose, you did not yet use any advanced features such as complex calculations, synonyms, formatting, etc. We encourage you to look into more advanced calculations and modelling capabilities such as:
 
 **Different aggregation functions:**
 ```YAML 
@@ -200,7 +200,7 @@ On purpose, you did not yet use any advanced features such as complex calulation
     expr: AVG(cost_of_goods_usd)
 ```
     
-**Windowing calcuations such as rolling averages, previous periods and running totals:**
+**Windowing calculations such as rolling averages, previous periods and running totals:**
 ```YAML 
   - name: total_gross_revenue_usd_previous_day
     expr: measure(`total_gross_revenue_usd`)
@@ -209,7 +209,7 @@ On purpose, you did not yet use any advanced features such as complex calulation
         semiadditive: last
         range: trailing 1 day
 ```
-**Number formatting and synomyns:**
+**Number formatting and synonyms:**
 ```YAML
   - name: total_gross_revenue_usd
     expr: SUM(`gross_revenue_usd`)
