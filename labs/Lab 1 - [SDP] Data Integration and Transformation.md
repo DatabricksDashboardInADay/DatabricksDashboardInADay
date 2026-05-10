@@ -48,7 +48,7 @@ SDP allows non-engineers to safely contribute to data transformation logic.
   <img src="./artifacts/screenshots/SDP_EditPipeline.png" width="30%">
 </div>
 
-5. Expand the Workspace and open the transformations folder
+5. Click on `Switch to associated pipeline`. Expand the Workspace and open the transformations folder.
 <div style="text-align:left;">
   <img src="./artifacts/screenshots/SDP_Transformations.png" width="30%">
 </div>

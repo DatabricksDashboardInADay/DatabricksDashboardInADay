@@ -55,7 +55,7 @@ Every AI/BI Dashboard must have one or more data sources, which are used to crea
 
 Global filters are helpful to apply a filter for multiple report pages. We are going to filter out all the sales before 2015.
 
-1. Click on the "Show Global Filters" icon
+1. Click on the "Show Global Filters" icon (you need to click on a report such as `Sales Report` before)
 
 <div style="text-align:left;">
   <img src="./artifacts/screenshots/Dashboard_GlobalFilters.png" width="50%">
