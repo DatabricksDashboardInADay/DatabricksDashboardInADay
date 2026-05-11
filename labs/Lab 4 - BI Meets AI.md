@@ -22,7 +22,7 @@ With Genie, teams can:
 ## Instructions
 
 Before you start, please verify:
-- The **Sunny Bay Coffee Sales metric view** `sm_fact_coffee_sales_genie` from Lab 2 is created and published in Unity Catalog (this is the provided Metric View).
+- The **Sunny Bay Coffee Sales metric view** `sm_fact_coffee_sales_genie` is created and published in Unity Catalog. This should have been deployed automatically in Lab 0. 
 - A **SQL warehouse** (Pro or serverless) is available and selectable for Genie queries.  
 
 **Step 1: Create the "Sunny Bay Sales Genie" Space**
@@ -129,7 +129,7 @@ ORDER BY
 
 3. Notice that a parameter named `onlinesales` has been added to the query (`:onlinesales`) and a configuration option was added. Verify that the data type is set to `string` by clicking the cog symbol. Type `false` in the text pane to set a default value.
 
-4. Open a new chat and ask the same question again. You will notice that the results are not filtered by the selection, the parameter can be configured and a certification mark is added to the response to indicate that a trusted asset has been used to answer the question.
+4. Open a new chat and ask the same question again. **Make sure to start this chat in `Chat` mode (see instructions below).** You will notice that the results are not filtered by the selection, the parameter can be configured and a certification mark is added to the response to indicate that a trusted asset has been used to answer the question.
 
 ![](./artifacts/screenshots/Genie_TrustedAsset.png)
 
