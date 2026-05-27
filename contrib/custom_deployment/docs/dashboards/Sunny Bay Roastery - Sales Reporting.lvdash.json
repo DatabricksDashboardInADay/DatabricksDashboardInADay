@@ -1,0 +1,349 @@
+{
+  "datasets": [
+    {
+      "name": "c4491862",
+      "displayName": "fact_coffee_sales_metric_view",
+      "asset_name": "sunny_bay_roastery.gold.fact_coffee_sales_metric_view"
+    }
+  ],
+  "pages": [
+    {
+      "name": "2512a6fb",
+      "displayName": "Overall Sales",
+      "layout": [
+        {
+          "widget": {
+            "name": "a577b9d4",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "c4491862",
+                  "fields": [
+                    {
+                      "name": "Store Name",
+                      "expression": "`Store Name`"
+                    },
+                    {
+                      "name": "monthly(Date)",
+                      "expression": "DATE_TRUNC(\"MONTH\", `Date`)"
+                    },
+                    {
+                      "name": "measure(total_gross_revenue_usd)",
+                      "expression": "MEASURE(`total_gross_revenue_usd`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "area",
+              "encodings": {
+                "x": {
+                  "fieldName": "monthly(Date)",
+                  "scale": {
+                    "type": "temporal"
+                  }
+                },
+                "y": {
+                  "fieldName": "measure(total_gross_revenue_usd)",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "Store Name",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 2,
+            "width": 4,
+            "height": 8
+          }
+        },
+        {
+          "widget": {
+            "name": "2e0908fe",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "c4491862",
+                  "fields": [
+                    {
+                      "name": "measure(total_gross_revenue_usd)",
+                      "expression": "MEASURE(`total_gross_revenue_usd`)"
+                    },
+                    {
+                      "name": "Day of Week",
+                      "expression": "`Day of Week`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "measure(total_gross_revenue_usd)",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "y": {
+                  "fieldName": "Day of Week",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "frame": {
+                "showDescription": false,
+                "showTitle": false
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 10,
+            "width": 2,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "bb8efe30",
+            "multilineTextboxSpec": {
+              "lines": [
+                "# Sales Dashboard"
+              ]
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 6,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "19a266ec",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "c4491862",
+                  "fields": [
+                    {
+                      "name": "count(*)",
+                      "expression": "COUNT(`*`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "count(*)"
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 4,
+            "y": 2,
+            "width": 2,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "2d42ba16",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "c4491862",
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {}
+            }
+          },
+          "position": {
+            "x": 2,
+            "y": 10,
+            "width": 3,
+            "height": 6
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS"
+    },
+    {
+      "name": "150ce7b3",
+      "displayName": "Global Filters",
+      "layout": [
+        {
+          "widget": {
+            "name": "53e4cfd7",
+            "queries": [
+              {
+                "name": "dashboards/01f0c18a11ba128591a3be28479b66db/datasets/01f0c18ac6791d299bce343e980ef0ff_Date",
+                "query": {
+                  "datasetName": "c4491862",
+                  "fields": [
+                    {
+                      "name": "Date",
+                      "expression": "`Date`"
+                    },
+                    {
+                      "name": "Date_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "filter-date-range-picker",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "Date",
+                    "queryName": "dashboards/01f0c18a11ba128591a3be28479b66db/datasets/01f0c18ac6791d299bce343e980ef0ff_Date"
+                  }
+                ]
+              },
+              "frame": {
+                "showTitle": true,
+                "showDescription": false
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 1,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "97f6a2cf",
+            "queries": [
+              {
+                "name": "dashboards/01f0c18a11ba128591a3be28479b66db/datasets/01f0c18ac6791d299bce343e980ef0ff_Store Name",
+                "query": {
+                  "datasetName": "c4491862",
+                  "fields": [
+                    {
+                      "name": "Store Name",
+                      "expression": "`Store Name`"
+                    },
+                    {
+                      "name": "Store Name_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "filter-multi-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "Store Name",
+                    "queryName": "dashboards/01f0c18a11ba128591a3be28479b66db/datasets/01f0c18ac6791d299bce343e980ef0ff_Store Name"
+                  }
+                ]
+              },
+              "frame": {
+                "showTitle": true
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 2,
+            "width": 1,
+            "height": 2
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_GLOBAL_FILTERS"
+    },
+    {
+      "name": "635294f3",
+      "displayName": "Sales by Product",
+      "pageType": "PAGE_TYPE_CANVAS"
+    },
+    {
+      "name": "b0e9e140",
+      "displayName": "Sales by Store",
+      "pageType": "PAGE_TYPE_CANVAS"
+    }
+  ],
+  "uiSettings": {
+    "theme": {
+      "canvasBackgroundColor": {
+        "light": "#D1E3D1",
+        "dark": "#1F272D"
+      },
+      "widgetBackgroundColor": {
+        "light": "#FFFFFF",
+        "dark": "#11171C"
+      },
+      "widgetBorderColor": {
+        "light": "#2F4F3E"
+      },
+      "fontColor": {
+        "light": "#11171C",
+        "dark": "#E8ECF0"
+      },
+      "selectionColor": {
+        "light": "#2272B4",
+        "dark": "#8ACAFF"
+      },
+      "visualizationColors": [
+        "#2F4F3E",
+        "#4E7B61",
+        "#7DAF8B",
+        "#C8B79A",
+        "#A64B2A",
+        "#8CC665",
+        "#D1E3D1"
+      ],
+      "widgetHeaderAlignment": "LEFT"
+    },
+    "genieSpace": {
+      "isEnabled": false
+    },
+    "applyModeEnabled": false
+  }
+}

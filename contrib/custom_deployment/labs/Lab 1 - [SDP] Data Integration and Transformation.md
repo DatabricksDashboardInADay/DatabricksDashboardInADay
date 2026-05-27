@@ -1,0 +1,133 @@
+# ☕ Lab 1 – Data Integration and Transformation
+
+## 🎯 Learning Objectives
+By the end of this lab, you will:
+- Understand how Databricks Spark Declarative Pipelines orchestrate medallion‑architecture data processing  
+- Modify SQL-based transformation logic in the **silver** and **gold** layers  
+- Add data quality constraints using SDP’s declarative expectations  
+- Extend the data model with new calculated fields  
+- Create a small aggregated gold table for reporting purposes  
+- Trigger and observe a full pipeline run
+
+## Introduction
+
+**What Are Spark Declarative Pipelines?**
+
+Spark Declarative Pipelines (SDP) enable data transformations using simple, intuitive SQL files.  
+They provide:
+
+- Automated orchestration of silver and gold layers  
+- Built-in data quality and constraint handling  
+- SQL-only development workflows  
+- Automatic table creation and lineage tracking  
+
+SDP allows non-engineers to safely contribute to data transformation logic.
+
+**Why Use Declarative Pipelines?**
+
+- SQL-only transformations simplify development  
+- Data quality rules ensure trustworthy outputs  
+- Pipelines automatically build medallion layers end-to-end  
+- Results immediately become available in Unity Catalog  
+- Perfect starting point for Analytics, Metric Views, and Dashboards  
+
+## Instructions
+
+**Step 1: Add a Data Quality Constraint to the Silver Layer**
+1. Open **Jobs & Pipelines** in the Databricks UI
+<div style="text-align:left;">
+  <img src="./artifacts/screenshots/SDP_JobPipelines.png" width="15%">
+</div>
+
+2. Click on the pipeline with the **suffix sunny_bay_roastery**
+
+3. Explore the Pipeline Monitoring UI
+
+4. Click on `Edit Pipeline` and confirm `Open source code in Git`
+<div style="text-align:left;">
+  <img src="./artifacts/screenshots/SDP_EditPipeline.png" width="30%">
+</div>
+
+5. Click on `Switch to associated pipeline`. Expand the Workspace and open the transformations folder.
+<div style="text-align:left;">
+  <img src="./artifacts/screenshots/SDP_Transformations.png" width="30%">
+</div>
+
+6. Open `silver/fact_coffee_sales.sql` and ensure that invalid quantities are removed before silver by adding the following constraint to the table `fact_coffee_sales`. If you're unsure where to place it, check the example solution in step 8:
+
+   ```sql
+   CONSTRAINT valid_quantity EXPECT (quantity_sold > 0) ON VIOLATION DROP ROW
+   ```
+
+7. Run the pipeline with a full table refresh to re-process all the data. This ensures that downstream analytics do not include negative or zero-sold quantities. How many rows did not meet the expectations?
+<div style="text-align:left;">
+  <img src="./artifacts/screenshots/SDP_RunPipelineWithFullTableRefresh.png" width="30%">
+</div>
+
+8. You can confirm your code with this example solution:
+
+   ```sql
+   CREATE OR REFRESH STREAMING TABLE silver.fact_coffee_sales (
+     CONSTRAINT valid_quantity EXPECT (quantity_sold > 0) ON VIOLATION DROP ROW
+   ) AS
+   SELECT
+       *
+   FROM STREAM read_files(
+     '/Volumes/${catalog}/bronze/raw/fact_coffee_sales/',
+     format => 'parquet'
+   );
+   ```
+
+9. Analyse the effect of the expectation column
+<div style="text-align:left;">
+  <img src="./artifacts/screenshots/SDP_Expectations.png" width="50%">
+</div>
+
+**Step 2: Add a New Derived Column (Gross Revenue in EUR)**
+
+1. Make sure you are now in the file **`gold/fact_coffee_sales.sql`**
+2. Add a new calculated column to the table **fact_coffee_sales** that computes gross revenue in EUR using a fixed conversion rate of **1.1**:
+
+   ```sql
+   (dp.list_price_usd * fcs.quantity_sold) * 1.1 AS gross_revenue_eur
+   ```
+
+3. This mirrors the USD metric and prepares multi‑currency reporting.
+4. Run the pipeline **without** a full table refresh to re-process all the data
+5. Find the new column in the Unity Catalog
+<div style="text-align:left;">
+  <img src="./artifacts/screenshots/SDP_NewColumn.png" width="15%">
+</div>
+
+**Step 3: Create a New Aggregated Gold Table for Revenue by Store**
+
+1. Create a new file **`gold/total_revenue_by_year.sql`** and add a new gold table that aggregates the total revenue for each store:
+
+   ```sql
+   CREATE OR REFRESH MATERIALIZED VIEW gold.total_revenue_by_year AS
+   SELECT
+       store_key AS store_key,
+       SUM(gross_revenue_usd) AS total_gross_revenue_usd
+   FROM gold.fact_coffee_sales
+   GROUP BY store_key;
+   ```
+
+2. Run only the new table by clicking on the `Dataset action` icon:
+<div style="text-align:left;">
+  <img src="./artifacts/screenshots/SDP_DatasetAction.png" width="70%">
+</div>
+3. Congratulations, the data is ready to be analyzed
+
+## Final Steps
+If you run into errors you can’t resolve, you can review the full reference implementations of both transformation files. They are available in **`./artifacts/Lab 1 - [SDP] Data Integration and Transformation/`** as **`silver_fallback.sql`** and **`gold_fallback.sql`**.
+
+## What Happens Next?
+
+You have successfully enhanced the transformation logic of your Lakehouse pipeline.  
+Your gold tables now include:
+
+- Data quality enforcement  
+- Extended business logic (EUR revenue)  
+- Aggregated yearly metrics  
+
+These enriched datasets will be used in **Lab 2**, where you will build Metric Views on top of this refined gold layer.

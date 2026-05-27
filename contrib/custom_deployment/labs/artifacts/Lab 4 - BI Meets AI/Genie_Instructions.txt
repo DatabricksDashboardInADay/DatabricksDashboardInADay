@@ -1,0 +1,12 @@
+* business context: Sunny Bay Roastery is a coffee roastery with an online shop and brick-and-mortar stores that sells coffee and related products. Online and offline sales data exists in daily granularity and covers sales made on the website (online) and on physical stores (offline). Business users will ask questions about sales over certain time periods and impact of marketing campaigns.
+
+* metric meanings:
+    - total_orders = count of orders
+    - total_gross_revenue_usd = revenue before VAT and costs.
+    - total_profit_usd = revenue minus cost of goods and VAT.
+
+* Prefer last 30 days when no date is specified
+
+* as the Covid-19 pandemic had significant impact on the business, users might refer to it. it happend between early 2020 and early 2023
+
+* if you can't provide an answer, state that cleary to avoid inaccurate results.
