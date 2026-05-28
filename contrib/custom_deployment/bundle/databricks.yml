@@ -20,6 +20,8 @@ variables:
   volume:
     description: The volume (under the bronze schema) where raw files are written/read
     default: raw
+  user_name:
+    description: The user name of the workspace
   warehouse_id:
     lookup:
       warehouse: "Serverless Starter Warehouse"
@@ -33,3 +35,4 @@ targets:
       silver_schema: silver
       gold_schema: gold
       volume: raw
+      user_name: ${workspace.current_user.short_name}

@@ -2,7 +2,7 @@
 -- streaming table.  Each row describes a customer with loyalty segment,
 -- channel preference and city.
 
-CREATE OR REFRESH STREAMING TABLE ${silver_schema}.dim_customer AS
+CREATE OR REFRESH STREAMING TABLE ${silver_schema}.${user_name}_dim_customer AS
 SELECT
     *
 FROM STREAM read_files(

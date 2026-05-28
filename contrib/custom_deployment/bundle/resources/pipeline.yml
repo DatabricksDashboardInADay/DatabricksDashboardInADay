@@ -12,6 +12,7 @@ resources:
         silver_schema: ${var.silver_schema}
         gold_schema: ${var.gold_schema}
         volume: ${var.volume}
+        user_name: ${var.user_name}
       libraries:
         - glob:
             include: ../src/transformations/**

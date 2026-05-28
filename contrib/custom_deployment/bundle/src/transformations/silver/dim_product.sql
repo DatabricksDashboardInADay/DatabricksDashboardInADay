@@ -2,7 +2,7 @@
 -- streaming table.  Contains product name, category, pricing and
 -- availability attributes for every item in the catalogue.
 
-CREATE OR REFRESH STREAMING TABLE ${silver_schema}.dim_product AS
+CREATE OR REFRESH STREAMING TABLE ${silver_schema}.${user_name}_dim_product AS
 SELECT
     *
 FROM STREAM read_files(

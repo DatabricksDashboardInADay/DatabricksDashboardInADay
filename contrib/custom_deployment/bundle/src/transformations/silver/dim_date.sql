@@ -2,7 +2,7 @@
 -- streaming table using Auto Loader.  Each row represents one calendar day
 -- with pre-computed helper columns (year, month, day-of-week, season, etc.).
 
-CREATE OR REFRESH STREAMING TABLE ${silver_schema}.dim_date AS
+CREATE OR REFRESH STREAMING TABLE ${silver_schema}.${user_name}_dim_date AS
 SELECT
     *
 FROM STREAM read_files(

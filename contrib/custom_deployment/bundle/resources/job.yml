@@ -14,6 +14,8 @@ resources:
           default: ${var.gold_schema}
         - name: volume
           default: ${var.volume}
+        - name: user_name
+          default: ${var.user_name}
 
       name: "Sunny Bay Roastery Job"
       tasks:

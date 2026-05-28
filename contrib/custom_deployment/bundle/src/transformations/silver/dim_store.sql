@@ -2,7 +2,7 @@
 -- streaming table.  Contains one row per store with location, capacity,
 -- tax-rate and geographic attributes.
 
-CREATE OR REFRESH STREAMING TABLE ${silver_schema}.dim_store AS
+CREATE OR REFRESH STREAMING TABLE ${silver_schema}.${user_name}_dim_store AS
 SELECT
     *
 FROM STREAM read_files(
