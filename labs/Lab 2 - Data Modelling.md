@@ -229,7 +229,7 @@ On purpose, you did not yet use any advanced features such as complex calculatio
   - name: total_gross_revenue_usd_previous_day
     expr: measure(`total_gross_revenue_usd`)
     window:
-      - order: date_date
+      - order: date
         semiadditive: last
         range: trailing 1 day
 ```
