@@ -81,20 +81,31 @@ They allow consistent reporting, simplify complex SQL logic, and centralize metr
 | `dim_store` | `source.store_key = store.store_key` | Store Name, Is Online, Latitude, Longitude |
 
 > [!TIP]
-> If you are curious about other dimensions, you can of course select them as well.
+> You can also add the joins in the UI.
+
+![alt text](./artifacts/screenshots/MetricView_UI_AddJoin.png)
 
 6. For each dimension you can enter a `Display Name`. This is the bridge between technical column names used by developers (e.g., `product_category`) and human-readable labels for business users (e.g., `Product Category`).
 
 ![alt text](./artifacts/screenshots/MetricView_UI_DimensionConf.png)
 
-7. Here, delete all other ones, including those coming from the `fact_coffee_sales` table. You can delete the dimensions in bulk.
+7. Delete the irrelevant dimension columns such as: `Date Key`, `Txn Seq`, `Product Key`, `Customer Key`, and `Store Key`.
 
 > [!NOTE]
 > It is best practice to hide non-relevant and technical columns from business users who consume metric views. This keeps the model clean and easy to navigate.
 
-![alt text](./artifacts/screenshots/MetricView_UI_DimensionConf1.png)
+8. Now create a derived dimension that groups each order into a value band. Open `Dimensions`, click `+ Add`, set the name to `basket_size` (Display Name `Basket Size`), and copy this snippet into the `Expression` field:
 
-8. Congratulations for creating the basic semantic model of Sunny Bay Roastery. In the next step we are going to integrate measures.
+```sql
+CASE
+  WHEN gross_revenue_usd < 10 THEN '1 - Under $10'
+  WHEN gross_revenue_usd < 25 THEN '2 - $10–$25'
+  WHEN gross_revenue_usd < 50 THEN '3 - $25–$50'
+  ELSE '4 - $50+'
+END
+```
+
+9. Congratulations for creating the basic semantic model of Sunny Bay Roastery. In the next step we are going to integrate measures.
 
 ![alt text](./artifacts/screenshots/MetricView_UI_DataModel.png)
 
@@ -124,6 +135,10 @@ They allow consistent reporting, simplify complex SQL logic, and centralize metr
 **TIP**: you can switch back and forth using the above mentioned switch at the top. To create exactly the same Metric View from above, you can copy the YAML definition over and see/change the results using the GUI. Finally, the Metric View that you defined above will look like this in the UI editor:
 
 ![alt text](./artifacts/screenshots/MetricView_UI_Final.png)
+
+6. Test the measure `total_net_revenue_usd` by clicking on the the `Preview` button, and visualizing the measure grouped by `date`.
+
+![alt text](./artifacts/screenshots/MetricView_UI_MeasurePreview.png)
 
 **Step 4: Final Steps**
 1. Click on `Save`.
@@ -176,6 +191,15 @@ dimensions:
   - name: store_longitude
     expr: store.longitude
     display_name: Store Longitude
+  - name: basket_size
+    expr: |
+      CASE
+        WHEN gross_revenue_usd < 10 THEN '1 - Under $10'
+        WHEN gross_revenue_usd < 25 THEN '2 - $10–$25'
+        WHEN gross_revenue_usd < 50 THEN '3 - $25–$50'
+        ELSE '4 - $50+'
+      END
+    display_name: Basket Size
 
 measures:
   - name: total_net_revenue_usd
