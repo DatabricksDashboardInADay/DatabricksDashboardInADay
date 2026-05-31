@@ -275,12 +275,8 @@ Pivot tables allow you to explore your data across multiple dimensions simultane
 
 1. Congratulations, the report is ready for production. Click on `Publish` to make the report available for report consumers. 
 
-<div style="text-align:left;">
-  <img src="./artifacts/screenshots/Dashboard_Publish.png" width="15%">
-</div>
-
 2. Select the `Individual data permissions` and click publish
-3. Click on the `View Published` button to switch to the perspective of a **Dashboard Consumer**
+3. Click on the `View Deployed` button to switch to the perspective of a **Dashboard Consumer**
 4. Download the Dashboard as a PDF by clicking on the kebab menu and `Download as PDF`
 
 **Step 13: View the Report as a Consumer**
