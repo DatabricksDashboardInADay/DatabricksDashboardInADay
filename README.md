@@ -27,7 +27,7 @@ Sunny Bay uses **Databricks** for analytics; you will too.
 1. In Databricks, go to the sidebar and select **Workspace**.
 2. Navigate to your desired folder (e.g., under your username).
 3. Click **Create > Git folder**.
-4. Enter the current URL: e.g., `https://github.com/DatabricksDashboardInADay/DatabricksDashboardInADay.git`
+4. Enter the current URL: e.g., `https://tinyurl.com/databricks-aibi`
 5. Click **Create**.
 6. Expand the repo folder and open the `Lab 0` notebook in the folder `labs`.
 

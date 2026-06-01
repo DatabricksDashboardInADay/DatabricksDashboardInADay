@@ -1,0 +1,8 @@
+---
+description: Project rules for the Databricks Dashboard in a Day workshop
+alwaysApply: true
+---
+
+The canonical project rules live in AGENTS.md at the repo root. Read and follow them.
+
+@AGENTS.md

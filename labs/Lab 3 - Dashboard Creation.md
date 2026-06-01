@@ -271,21 +271,17 @@ Pivot tables allow you to explore your data across multiple dimensions simultane
 12. The filter is propagated to the `Market Report`, and the revenue for each product grouped by day of the week is displayed
 13. Reset the filter by clicking `Reset all to default`
 
-**Step 12: Publish the Report**
+**Step 12: View the Deployed Report**
 
-1. Congratulations, the report is ready for production. Click on `Publish` to make the report available for report consumers. 
+1. Congratulations, the report is ready. Because this dashboard is deployed and managed by your asset bundle, you won't see a `Publish` button — instead there is a `View Deployed` button.
 
-<div style="text-align:left;">
-  <img src="./artifacts/screenshots/Dashboard_Publish.png" width="15%">
-</div>
+2. Click `View Deployed` to switch to the perspective of a **Dashboard Consumer**.
 
-2. Select the `Individual data permissions` and click publish
-3. Click on the `View Published` button to switch to the perspective of a **Dashboard Consumer**
-4. Download the Dashboard as a PDF by clicking on the kebab menu and `Download as PDF`
+3. Download the Dashboard as a PDF by clicking on the kebab menu and `Download as PDF`.
 
 **Step 13: View the Report as a Consumer**
 
-1. Open the Databricks One UI
+1. Open the Databricks Genie UI
 
 <div style="text-align:left;">
   <img src="./artifacts/screenshots/Dashboard_DatabricksOne.png" width="15%">
@@ -300,4 +296,4 @@ Business users can:
 
 - Filter by store and product to answer ad-hoc questions.
 - Use cross-filtering and drill-through for deeper analysis.
-- Access the report in Databricks One UI as dashboard consumers.
+- Access the report in Databricks Genie UI as dashboard consumers.
