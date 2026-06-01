@@ -29,7 +29,7 @@ Sunny Bay uses **Databricks** for analytics; you will too.
 3. Click **Create > Git folder**.
 4. Enter the current URL: e.g., `https://tinyurl.com/databricks-aibi`
 5. Click **Create**.
-6. Expand the repo folder and open the `Lab 0` guide in the folder `labs`.
+6. Expand the repo folder and open the `Lab 0` notebook in the folder `labs`.
 
 ## Step 3 – Choose Your Starting Point
 
@@ -38,7 +38,7 @@ The labs are modular — you can start from any lab. Lab 0 pre-deploys all neces
 
 | Lab | Topic | Guide |
 |-----|-------|-------|
-| **Lab 0** | Setup: Clone the repo, deploy assets, and configure the workspace | [guide](labs/Lab%200%20-%20Intro.md) |
+| **Lab 0** | Setup: Clone the repo, deploy assets, and configure the workspace | [guide](labs/Lab%200%20-%20Intro.ipynb) |
 | **Lab 1 [SDP]** | Data Integration: Build the medallion architecture using Spark Declarative Pipelines | [guide](labs/Lab%201%20-%20%5BSDP%5D%20Data%20Integration%20and%20Transformation.md) |
 | **Lab 1 [SQL]** | Data Integration: Build the same medallion architecture with pure SQL on a SQL Warehouse | [guide](labs/Lab%201%20-%20%5BSQL%5D%20Data%20Integration%20and%20Transformation.md) |
 | **Lab 2** | Data Modelling: Create Metric Views to add business semantics to gold data | [guide](labs/Lab%202%20-%20Data%20Modelling.md) |
