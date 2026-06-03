@@ -18,16 +18,16 @@
             "name": "date-1",
             "queries": [
               {
-                "name": "dashboards/01f14cacef8f1f99b457687df758a649/datasets/01f14cacef9011e1b96868f00c64d202_date_date",
+                "name": "dashboards/01f14cacef8f1f99b457687df758a649/datasets/01f14cacef9011e1b96868f00c64d202_date",
                 "query": {
                   "datasetName": "8420be85",
                   "fields": [
                     {
-                      "name": "date_date",
-                      "expression": "`date_date`"
+                      "name": "date",
+                      "expression": "`date`"
                     },
                     {
-                      "name": "date_date_associativity",
+                      "name": "date_associativity",
                       "expression": "COUNT_IF(`associative_filter_predicate_group`)"
                     }
                   ],
@@ -58,8 +58,8 @@
               "encodings": {
                 "fields": [
                   {
-                    "fieldName": "date_date",
-                    "queryName": "dashboards/01f14cacef8f1f99b457687df758a649/datasets/01f14cacef9011e1b96868f00c64d202_date_date"
+                    "fieldName": "date",
+                    "queryName": "dashboards/01f14cacef8f1f99b457687df758a649/datasets/01f14cacef9011e1b96868f00c64d202_date"
                   }
                 ]
               }
@@ -136,8 +136,8 @@
                       "expression": "MEASURE(`total_net_revenue_usd`)"
                     },
                     {
-                      "name": "monthly(date_date)",
-                      "expression": "DATE_TRUNC(\"MONTH\", `date_date`)"
+                      "name": "monthly(date)",
+                      "expression": "DATE_TRUNC(\"MONTH\", `date`)"
                     },
                     {
                       "name": "measure(total_profit_usd)",
@@ -158,7 +158,7 @@
               "widgetType": "bar",
               "encodings": {
                 "x": {
-                  "fieldName": "monthly(date_date)",
+                  "fieldName": "monthly(date)",
                   "scale": {
                     "type": "temporal"
                   }
@@ -560,8 +560,8 @@
                   "datasetName": "8420be85",
                   "fields": [
                     {
-                      "name": "yearly(date_date)",
-                      "expression": "DATE_TRUNC(\"YEAR\", `date_date`)"
+                      "name": "yearly(date)",
+                      "expression": "DATE_TRUNC(\"YEAR\", `date`)"
                     },
                     {
                       "name": "measure(total_net_revenue_usd)",
@@ -572,7 +572,7 @@
                   "orders": [
                     {
                       "direction": "DESC",
-                      "expression": "DATE_TRUNC(\"YEAR\", `date_date`)"
+                      "expression": "DATE_TRUNC(\"YEAR\", `date`)"
                     }
                   ]
                 }
@@ -613,7 +613,7 @@
                   }
                 },
                 "period": {
-                  "fieldName": "yearly(date_date)"
+                  "fieldName": "yearly(date)"
                 }
               }
             }
@@ -635,8 +635,8 @@
                   "datasetName": "8420be85",
                   "fields": [
                     {
-                      "name": "yearly(date_date)",
-                      "expression": "DATE_TRUNC(\"YEAR\", `date_date`)"
+                      "name": "yearly(date)",
+                      "expression": "DATE_TRUNC(\"YEAR\", `date`)"
                     },
                     {
                       "name": "measure(total_profit_usd)",
@@ -647,7 +647,7 @@
                   "orders": [
                     {
                       "direction": "DESC",
-                      "expression": "DATE_TRUNC(\"YEAR\", `date_date`)"
+                      "expression": "DATE_TRUNC(\"YEAR\", `date`)"
                     }
                   ]
                 }
@@ -698,7 +698,7 @@
                   }
                 },
                 "period": {
-                  "fieldName": "yearly(date_date)"
+                  "fieldName": "yearly(date)"
                 }
               }
             }
@@ -786,7 +786,7 @@
                   ],
                   "filters": [
                     {
-                      "expression": "IN_RANGE(`date_date`, DATE'2020-01-01', DATE'2025-12-31')"
+                      "expression": "IN_RANGE(`date`, DATE'2020-01-01', DATE'2025-12-31')"
                     }
                   ],
                   "cubeGroupingSets": {

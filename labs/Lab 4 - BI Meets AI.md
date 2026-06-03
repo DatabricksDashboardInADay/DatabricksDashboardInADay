@@ -83,15 +83,15 @@ Before you start, please verify:
 ```SQL
 SELECT
   CASE
-    WHEN MONTH(date_date) >= 6 THEN YEAR(date_date) + 1
-    ELSE YEAR(date_date)
+    WHEN MONTH(`date`) >= 6 THEN YEAR(`date`) + 1
+    ELSE YEAR(`date`)
   END AS fiscal_year,
   store_online,
   MEASURE(total_gross_revenue_usd) AS total_gross_revenue_usd
 FROM
   sunny_bay_roastery.gold.sm_fact_coffee_sales_genie
 WHERE
-  date_date IS NOT NULL
+  `date` IS NOT NULL
   AND store_online IS NOT NULL
 GROUP BY ALL
 ORDER BY
@@ -111,15 +111,15 @@ ORDER BY
 ```SQL
  SELECT
   CASE
-    WHEN MONTH(date_date) >= 6 THEN YEAR(date_date) + 1
-    ELSE YEAR(date_date)
+    WHEN MONTH(`date`) >= 6 THEN YEAR(`date`) + 1
+    ELSE YEAR(`date`)
   END AS fiscal_year,
   store_online,
   MEASURE(total_gross_revenue_usd) AS total_gross_revenue_usd
 FROM
   sunny_bay_roastery.gold.sm_fact_coffee_sales_genie
 WHERE
-  date_date IS NOT NULL
+  `date` IS NOT NULL
   AND store_online = :onlinesales
 GROUP BY ALL
 ORDER BY
