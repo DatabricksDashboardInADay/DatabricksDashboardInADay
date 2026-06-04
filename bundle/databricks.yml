@@ -22,7 +22,7 @@ targets:
     mode: development
     default: true
     variables:
-      catalog: sunny_bay_roastery
+      catalog: customurl_catalog
       bronze_schema: bronze
       silver_schema: silver
       gold_schema: gold
