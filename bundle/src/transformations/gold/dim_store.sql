@@ -1,7 +1,7 @@
 -- Promotes the silver store dimension into the gold layer as a materialized
 -- view, making it directly queryable for dashboards and reporting.
 
-CREATE OR REPLACE MATERIALIZED VIEW gold.dim_store AS
+CREATE OR REPLACE MATERIALIZED VIEW gold.${prefix}dim_store AS
 SELECT
     store_key,
     store_name,
@@ -23,4 +23,4 @@ SELECT
     postal_code,
     latitude,
     longitude
-FROM silver.dim_store;
+FROM silver.${prefix}dim_store;

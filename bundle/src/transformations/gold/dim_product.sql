@@ -2,7 +2,7 @@
 -- materialized view, making it directly queryable for dashboards and
 -- reporting.
 
-CREATE OR REPLACE MATERIALIZED VIEW gold.dim_product AS
+CREATE OR REPLACE MATERIALIZED VIEW gold.${prefix}dim_product AS
 SELECT
     product_key,
     product_name,
@@ -13,4 +13,4 @@ SELECT
     available_online,
     list_price_usd,
     cost_of_goods_usd
-FROM silver.dim_product;
+FROM silver.${prefix}dim_product;

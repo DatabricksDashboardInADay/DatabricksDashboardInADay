@@ -14,6 +14,9 @@ variables:
     description: The silver schema to use
   gold_schema:
     description: The gold schema to use
+  prefix:
+    description: Optional prefix added to all Unity Catalog object names (tables, views, metric view) so several people can share one catalog and schema
+    default: ""
   warehouse_id:
     lookup:
       warehouse: "Serverless Starter Warehouse"
@@ -26,3 +29,4 @@ targets:
       bronze_schema: bronze
       silver_schema: silver
       gold_schema: gold
+      prefix: ""

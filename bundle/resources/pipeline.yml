@@ -8,6 +8,7 @@ resources:
       root_path: "."
       configuration:
         catalog: ${var.catalog}
+        prefix: ${var.prefix}
       libraries:
         - glob:
             include: ../src/transformations/**
