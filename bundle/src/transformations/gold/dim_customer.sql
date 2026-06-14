@@ -3,4 +3,10 @@
 -- reporting.
 
 CREATE OR REPLACE MATERIALIZED VIEW gold.dim_customer AS
-SELECT * FROM silver.dim_customer;
+SELECT
+    customer_key,
+    loyalty_segment,
+    channel_preference,
+    is_home_barista,
+    city
+FROM silver.dim_customer;

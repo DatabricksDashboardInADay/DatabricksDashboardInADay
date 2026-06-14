@@ -6,7 +6,11 @@ CREATE OR REPLACE MATERIALIZED VIEW gold.fact_coffee_sales
 CLUSTER BY (store_key, date_key)
 AS
 SELECT
-    fcs.*,
+    fcs.date_key,
+    fcs.store_key,
+    fcs.product_key,
+    fcs.customer_key,
+    fcs.quantity_sold,
     dp.list_price_usd * fcs.quantity_sold                       AS gross_revenue_usd,
     (dp.list_price_usd * fcs.quantity_sold) / (1 + ds.tax_rate) AS net_revenue_usd,
     ds.tax_rate * dp.list_price_usd * fcs.quantity_sold  AS vat_usd,
