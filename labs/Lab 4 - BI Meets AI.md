@@ -25,6 +25,9 @@ Before you start, please verify:
 - The **Sunny Bay Coffee Sales metric view** `sm_fact_coffee_sales_genie` is created and published in Unity Catalog. This should have been deployed automatically in Lab 0. 
 - A **SQL warehouse** (Pro or serverless) is available and selectable for Genie queries.  
 
+> [!NOTE]
+> A ready-made **"Sunny Bay Sales Genie (Fallback)"** space was deployed automatically during the Lab 0 setup. It already has the metric view, instructions, and the trusted query you will build below. If you run short on time or get stuck, open that space from the Genie list and use it — but we strongly encourage you to build your own first to learn how each piece fits together.
+
 **Step 1: Create the "Sunny Bay Sales Genie" Space**
 
 1. In the Databricks workspace, open **Genie** from the left navigation.  

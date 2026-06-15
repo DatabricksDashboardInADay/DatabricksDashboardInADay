@@ -3,20 +3,73 @@
 -- =======================================
 
 CREATE OR REPLACE MATERIALIZED VIEW gold.dim_date AS
-SELECT * FROM silver.dim_date;
+SELECT
+    date_key,
+    date,
+    year,
+    month,
+    day,
+    calendar_week,
+    day_of_week,
+    day_name,
+    is_weekend,
+    season,
+    is_us_public_holiday
+FROM silver.dim_date;
 
 CREATE OR REPLACE MATERIALIZED VIEW gold.dim_store AS
-SELECT * FROM silver.dim_store;
+SELECT
+    store_key,
+    store_name,
+    store_type,
+    city,
+    neighborhood_or_channel,
+    is_online,
+    store_area_sqm,
+    seating_capacity,
+    num_employees,
+    store_manager,
+    tax_rate,
+    country_name,
+    country_iso2,
+    country_iso3,
+    state_province,
+    state_iso2,
+    county_district,
+    postal_code,
+    latitude,
+    longitude
+FROM silver.dim_store;
 
 CREATE OR REPLACE MATERIALIZED VIEW gold.dim_customer AS
-SELECT * FROM silver.dim_customer;
+SELECT
+    customer_key,
+    loyalty_segment,
+    channel_preference,
+    is_home_barista,
+    city
+FROM silver.dim_customer;
 
 CREATE OR REPLACE MATERIALIZED VIEW gold.dim_product AS
-SELECT * FROM silver.dim_product;
+SELECT
+    product_key,
+    product_name,
+    product_category,
+    product_subcategory,
+    is_beans,
+    available_in_store,
+    available_online,
+    list_price_usd,
+    cost_of_goods_usd
+FROM silver.dim_product;
 
 CREATE OR REPLACE MATERIALIZED VIEW gold.fact_coffee_sales AS
 SELECT
-    fcs.*,
+    fcs.date_key,
+    fcs.store_key,
+    fcs.product_key,
+    fcs.customer_key,
+    fcs.quantity_sold,
     dp.list_price_usd * fcs.quantity_sold                       AS gross_revenue_usd,
     (dp.list_price_usd * fcs.quantity_sold) / (1 + ds.tax_rate) AS net_revenue_usd,
     (dp.list_price_usd * fcs.quantity_sold) * 1.1 AS gross_revenue_eur,

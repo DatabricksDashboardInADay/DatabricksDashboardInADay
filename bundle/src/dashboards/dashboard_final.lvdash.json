@@ -3,7 +3,7 @@
     {
       "name": "8420be85",
       "displayName": "sm_fact_coffee_sales",
-      "asset_name": "__CATALOG__.__GOLD_SCHEMA__.sm_fact_coffee_sales_genie",
+      "asset_name": "__CATALOG__.__GOLD_SCHEMA__.__PREFIX__sm_fact_coffee_sales_genie",
       "catalog": "sunny_bay_roastery",
       "schema": "gold"
     }

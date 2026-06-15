@@ -12,6 +12,10 @@ resources:
           default: ${var.silver_schema}
         - name: gold_schema
           default: ${var.gold_schema}
+        - name: prefix
+          default: ${var.prefix}
+        - name: warehouse_id
+          default: ${var.warehouse_id}
 
       name: "Sunny Bay Roastery Job"
       tasks:
@@ -28,3 +32,8 @@ resources:
             - task_key: run_pipeline
           notebook_task:
             notebook_path: ../src/notebooks/deploy_metric_view.ipynb
+        - task_key: deploy_genie_space
+          depends_on:
+            - task_key: deploy_metric_view
+          notebook_task:
+            notebook_path: ../src/notebooks/deploy_genie_space.ipynb

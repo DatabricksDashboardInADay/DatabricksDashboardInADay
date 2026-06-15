@@ -168,21 +168,74 @@ The gold layer joins fact data with dimension tables and adds calculated busines
 ```sql
 -- Dimension tables promoted to gold
 CREATE OR REPLACE TABLE sunny_bay_roastery.gold.dim_date_sql AS
-SELECT * FROM sunny_bay_roastery.silver.dim_date_sql;
+SELECT
+    date_key,
+    date,
+    year,
+    month,
+    day,
+    calendar_week,
+    day_of_week,
+    day_name,
+    is_weekend,
+    season,
+    is_us_public_holiday
+FROM sunny_bay_roastery.silver.dim_date_sql;
 
 CREATE OR REPLACE TABLE sunny_bay_roastery.gold.dim_store_sql AS
-SELECT * FROM sunny_bay_roastery.silver.dim_store_sql;
+SELECT
+    store_key,
+    store_name,
+    store_type,
+    city,
+    neighborhood_or_channel,
+    is_online,
+    store_area_sqm,
+    seating_capacity,
+    num_employees,
+    store_manager,
+    tax_rate,
+    country_name,
+    country_iso2,
+    country_iso3,
+    state_province,
+    state_iso2,
+    county_district,
+    postal_code,
+    latitude,
+    longitude
+FROM sunny_bay_roastery.silver.dim_store_sql;
 
 CREATE OR REPLACE TABLE sunny_bay_roastery.gold.dim_customer_sql AS
-SELECT * FROM sunny_bay_roastery.silver.dim_customer_sql;
+SELECT
+    customer_key,
+    loyalty_segment,
+    channel_preference,
+    is_home_barista,
+    city
+FROM sunny_bay_roastery.silver.dim_customer_sql;
 
 CREATE OR REPLACE TABLE sunny_bay_roastery.gold.dim_product_sql AS
-SELECT * FROM sunny_bay_roastery.silver.dim_product_sql;
+SELECT
+    product_key,
+    product_name,
+    product_category,
+    product_subcategory,
+    is_beans,
+    available_in_store,
+    available_online,
+    list_price_usd,
+    cost_of_goods_usd
+FROM sunny_bay_roastery.silver.dim_product_sql;
 
 -- Enriched fact table with business metrics
 CREATE OR REPLACE TABLE sunny_bay_roastery.gold.fact_coffee_sales_sql AS
 SELECT
-    fcs.*,
+    fcs.date_key,
+    fcs.store_key,
+    fcs.product_key,
+    fcs.customer_key,
+    fcs.quantity_sold,
     dp.list_price_usd * fcs.quantity_sold                       AS gross_revenue_usd,
     (dp.list_price_usd * fcs.quantity_sold) / (1 + ds.tax_rate) AS net_revenue_usd,
     ds.tax_rate * dp.list_price_usd * fcs.quantity_sold         AS vat_usd,

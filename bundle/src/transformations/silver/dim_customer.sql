@@ -2,11 +2,10 @@
 -- streaming table.  Each row describes a customer with loyalty segment,
 -- channel preference and city.
 
-CREATE OR REFRESH STREAMING TABLE silver.dim_customer AS
+CREATE OR REFRESH STREAMING TABLE silver.${prefix}dim_customer AS
 SELECT
     *
 FROM STREAM read_files(
-  '/Volumes/${catalog}/bronze/raw/dim_customer/',
-  format => 'csv',
-  rescuedDataColumn => 'None'
+  '/Volumes/${catalog}/bronze/raw/${prefix}dim_customer/',
+  format => 'csv'
 );
