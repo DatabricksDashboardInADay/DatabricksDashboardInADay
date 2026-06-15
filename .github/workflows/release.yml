@@ -60,4 +60,4 @@ jobs:
           git push origin "$BRANCH"
           git tag -a "$TAG" -m "Release $TAG"
           git push origin "$TAG"
-          gh release create "$TAG" --target "$TAG" --generate-notes --title "$TAG"
+          gh release create "$TAG" --verify-tag --generate-notes --title "$TAG"
