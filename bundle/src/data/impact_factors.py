@@ -318,6 +318,43 @@ def add_seasonality_features(
     )
 
 
+def add_launch_ramp_features(
+    df: DataFrame,
+    ramp_months: int = 0,
+    store_start_date: Optional[str] = None,
+) -> DataFrame:
+    """
+    Adds column:
+      - launch_ramp_factor (double)
+
+    Models a gradual store launch: instead of opening at full volume, sales
+    ramp linearly from 1/ramp_months in the first month up to 1.0 by month
+    ``ramp_months``, then stay at 1.0. With ``ramp_months`` <= 0 the factor is a
+    constant 1.0 (no ramp), so it is a no-op for stores that open at full volume.
+
+    The ramp is measured from ``store_start_date`` (the store's own opening),
+    NOT the global ``start_date`` helper column, which is the same calendar
+    origin for every store.
+    """
+    df = df.withColumn("date", F.to_date("date"))
+
+    if not ramp_months or ramp_months <= 0 or not store_start_date:
+        return df.withColumn("launch_ramp_factor", F.lit(1.0))
+
+    open_date = F.to_date(F.lit(store_start_date))
+    months_since_open = F.floor(
+        F.months_between(F.trunc(F.col("date"), "month"), F.trunc(open_date, "month"))
+    ).cast("int")
+
+    ramp = F.least(
+        (months_since_open + F.lit(1)).cast("double") / F.lit(float(ramp_months)),
+        F.lit(1.0),
+    )
+    ramp = F.when(months_since_open < 0, F.lit(1.0)).otherwise(ramp)
+
+    return df.withColumn("launch_ramp_factor", ramp.cast("double"))
+
+
 def add_total_impact_features(
     df: DataFrame,
     factor_cols: Optional[List[str]] = None,
@@ -338,6 +375,7 @@ def add_total_impact_features(
         "organic_mom_growth_factor",
         "covid_impact_factor",
         "seasonality_impact_factor",
+        "launch_ramp_factor",
     ]
 
     if factor_cols is None:
