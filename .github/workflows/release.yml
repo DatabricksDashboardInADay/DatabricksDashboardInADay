@@ -1,47 +1,55 @@
 name: Release on merge to main
 
-# When a PR is merged into main, cut the next release: a release/X.Y.Z branch,
-# a vX.Y.Z tag, and a GitHub Release. The bump size comes from a PR label
-# (major / minor / patch); with no label it defaults to a patch bump.
+# Fires on every push to main (i.e. when a PR is merged). Cuts the next
+# release: a release/X.Y.Z branch, a vX.Y.Z tag, and a GitHub Release.
+#
+# Triggering on push (not pull_request) means the workflow runs from the
+# just-merged commit, so it also releases the PR that introduces this file.
+# The bump size comes from the merged PR's label (major / minor / patch),
+# looked up from the merge commit; with no label it defaults to a patch bump.
 
 on:
-  pull_request:
-    types: [closed]
+  push:
     branches: [main]
 
 permissions:
   contents: write
+  pull-requests: read
 
 concurrency:
   group: release
 
 jobs:
   release:
-    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          ref: main
 
       - name: Compute next version
         id: ver
         env:
-          LABELS: ${{ join(github.event.pull_request.labels.*.name, ' ') }}
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          SHA: ${{ github.sha }}
         run: |
           set -euo pipefail
+          # Labels of the PR this merge commit came from (empty for direct pushes).
+          labels=$(gh api "repos/${REPO}/commits/${SHA}/pulls" \
+                     -H "Accept: application/vnd.github+json" \
+                     --jq '.[].labels[].name' 2>/dev/null | tr '\n' ' ' || true)
           latest=$(git tag --list 'v*' --sort=-v:refname | head -n1)
           latest=${latest:-v0.0.0}
           IFS=. read -r major minor patch <<< "${latest#v}"
-          case " $LABELS " in
+          case " $labels " in
             *" major "*) major=$((major+1)); minor=0; patch=0 ;;
             *" minor "*) minor=$((minor+1)); patch=0 ;;
             *)           patch=$((patch+1)) ;;
           esac
           echo "tag=v${major}.${minor}.${patch}" >> "$GITHUB_OUTPUT"
           echo "branch=release/${major}.${minor}.${patch}" >> "$GITHUB_OUTPUT"
-          echo "Previous: ${latest} -> next: v${major}.${minor}.${patch}"
+          echo "Labels: [$labels] | previous: ${latest} -> next: v${major}.${minor}.${patch}"
 
       - name: Cut release
         env:
