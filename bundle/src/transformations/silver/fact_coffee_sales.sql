@@ -8,6 +8,5 @@ SELECT
     *
 FROM STREAM read_files(
   '/Volumes/${catalog}/bronze/raw/${prefix}fact_coffee_sales/',
-  format => 'parquet',
-  rescuedDataColumn => 'NULL'
+  format => 'parquet'
 );
