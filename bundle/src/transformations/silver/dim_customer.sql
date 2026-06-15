@@ -8,5 +8,5 @@ SELECT
 FROM STREAM read_files(
   '/Volumes/${catalog}/bronze/raw/${prefix}dim_customer/',
   format => 'csv',
-  rescuedDataColumn => 'None'
+  rescuedDataColumn => 'NULL'
 );
