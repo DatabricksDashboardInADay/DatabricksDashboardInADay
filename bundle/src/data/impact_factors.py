@@ -370,8 +370,16 @@ def explode_by_simulated_volume(
     """
     df = df.withColumn(volume_col, F.coalesce(F.col(volume_col), F.lit(0)).cast("int"))
 
-    # sequence needs the column name in the SQL expression
-    df = df.withColumn("volume_seq", F.expr(f"sequence(1, {volume_col})"))
+    # Build a 1..volume sequence ONLY when volume >= 1. For volume <= 0 the
+    # sequence is left null so the explode drops the row entirely. (A naive
+    # sequence(1, volume) is wrong here: Spark infers a descending step when
+    # start > stop, so sequence(1, 0) -> [1, 0] and sequence(1, -1) -> [1, 0, -1],
+    # which would resurrect 2+ phantom transactions on every zero-volume day and
+    # mask deep dips such as the COVID trough.)
+    df = df.withColumn(
+        "volume_seq",
+        F.when(F.col(volume_col) >= F.lit(1), F.sequence(F.lit(1), F.col(volume_col))),
+    )
     df = df.withColumn("_txn_seq", F.explode("volume_seq")).drop("volume_seq")
 
     return df
