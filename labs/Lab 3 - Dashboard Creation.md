@@ -281,7 +281,7 @@ Pivot tables allow you to explore your data across multiple dimensions simultane
 
 **Step 13: View the Report as a Consumer**
 
-1. Open the Databricks Genie UI
+1. Open **Genie One** (formerly Databricks One) by clicking the **app switcher** icon in the upper-right corner and selecting **Genie One**, or by adding `/one` to your workspace URL
 
 <div style="text-align:left;">
   <img src="./artifacts/screenshots/Dashboard_DatabricksOne.png" width="15%">

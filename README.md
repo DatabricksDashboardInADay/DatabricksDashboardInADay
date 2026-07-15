@@ -1,4 +1,4 @@
-# Databricks Dashboards in a Day
+# Databricks Dashboard in a Day
 
 A hands-on workshop covering the full Databricks BI stack — from data integration to dashboards and AI-powered analytics. Use it for instructor-led trainings or self-paced learning. This project is open source — contributions and feedback are welcome!
 
@@ -14,7 +14,7 @@ Sunny Bay uses **Databricks** for analytics; you will too.
 1. Go to [https://databricks.com/try-databricks](https://databricks.com/try-databricks)
 2. Click **"Try Databricks for free"**
 3. Sign up with GitHub or Google.
-4. Select **Community Edition** (or Free Trial if available).
+4. Select **Free Edition**.
 5. When ready, note your workspace URL.
 
 ---
@@ -27,7 +27,7 @@ Sunny Bay uses **Databricks** for analytics; you will too.
 1. In Databricks, go to the sidebar and select **Workspace**.
 2. Navigate to your desired folder (e.g., under your username).
 3. Click **Create > Git folder**.
-4. Enter the current URL: e.g., `https://tinyurl.com/databricks-aibi`
+4. Enter the repository URL: `https://github.com/DatabricksDashboardInADay/DatabricksDashboardInADay`
 5. Click **Create**.
 6. Expand the repo folder and open the `Lab 0` notebook in the folder `labs`.
 
@@ -43,7 +43,7 @@ The labs are modular — you can start from any lab. Lab 0 pre-deploys all neces
 | **Lab 1 [SQL]** | Data Integration: Build the same medallion architecture with pure SQL on a SQL Warehouse | [guide](labs/Lab%201%20-%20%5BSQL%5D%20Data%20Integration%20and%20Transformation.md) |
 | **Lab 2** | Data Modelling: Create Metric Views to add business semantics to gold data | [guide](labs/Lab%202%20-%20Data%20Modelling.md) |
 | **Lab 3** | Dashboard Creation: Build interactive AI/BI Dashboards | [guide](labs/Lab%203%20-%20Dashboard%20Creation.md) |
-| **Lab 4** | BI Meets AI: Explore Databricks Genie for natural-language analytics | [guide](labs/Lab%204%20-%20BI%20Meets%20AI.md) |
+| **Lab 4** | BI Meets AI: Build a Genie Agent for natural-language analytics | [guide](labs/Lab%204%20-%20BI%20Meets%20AI.md) |
 
 ### 🔎 Deep Dives (Optional)
 
@@ -52,4 +52,4 @@ Deep dives are standalone labs that go deeper into a specific topic. They can be
 | Deep Dive | What to Expect | Prerequisite |
 |-----------|---------------|--------------|
 | **[SQL] SQL Analyst Essentials** ([guide](labs/Deep%20Dives/%5BSQL%5D%20SQL%20Analyst%20Essentials.md)) | Explore data with ad-hoc queries, create reusable SQL views, and use Genie Code to generate and optimise SQL. | Lab 1 [SQL] |
-| **[SQL] Monitoring and Self-Service** ([guide](labs/Deep%20Dives/%5BSQL%5D%20Monitoring%20and%20Self-Service.md)) | Schedule recurring queries, set up SQL alerts, upload CSV data for self-service analysis, and explore Databricks One. | [SQL] SQL Analyst Essentials |
+| **[SQL] Monitoring and Self-Service** ([guide](labs/Deep%20Dives/%5BSQL%5D%20Monitoring%20and%20Self-Service.md)) | Schedule recurring queries, set up SQL alerts, upload CSV data for self-service analysis, and explore Genie One (formerly Databricks One). | [SQL] SQL Analyst Essentials |

@@ -1,8 +1,8 @@
 # Databricks Demo Flow  
-*A guided walkthrough for Data Engineering, Metric Views, AI/BI, and Genie Spaces*
+*A guided walkthrough for Data Engineering, Metric Views, AI/BI, and Genie Agents (formerly Genie Spaces)*
 
 ## 1. Data Engineering with Spark Declarative Pipelines
-- Explain the value of declarative pipelines (Delta Live Tables / Lakehouse pipelines).
+- Explain the value of declarative pipelines (Spark Declarative Pipelines, formerly Delta Live Tables).
 - Show how transformations, expectations, and lineage work.
 - Highlight automation, reliability, and governance with Unity Catalog integration.
 
@@ -58,10 +58,10 @@
 - Show **Download PDF**
 - Open shared version.
 
-## 5. Enable Genie Space in the Dashboard
-- Active the Genie Space feature in the settings
+## 5. Enable Genie in the Dashboard
+- Activate the Genie feature in the settings
 
-## 6. Create a Genie Space
+## 6. Create a Genie Agent
 
 Example questions:
 - Which products do we offer in the online shop?

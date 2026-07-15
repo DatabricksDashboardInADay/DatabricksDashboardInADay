@@ -4,7 +4,7 @@
 
 By the end of this lab, you will be able to:
 
-- Use a Unity Catalog metric view (Sunny Bay Coffee Sales) as the main dataset for a Genie space.  
+- Use a Unity Catalog metric view (Sunny Bay Coffee Sales) as the main dataset for a Genie Agent (formerly known as a Genie Space).  
 - Ask natural-language questions in Genie and interpret the generated SQL and visualizations.  
 - Evaluate and benchmark the quality of Genie’s answers using sanity checks and reference queries.  
 
@@ -13,6 +13,9 @@ By the end of this lab, you will be able to:
 **What Is Databricks Genie?**
 
 Databricks Genie is an AI-powered, natural-language interface that lets business users ask questions about their data in plain English and get back answers as tables, charts, and summaries without writing SQL or building reports first. It sits on top of governed datasets like Unity Catalog metric views, so all insights respect existing security, governance, and business definitions.
+
+> [!NOTE]
+> Databricks renamed **Genie Spaces** to **Genie Agents**. This lab uses the new name throughout, but some screenshots and UI panels may still show the older "Space" wording.
 
 With Genie, teams can:
 - Go beyond static dashboards and get on‑the‑fly answers to new questions that weren’t pre-modeled in reports.
@@ -26,12 +29,12 @@ Before you start, please verify:
 - A **SQL warehouse** (Pro or serverless) is available and selectable for Genie queries.  
 
 > [!NOTE]
-> A ready-made **"Sunny Bay Sales Genie (Fallback)"** space was deployed automatically during the Lab 0 setup. It already has the metric view, instructions, and the trusted query you will build below. If you run short on time or get stuck, open that space from the Genie list and use it — but we strongly encourage you to build your own first to learn how each piece fits together.
+> A ready-made **"Sunny Bay Sales Genie (Fallback)"** agent was deployed automatically during the Lab 0 setup. It already has the metric view, instructions, and the trusted query you will build below. If you run short on time or get stuck, open that agent from the Genie Agents list and use it — but we strongly encourage you to build your own first to learn how each piece fits together.
 
-**Step 1: Create the "Sunny Bay Sales Genie" Space**
+**Step 1: Create the "Sunny Bay Sales Genie" Agent**
 
-1. In the Databricks workspace, open **Genie** from the left navigation.  
-2. Click **New space**.  
+1. In the Databricks workspace sidebar, click **Genie Agents** (under the **SQL** section).  
+2. Click **New**.  
 
 ![](./artifacts/screenshots/Genie_CreateGenieSpace.png)
 
@@ -39,17 +42,17 @@ Before you start, please verify:
 
 ![](./artifacts/screenshots/Genie_SetDataSource.png)
 
-4. Once the Genie space is created, fill in the basic information under "Configure" -> "About" :
+4. Once the Genie Agent is created, fill in the basic information under "Configure" -> "About" :
    - **Title:** `Sunny Bay Sales Genie`  
    - **Description:**   “Ask questions about Sunny Bay Roastery coffee sales, customers, products, and stores using governed metrics from the Sunny Bay metric view.”  
    - Alternatively, you can use the AI generated description, which is more elaborate.
-   - **Thumbnail:** Download the [Genie Space thumbnail](./artifacts/Lab%204%20-%20BI%20Meets%20AI/genie_thumbnail.jpeg) and upload it as the thumbnail image for your Genie Space.
+   - **Thumbnail:** Download the [Genie Agent thumbnail](./artifacts/Lab%204%20-%20BI%20Meets%20AI/genie_thumbnail.jpeg) and upload it as the thumbnail image for your Genie Agent.
 
 ![](./artifacts/screenshots/Genie_BasicSettings.png)
 
 5. Select a **Pro or serverless SQL warehouse** to run queries.  
-6. Click **Save** to save the changes to the Genie space.  
-7. In the Genie space settings:
+6. Click **Save** to save the changes to the Genie Agent.  
+7. In the Genie Agent settings:
 - Configure knowledge / context text (“Instructions” box):
     - Describe the business context: Sunny Bay Roastery, coffee sales, currencies, time grain, etc. 
     - Clarify metric meanings
@@ -65,7 +68,7 @@ Before you start, please verify:
 9. (Optional) By clicking on `Show Code`, you can review the SQL query that Genie created to select data from your Metric View. Find that option below the result (table or chart) --> `Source`
 
 
-**Step 2: Optimize the Genie Space for High Quality (Knowledge & Semantics)**
+**Step 2: Optimize the Genie Agent for High Quality (Knowledge & Semantics)**
 
 #### Additional context
 
@@ -103,11 +106,11 @@ ORDER BY
 ```
 3. Save the query by clicking the `Save` button. 
 
-4. Open a new chat and ask above mentioned query. You notice that for this specific question, the provided query will be executed.
+4. Open a new chat and ask the question mentioned above. You will notice that for this specific question, the provided query will be executed.
 
 #### Trusted Assets
 
-1. [Trusted Assets](https://learn.microsoft.com/en-us/azure/databricks/genie/trusted-assets) are a great way to indicate to users that a verified, trusted SQL query are being used to answer questions. To make a query a Trusted Asset, it has to be reusable by adding parameters that the user can configure. Navigate back to the query to provided in the previous step
+1. [Trusted Assets](https://docs.databricks.com/aws/en/genie/trusted-assets) are a great way to indicate to users that a verified, trusted SQL query is being used to answer questions. To make a query a Trusted Asset, it has to be reusable by adding parameters that the user can configure. Navigate back to the query you provided in the previous step
 
 2. Replace the existing query with a parameterized version that will allow users to select between online and offline sales by changing a parameter
 
@@ -146,7 +149,7 @@ ORDER BY
 
 ![](./artifacts/screenshots/Genie_UploadData.png)
 
-3. Genie will analyze your file and provide information what it understood from the content. In your case, it will list the certified products.
+3. Genie will analyze your file and explain what it understood from the content. In your case, it will list the certified products.
 
 4. You can now ask Genie questions that include the additional context, for example `What is the profit of the fair trade products in 2024? list the products and their profit and create a pie chart.` You will get an answer that only contains the certified products. All other context information will also be included such as the fiscal year definition.
 
@@ -156,8 +159,8 @@ ORDER BY
 
 ## What happens next?
 
-You have now created a Genie Space and provided some context information to optimize Genie's understanding of your data. The more context Genie gets via provided metadata, the more accurate its answers will be. 
+You have now created a Genie Agent and provided some context information to optimize Genie's understanding of your data. The more context Genie gets via provided metadata, the more accurate its answers will be. 
 
-Please note that there are more modelling features available in Genie, that we didn't need to use as we provided a high quality data source already. Alternatively, you can provide tables or views (as opposed to a Metric View) as data source and define the relationships, table and column descriptions in the Genie Space directly. 
+Please note that there are more modelling features available in Genie, that we didn't need to use as we provided a high quality data source already. Alternatively, you can provide tables or views (as opposed to a Metric View) as data source and define the relationships, table and column descriptions in the Genie Agent directly. 
 
-As Genie Space administrators, we encourage you to look into the [benchmarking](https://learn.microsoft.com/en-us/azure/databricks/genie/benchmarks) and [monitoring](https://learn.microsoft.com/en-us/azure/databricks/genie/set-up#history).
+As Genie Agent administrators, we encourage you to look into the [benchmarking](https://docs.databricks.com/aws/en/genie/benchmarks) and [monitoring](https://docs.databricks.com/aws/en/genie/monitor).

@@ -327,7 +327,7 @@ These views and queries form the foundation of your analyst workflow. In the nex
 
 ## What Happens Next?
 
-Proceed to **[SQL] Monitoring and Self-Service** (in the Deep Dives folder) to productionise your work with scheduled queries, alerts, CSV upload, and the Databricks One experience.
+Proceed to **[SQL] Monitoring and Self-Service** (in the Deep Dives folder) to productionise your work with scheduled queries, alerts, CSV upload, and the Genie One (formerly Databricks One) experience.
 
 After completing the [SQL] labs, continue with:
 - **Lab 2** – Data Modelling (Metric Views)
