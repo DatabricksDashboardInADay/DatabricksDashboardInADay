@@ -42,7 +42,7 @@
 
 ### 3.4 Additional Visuals
 - Add **counter visual** for total profit.
-- Add image: https://i.ibb.co/cVGnntT/Screenshot-2025-10-16-at-22-04-25.png
+- Add image: https://raw.githubusercontent.com/DatabricksDashboardInADay/DatabricksDashboardInADay/main/docs/assets/sunny_bay_roastery_logo.png
 - Add **Pie Chart**: Online vs Offline Sales.
 - Demo **cross-filtering**.
 - Add **line chart**: Total cost by product category.
