@@ -6,7 +6,7 @@ By the end of this lab, you will:
 - Create a **SQL Alert** that notifies you when a business metric crosses a threshold  
 - **Upload a CSV file** to Unity Catalog and query it alongside existing gold data  
 - Create a view that compares **actual vs. target** revenue  
-- Navigate **Databricks One** to find dashboards, data assets, and Genie from a single experience  
+- Navigate **Genie One** (formerly Databricks One) to find dashboards, data assets, and Genie Agents from a single experience  
 
 > **Note:** This is a **SQL Analyst** deep dive. If your facilitator has directed you to the shared track, proceed directly to **Lab 2 – Data Modelling (Metric Views)**. Both paths are fully compatible with Labs 2–4.
 
@@ -19,7 +19,7 @@ In [SQL] SQL Analyst Essentials you explored data and created reusable views. No
 - **Scheduled queries** automate recurring reports so you don't have to run them manually every day  
 - **Alerts** monitor your data and notify you when something needs attention — a revenue drop, a data quality issue, or a missed target  
 - **CSV upload** lets you bring in external data (budgets, targets, lookup lists) without waiting for a data engineer  
-- **Databricks One** gives you a unified home screen to find everything — dashboards, datasets, queries, and Genie spaces  
+- **Genie One** gives you a unified home screen to find everything — dashboards, datasets, queries, and Genie Agents (formerly Genie Spaces)  
 
 This is how analysts move from ad-hoc exploration to reliable, monitored workflows.
 
@@ -243,21 +243,21 @@ Think of another CSV file that would be useful to upload. For example:
 - Regional marketing campaign dates and budgets
 - Customer satisfaction survey results by store
 
-**Step 4: Discover Databricks One**
+**Step 4: Discover Genie One**
 
-**Databricks One** is the unified home experience that brings together dashboards, data assets, queries, Genie spaces, and more in a single searchable interface. As a SQL analyst, this is your starting point for finding and consuming insights.
+**Genie One** (formerly Databricks One) is the unified home experience that brings together dashboards, data assets, queries, Genie Agents, and more in a single searchable interface. As a SQL analyst, this is your starting point for finding and consuming insights.
 
-**1. Open Databricks One**
+**1. Open Genie One**
 
-1. In the Databricks sidebar, click the **Databricks logo** at the top-left (or the **Home** icon, depending on your workspace version).
+1. Click the **app switcher** icon in the upper-right corner and select **Genie One**, or add `/one` to your workspace URL (e.g. `https://<workspace-url>/one`).
 
 **2. Explore the home screen**
 
-The Databricks One home screen surfaces:
+The Genie One home screen surfaces:
 
 - **Recent items** — dashboards, queries, and notebooks you've recently viewed or edited.
 - **Recommended** — assets shared with you or popular in your workspace.
-- **Search** — a universal search bar that finds dashboards, tables, views, queries, and Genie spaces.
+- **Search** — a universal search bar that finds dashboards, tables, views, queries, and Genie Agents.
 
 **3. Find your work**
 
@@ -267,13 +267,13 @@ The Databricks One home screen surfaces:
 
 **4. Preview the Genie experience**
 
-1. Click on **Genie** in the left navigation.
-2. If a Genie space has already been created, you can ask a question in natural language (e.g., *"What was the total revenue in 2024?"*).
-3. If no Genie space exists yet, don't worry — you will create one in **Lab 4**.
+1. Click on **Genie Agents** in the left navigation.
+2. If a Genie Agent has already been created, you can ask a question in natural language (e.g., *"What was the total revenue in 2024?"*).
+3. If no Genie Agent exists yet, don't worry — you will create one in **Lab 4**.
 
 **💡 What just happened?**
 
-- Databricks One gives analysts a single pane of glass to find everything: data, reports, AI assistants, and shared queries.
+- Genie One gives analysts a single pane of glass to find everything: data, reports, AI assistants, and shared queries.
 - Everything you built in Labs 1–3 [SQL] is discoverable here — tables, views, scheduled queries, and alerts.
 - This is the experience that bridges the SQL workflow (Labs 1–3 [SQL]) to the semantic and visual tools in Labs 2–4 (Metric Views, Dashboards, Genie).
 
@@ -284,7 +284,7 @@ You have now:
 - **Scheduled** a recurring query that runs daily against your revenue view
 - **Created an alert** that monitors store revenue and notifies you when it drops below target
 - **Uploaded a CSV** and joined it to gold data to compare actual vs. target performance
-- **Explored Databricks One** as the unified entry point for all data assets
+- **Explored Genie One** as the unified entry point for all data assets
 
 These are the core productivity features that make Databricks approachable and powerful for SQL analysts — no Spark, no notebooks, no pipelines required.
 
@@ -297,7 +297,7 @@ Use this section to adapt this lab for different audiences and time constraints.
 | **Full day, SQL-focused audience** | Run all steps. Budget ~45–60 minutes. |
 | **Half day, mixed audience** | Run Steps 1–2 (scheduled queries + alerts), demo Steps 3–4. Budget ~25 minutes. |
 | **Time-constrained (< 30 min)** | Demo Steps 2 and 3, skip Step 1 (scheduling). Prioritise the CSV upload as the highest-impact exercise. |
-| **Already familiar with SQL alerts** | Skip Step 2, focus on Step 3 (CSV upload) and Step 4 (Databricks One). |
+| **Already familiar with SQL alerts** | Skip Step 2, focus on Step 3 (CSV upload) and Step 4 (Genie One). |
 
 **Decision point:** After completing this lab, SQL analysts should proceed to **Lab 2 (Metric Views)** to learn how business semantics are layered on top of the gold tables they created. The [SQL] track and shared track converge at Lab 2.
 
