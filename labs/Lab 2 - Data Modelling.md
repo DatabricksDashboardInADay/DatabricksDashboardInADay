@@ -114,6 +114,9 @@ END
 > [!NOTE]
 > Measures define the calculations that business users can query — e.g., `SUM(net_revenue_usd)` to get total revenue across any combination of dimensions.
 
+> [!TIP]
+> For the full list of aggregate functions and measure options — including filtered measures, ratios, and window measures — see the official [Metric view YAML syntax reference (Measures)](https://docs.databricks.com/aws/en/uc-semantics/metric-views/yaml-reference) documentation.
+
 1. Now, we are going to create three measures for `total_net_revenue_usd`, `total_cost_of_goods_usd`, and `total_net_profit_usd`.
 
 2. Open `Measures` and click on `+ Add`. 
@@ -140,7 +143,74 @@ END
 
 ![alt text](./artifacts/screenshots/MetricView_UI_MeasurePreview.png)
 
-**Step 4: Final Steps**
+**Step 4: Enrich Measures with Metadata for AI Agents**
+
+> [!NOTE]
+> Metadata such as **display names**, **comments**, **synonyms**, and **number formats** don't change the numbers a measure returns — they add business context. This context is what lets AI agents like Genie map a natural-language question ("what was our revenue?") to the right measure and present the result correctly.
+
+1. Re-open the `total_net_revenue_usd` measure you created in the previous step.
+
+2. Add a human-friendly **Display Name**: `Total Net Revenue (USD)`.
+
+3. Add a **Comment** describing the measure, e.g. `Total net revenue in USD after discounts, before costs`.
+
+4. Add one or more **Synonyms** so an agent recognises everyday wording. For this measure add: `revenue`, `net revenue`, and `sales`.
+
+5. Set a **Format** so the value renders as currency everywhere it is used. Choose type `Currency`, currency code `USD`, and `2` decimal places.
+
+6. If you prefer the YAML editor, the same metadata looks like this:
+
+```YAML
+  - name: total_net_revenue_usd
+    expr: SUM(net_revenue_usd)
+    display_name: Total Net Revenue (USD)
+    comment: Total net revenue in USD after discounts, before costs
+    format:
+      type: currency
+      currency_code: USD
+      decimal_places:
+        type: exact
+        places: 2
+      abbreviation: compact
+    synonyms:
+      - revenue
+      - net revenue
+      - sales
+```
+
+> [!TIP]
+> Rich metadata pays off in **Lab 4 (BI Meets AI)**, where Genie relies on synonyms and formats to answer natural-language questions accurately.
+
+**Step 5: Accelerate Queries with Materialization (Optional)**
+
+> [!NOTE]
+> **Materialization** pre-computes and stores metric aggregations on a schedule, so dashboards and queries return results faster instead of recomputing from the raw fact table every time. Databricks automatically rewrites matching queries to use the materialized data when it can.
+
+1. Switch to the **YAML editor** using the toggle at the top.
+
+2. Add a `materialization` block at the end of the definition. This example pre-computes revenue and profit by product category and date, refreshed every 6 hours:
+
+```YAML
+materialization:
+  schedule: every 6 hours
+  mode: relaxed
+  materialized_views:
+    - name: revenue_by_category
+      type: aggregated
+      dimensions:
+        - product_category
+        - date
+      measures:
+        - total_net_revenue_usd
+        - total_net_profit_usd
+```
+
+3. When you save the metric view, Databricks provisions a managed pipeline that keeps the materialized data fresh on the schedule you defined.
+
+> [!IMPORTANT]
+> Materialization requires **serverless compute enabled** and a SQL warehouse or compute running **Databricks Runtime 17.3 or above**. It can't be used on metric views that define parameters, or whose source tables use row-level security, column masks, or ABAC policies.
+
+**Step 6: Final Steps**
 1. Click on `Save`.
 
 2. You have now published the Metric View to Unity Catalog by saving the YAML. This makes the metric view discoverable and available to teams and tools, including Databricks Dashboards and downstream analytics, provided they have access inherited from the schema. 
@@ -204,6 +274,19 @@ dimensions:
 measures:
   - name: total_net_revenue_usd
     expr: SUM(net_revenue_usd)
+    display_name: Total Net Revenue (USD)
+    comment: Total net revenue in USD after discounts, before costs
+    format:
+      type: currency
+      currency_code: USD
+      decimal_places:
+        type: exact
+        places: 2
+      abbreviation: compact
+    synonyms:
+      - revenue
+      - net revenue
+      - sales
   - name: total_cost_of_goods_usd
     expr: SUM(cost_of_goods_usd)
   - name: total_net_profit_usd
@@ -214,7 +297,7 @@ measures:
 
 You created a simple Metric View and users will be able to directly query business metrics without writing SQL joins or recalculating KPIs.
 
-On purpose, you did not yet use any advanced features such as complex calculations, synonyms, formatting, etc. We encourage you to look into more advanced calculations and modelling capabilities such as:
+You added agent metadata (synonyms and formatting) and, optionally, materialization. We encourage you to look into even more advanced calculations and modelling capabilities such as:
 
 **Different aggregation functions:**
 ```YAML 
@@ -232,23 +315,6 @@ On purpose, you did not yet use any advanced features such as complex calculatio
       - order: date
         semiadditive: last
         range: trailing 1 day
-```
-**Number formatting and synonyms:**
-```YAML
-  - name: total_gross_revenue_usd
-    expr: SUM(`gross_revenue_usd`)
-    comment: Total gross revenue in USD before VAT and costs
-    display_name: Total Gross Revenue (USD)
-    format:
-      type: currency
-      currency_code: USD
-      decimal_places:
-        type: exact
-        places: 2
-      abbreviation: compact
-    synonyms:
-      - revenue
-      - gross revenue
 ```
 
 > [!NOTE]
