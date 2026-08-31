@@ -4,10 +4,10 @@ Sales Genie, and the two AI/BI dashboards.
 
 ## Getting Started (recommended: one-click)
 
-Open **`src/notebooks/bootstrap`** in your Databricks workspace and click **Run all**.
-It creates your catalog, deploys this bundle, and runs the setup job end-to-end — no
-manual steps. This is what [Lab 0](../labs/Lab%200%20-%20Intro.ipynb) and the top-level
-README point you to.
+You don't deploy this bundle by hand. Open **[Lab 0 – Intro](../labs/Lab%200%20-%20Intro.ipynb)**
+in your Databricks workspace and click **Run all**: it creates your catalog, deploys this
+bundle, and runs the setup job end-to-end — no manual steps. The top-level README points
+you to the same notebook.
 
 ## Advanced: deploy from the Databricks CLI
 
@@ -20,8 +20,8 @@ databricks bundle run sunny_bay_roastery_job -t dev --var catalog=sunny_bay_roas
 ```
 
 The catalog must exist before deploy (the pipeline's target catalog is validated at
-deploy time) — create it first with `CREATE CATALOG IF NOT EXISTS`, or use the bootstrap
-notebook, which handles the ordering for you. On a shared catalog, add `--var prefix=<name>`.
+deploy time) — create it first with `CREATE CATALOG IF NOT EXISTS`, or use Lab 0, which
+handles the ordering for you. On a shared catalog, add `--var prefix=<name>`.
 
 ## Managing Resources
 

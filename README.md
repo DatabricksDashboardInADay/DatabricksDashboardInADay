@@ -19,9 +19,9 @@ Sunny Bay uses **Databricks** for analytics; you will too.
 
 ---
 
-## Step 2 – Clone This Repo & Deploy the Workshop Assets
+## Step 2 – Clone This Repo & Set Up the Workshop with Lab 0
 
-**Clone the GitHub repository into your Databricks workspace, then run the one-click setup notebook.**
+**Clone the GitHub repository into your Databricks workspace, then run Lab 0 — one notebook that sets up everything.**
 
 ### ✅ Instructions
 1. In Databricks, go to the sidebar and select **Workspace**.
@@ -29,23 +29,21 @@ Sunny Bay uses **Databricks** for analytics; you will too.
 3. Click **Create > Git folder**.
 4. Enter the repository URL: `https://github.com/DatabricksDashboardInADay/DatabricksDashboardInADay`
 5. Click **Create**.
-6. Expand the repo folder and open the setup notebook: **`bundle/src/notebooks/bootstrap`**.
-7. Click **Run all**. It creates your catalog, deploys the bundle (job, pipeline, and dashboards), and runs the setup job end-to-end (~10–15 min). When the final cell prints **"✅ SETUP COMPLETE"**, every asset the labs need is ready.
-
-> [!TIP]
-> New here? Open **[Lab 0 – Intro](labs/Lab%200%20-%20Intro.ipynb)** first for the Sunny Bay Roastery story and your role in it — it also links to this same setup notebook.
+6. Expand the repo folder and open **[Lab 0 – Intro](labs/Lab%200%20-%20Intro.ipynb)** in the `labs` folder.
+7. *(Optional)* Change the parameters at the top (catalog name, or a `prefix` if you share a catalog) — the defaults work as-is.
+8. Click **Run all**. Lab 0 creates your catalog, deploys the bundle (job, pipeline, and dashboards), and runs the setup job end-to-end (~10–15 min). When the final cell prints **"✅ SETUP COMPLETE"**, every asset the labs need is ready.
 
 > [!NOTE]
-> On a shared workshop where several people use the **same** catalog, set the `prefix` widget (e.g. your name) at the top of the bootstrap notebook so everyone's objects stay separate. If you can't create a catalog on your workspace, set the `catalog` widget to one you already own — the setup falls back to using it.
+> On a shared workshop where several people use the **same** catalog, set the `prefix` (e.g. your name) at the top of Lab 0 so everyone's objects stay separate. If you can't create a catalog on your workspace, set `catalog` to one you already own — the setup falls back to using it.
 
 ## Step 3 – Choose Your Starting Point
 
 ### ✅ Instructions
-The labs are modular — you can start from any lab. The setup notebook (Step 2) pre-deploys all necessary assets (pipelines, Metric View, dashboards), so feel free to skip ahead to the topics that interest you most. Lab 1 comes in two flavors: **SDP** (Spark Declarative Pipelines) and **SQL**. The SQL path uses a `_sql` suffix on its table names to avoid conflicts with SDP streaming tables. Labs 2–4 use the SDP-created gold tables, which are always available after Lab 0.
+The labs are modular — you can start from any lab. Lab 0 (Step 2) pre-deploys all necessary assets (pipelines, Metric View, dashboards), so feel free to skip ahead to the topics that interest you most. Lab 1 comes in two flavors: **SDP** (Spark Declarative Pipelines) and **SQL**. The SQL path uses a `_sql` suffix on its table names to avoid conflicts with SDP streaming tables. Labs 2–4 use the SDP-created gold tables, which are always available after Lab 0.
 
 | Lab | Topic | Guide |
 |-----|-------|-------|
-| **Lab 0** | Intro: the Sunny Bay Roastery story, plus the one-click setup notebook that deploys every asset | [guide](labs/Lab%200%20-%20Intro.ipynb) |
+| **Lab 0** | Setup + Intro: run one notebook that deploys every asset, and meet the Sunny Bay Roastery story | [guide](labs/Lab%200%20-%20Intro.ipynb) |
 | **Lab 1 [SDP]** | Data Integration: Build the medallion architecture using Spark Declarative Pipelines | [guide](labs/Lab%201%20-%20%5BSDP%5D%20Data%20Integration%20and%20Transformation.md) |
 | **Lab 1 [SQL]** | Data Integration: Build the same medallion architecture with pure SQL on a SQL Warehouse | [guide](labs/Lab%201%20-%20%5BSQL%5D%20Data%20Integration%20and%20Transformation.md) |
 | **Lab 2** | Data Modelling: Create Metric Views to add business semantics to gold data | [guide](labs/Lab%202%20-%20Data%20Modelling.md) |
