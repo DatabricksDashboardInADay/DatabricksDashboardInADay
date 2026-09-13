@@ -2,14 +2,14 @@
 
 ## 🎯 Learning Objectives
 By the end of this lab, you will:
-- Find your way around the **Databricks workspace** — the sidebar, search, and compute
+- Find your way around the **Databricks workspace** using the **sidebar**
 - Meet **Genie Code**, your built-in AI assistant, and know that you can ask it a question at any point in the workshop
 - Understand **Unity Catalog** and the three-level namespace (`catalog.schema.table`) that organises every asset
 - Explore the **Sunny Bay Roastery** gold data — browse tables, preview sample rows, and read column descriptions
 - Trace **data lineage** to see *where the gold data came from and how it was processed* — without opening a single pipeline
 - Use **AI-generated descriptions** and **tags** to document and classify data
 - Ask a question of your data in **plain language**
-- *(Optional add-on)* Shape data visually with the **low-code editor** — basic data engineering, no code required
+- *(Optional add-on)* Shape data visually with **Visual Data Prep** — basic data engineering, no code required
 
 ## Introduction
 
@@ -23,7 +23,7 @@ In **Lab 0** you ran one notebook that set everything up: it generated the sales
 
 | Feature | Why an analyst cares |
 |---------|----------------------|
-| **Workspace & search** | Find any asset — a table, query, dashboard, or notebook — in seconds |
+| **Workspace & sidebar** | Find any asset — a table, query, dashboard, or notebook — in seconds |
 | **Genie Code** | An AI copilot that answers questions and writes SQL for you, everywhere in the workspace |
 | **Unity Catalog** | The single, governed source of truth for all data and its metadata |
 | **Lineage** | See how a number was calculated and where it came from, so you can trust it |
@@ -43,7 +43,7 @@ Before you start, please verify:
 
 **Step 1: Get Your Bearings in the Workspace**
 
-Take two minutes to orient yourself before touching any data.
+Take a minute to orient yourself before touching any data.
 
 1. Look at the **left sidebar** — this is how you navigate Databricks. The items you will use most in this workshop are:
    - **Workspace** — your files, notebooks, and Git folders (this is where Lab 0 lives).
@@ -53,17 +53,13 @@ Take two minutes to orient yourself before touching any data.
    - **Genie** — ask business questions in natural language (Lab 4).
    - **Jobs & Pipelines** — scheduled and automated data processing.
 
-2. Use the **search bar** at the top of the screen. Type `fact_coffee_sales` and notice that Databricks searches across tables, notebooks, dashboards, and queries at once. Press `Esc` to close it for now.
-
-3. Check your **compute**. Most things in Free Edition run on **serverless** compute automatically — there is no cluster to start. If you open the SQL Editor later, confirm a **SQL Warehouse** (e.g. *Serverless Starter Warehouse*) is selected in the top-right.
-
 <div style="text-align:left;">
   <img src="./artifacts/screenshots/Lab1_Workspace_Sidebar.png" width="20%">
 </div>
 
 **💡 What just happened?**
 
-You now know the five places you will return to all day. Everything in the workshop is reachable from that sidebar — you do not need to memorise anything else.
+You now know the places you will return to all day. Everything in the workshop is reachable from that sidebar — you do not need to memorise anything else.
 
 **Step 2: Meet Genie Code — Your AI Assistant**
 
@@ -127,7 +123,7 @@ Let's get to know `fact_coffee_sales` — the table every dashboard and Genie an
 
 1. In the `gold` schema, click **`fact_coffee_sales`** to open it in **Catalog Explorer**.
 
-2. On the **Overview / Columns** tab, review the columns and their data types. Notice the enriched business metrics that were calculated for you: `gross_revenue_usd`, `net_revenue_usd`, `vat_usd`, `cost_of_goods_usd`, and `gross_revenue_eur`.
+2. On the **Overview / Columns** tab, review the columns and their data types. Notice the enriched business metrics that were calculated for you: `gross_revenue_usd`, `net_revenue_usd`, `vat_usd`, and `cost_of_goods_usd`.
 
 3. Open the **Sample Data** tab to preview real rows without writing any SQL.
 
@@ -135,9 +131,9 @@ Let's get to know `fact_coffee_sales` — the table every dashboard and Genie an
   <img src="./artifacts/screenshots/Lab1_Table_SampleData.png" width="60%">
 </div>
 
-4. Open the **Details** tab. Note that this is a **managed Delta table**, and see its owner and the schema it belongs to.
+4. Open the **Details** tab. Note that this is a **managed** gold table, and see its owner and the schema it belongs to.
 
-5. Read the **column descriptions** (comments) shown next to each column. Good descriptions are what let both people *and* Genie Code understand the data correctly.
+5. Read the **column descriptions** (comments) shown next to each column. Good descriptions are what let both people *and* Genie Code understand the data correctly — the `gold` tables were documented for you during setup.
 
 > [!TIP]
 > Not sure what a column like `date_key` means? Highlight it and **ask Genie Code** — it reads the same Unity Catalog metadata you are looking at.
@@ -154,18 +150,18 @@ Before you build a report on a number, you want to know *how it was produced*. *
 
 2. Follow the flow **upstream** (to the left). You will see the data's journey through the medallion layers:
 
-   `raw files (Volume)` → `bronze.fact_coffee_sales` → `silver.fact_coffee_sales` → `gold.fact_coffee_sales`
+   `raw files (Volume)` → `silver.fact_coffee_sales` → `gold.fact_coffee_sales` (joined with the `dim_*` tables)
 
    This is the *same* processing the Lab 0 pipeline performed — but you are reading it as a diagram, not as pipeline code.
 
-3. Now follow the flow **downstream** (to the right). The gold table feeds:
-   - the **metric view** (`sm_fact_coffee_sales_genie`) you will use in Lab 2,
-   - the **AI/BI dashboards** from Lab 3,
-   - and the **Sales Genie** from Lab 4.
+3. Now follow the flow **downstream** (to the right). The gold table's consumers appear under **Assets that read data**. That is everything built on top of it — the **metric view** (`sm_fact_coffee_sales_genie`) from Lab 2, the **AI/BI dashboards** from Lab 3, and the **Sales Genie** from Lab 4.
 
 <div style="text-align:left;">
   <img src="./artifacts/screenshots/Lab1_Lineage_Graph.png" width="80%">
 </div>
+
+> [!NOTE]
+> Lineage is **execution-driven**: a downstream asset appears once it has actually queried the table. On a freshly-run workshop the consumers may still be collapsed under *Assets that read data* — open the dashboard or ask the Sales Genie a question, then refresh the graph to watch the metric view, dashboards, and Genie light up.
 
 4. Click a **column** in the graph (for example `gross_revenue_usd`) to see **column-level lineage** — which upstream columns were combined to calculate it.
 
@@ -175,13 +171,17 @@ You answered "can I trust this number?" without reading a line of pipeline code.
 
 **Step 6: Document and Classify Data (AI-Assisted)**
 
-Well-described data is easier for people to find and for Genie Code to query accurately. Unity Catalog lets you add descriptions and tags — and AI can draft the descriptions for you.
+Well-described data is easier for people to find and for Genie Code to query accurately. During setup, the `gold` tables were given rich **descriptions** and **tags** automatically — open `fact_coffee_sales` or `dim_product` and you will see a table description and per-column comments already in place.
 
-1. On the `fact_coffee_sales` table (or one of its columns), find the **description** field and click **AI generate** (the ✨ suggestion). Databricks proposes a plain-language description based on the data and schema.
+One table was left undocumented on purpose: **`dim_customer`**. Documenting it is your job — and Databricks' AI will draft it for you.
 
-2. Review the suggestion, edit it if needed, and **save** it. You just documented a table in seconds.
+1. In the `gold` schema, open **`dim_customer`**. Notice its **description is empty** and its columns have no comments — unlike the other gold tables.
 
-3. Add a **tag** to the table — for example a key/value like `domain: sales` or `certified: true`. Tags make assets easy to filter and group across the whole catalog.
+2. On the table, click **AI generate** (the ✨ suggestion). Databricks proposes a plain-language description based on the schema and data. Review it, edit if needed, and click **Accept**.
+
+3. Use **AI generate** on the columns to draft column comments as well, and accept them. `dim_customer` is now documented like the rest of the schema.
+
+4. Add a **tag** to the table — for example a key/value like `domain: sales` or `certified: true`. Tags make assets easy to filter and group across the whole catalog.
 
 <div style="text-align:left;">
   <img src="./artifacts/screenshots/Lab1_AI_Description.png" width="60%">
@@ -194,7 +194,7 @@ Well-described data is easier for people to find and for Genie Code to query acc
 
 You have explored the data — now use it. There are two fast, code-optional ways to answer a question.
 
-1. **Quick query from the catalog:** with `fact_coffee_sales` open, use **Open in SQL Editor** (or right-click the table → *Open in a query*). Databricks writes a starter `SELECT` for you. Run it to see live data.
+1. **Look at live data instantly:** open the **Sample Data** tab on `fact_coffee_sales` (as you did in Step 4) to preview real rows — no SQL and no query to run.
 
 2. **Ask in natural language:** open **Genie Code** and ask a business question, for example:
 
@@ -204,36 +204,27 @@ You have explored the data — now use it. There are two fast, code-optional way
 
 **💡 What just happened?**
 
-You went from *browsing* data to *answering a business question* — with either a one-click query or a plain-language prompt. This is the everyday analyst loop you will use in Labs 2–4.
+You went from *browsing* data to *answering a business question* — with either a one-click preview or a plain-language prompt. This is the everyday analyst loop you will use in Labs 2–4.
 
-**Step 8: (Optional Add-On) Shape Data Visually with the Low-Code Editor**
+**Step 8: (Optional Add-On) Shape Data Visually with Visual Data Prep**
 
-So far you have *read* the gold data. In this optional add-on you will do a little **data engineering yourself — visually, with no code** — using the **low-code editor** (Lakeflow Designer). This is how an analytics engineer builds a reusable dataset without writing Spark or SQL.
+So far you have *read* the gold data. In this optional add-on you will do a little **data engineering yourself — visually, with no code** — using **Visual Data Prep**, where you describe what you want and Genie builds the transformation flow for you.
 
-**The task:** build a small "Top products by revenue" dataset for Mr. Bean, using drag-and-drop transformations on the gold data.
+**The task:** build a small "Top products by revenue" dataset for Mr. Bean.
 
-1. In the sidebar, open **Jobs & Pipelines** and choose to create a new **ETL / Lakeflow pipeline**, opening the **visual (Designer)** editor. *(Alternatively, from the `fact_coffee_sales` table use any **Create → pipeline** option offered.)*
+1. In the **left sidebar** (under *Data Engineering*), click **Visual Data Prep**, then **New visual data prep**.
 
-2. Add a **source** node and select **`sunny_bay_roastery.gold.fact_coffee_sales`**.
+2. In the Genie prompt box, describe the dataset you want. Paste:
 
-3. Add a **Join** node to bring in product names: join to **`sunny_bay_roastery.gold.dim_product`** on `product_key`.
+   > *"Build a table of the top products by total gross revenue. Join `sunny_bay_roastery.gold.fact_coffee_sales` to `sunny_bay_roastery.gold.dim_product` on `product_key`, group by `product_name`, sum `gross_revenue_usd` as `total_revenue_usd`, and sort from highest to lowest."*
 
-4. Add an **Aggregate** node: group by `product_name` and sum `gross_revenue_usd` as `total_revenue_usd`.
+3. Review the flow Genie builds — a source, a join, an aggregate, and a sort — and **preview** the result right in the canvas. Each node is a transformation you can see, reorder, and edit, so the logic stays transparent.
 
-5. Add a **Filter** or **Sort** node to keep the top sellers (e.g. order by `total_revenue_usd` descending), and **preview** the result right in the canvas.
-
-6. *(Optional)* Point the output to a new gold table, e.g. `sunny_bay_roastery.gold.top_products_by_revenue`, and run it.
-
-<div style="text-align:left;">
-  <img src="./artifacts/screenshots/Lab1_LakeflowDesigner_Canvas.png" width="80%">
-</div>
-
-> [!NOTE]
-> The visual low-code editor (Lakeflow Designer) may be a **Preview** feature and might not be enabled on every workspace, including some Free Edition workspaces. If you do not see it, you can achieve the exact same result by asking **Genie Code**: *"Create a table of the top products by total gross revenue, joining fact_coffee_sales to dim_product"* — and run the SQL it produces.
+4. *(Optional)* Save the output to a new gold table, for example `sunny_bay_roastery.gold.top_products_by_revenue`, and run it.
 
 **💡 What just happened?**
 
-You built a new, reusable dataset from the gold data **without writing code** — the essence of the analytics-engineer workflow. Each node is a transformation you can see, reorder, and preview, so the logic stays transparent.
+You built a new, reusable dataset from the gold data **without writing code** — the essence of the analytics-engineer workflow. You described the goal in plain language and Visual Data Prep turned it into a transparent, editable flow.
 
 ## Final Steps
 
@@ -242,9 +233,9 @@ You have toured the workspace and, more importantly, learned to **trust and use*
 - Navigated **Unity Catalog** and the `gold` star schema
 - Previewed data, read column descriptions, and inspected table details
 - Traced **lineage** upstream to the raw files and downstream to metric views, dashboards, and Genie
-- Documented data with **AI-generated descriptions** and **tags**
-- Answered a business question with a quick query and with **Genie Code**
-- *(Optional)* Built a dataset visually with the **low-code editor**
+- Documented `dim_customer` with **AI-generated descriptions** and **tags**
+- Answered a business question with the Sample Data preview and with **Genie Code**
+- *(Optional)* Built a dataset visually with **Visual Data Prep**
 
 > [!TIP]
 > Curious *how* the gold data was actually built? Two optional Deep Dives rebuild the medallion architecture yourself — **[SDP] Building the Medallion Pipeline** and **[SQL] Building the Medallion with SQL** — for anyone who wants the data-engineering view.
