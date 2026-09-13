@@ -1,4 +1,7 @@
-# ☕ Lab 1 [SQL] – Data Integration and Transformation
+# ☕ Deep Dive [SQL] – Building the Medallion with SQL
+
+> [!NOTE]
+> This is an optional Deep Dive for analysts who want to build the medallion architecture themselves with pure SQL. The workshop's main path already deploys the gold data for you (via the SDP pipeline in Lab 0), so this Deep Dive is for hands-on practice — it creates parallel `*_sql` tables so it never collides with the deployed ones.
 
 ## 🎯 Learning Objectives
 By the end of this lab, you will:
@@ -329,7 +332,7 @@ In **Step 5** you used Genie Code inside the **SQL Editor** to write queries. In
 The screenshot below is one possible result (layout and figures vary by prompt and workspace version).
 
 <div style="text-align:left;">
-  <img src="./artifacts/screenshots/Lab1_SQL_GenieCode_SalesAnalyticsDashboard.png" width="100%">
+  <img src="../artifacts/screenshots/Lab1_SQL_GenieCode_SalesAnalyticsDashboard.png" width="100%">
 </div>
 
 **Step 7: Upload and Explore a CSV File (Optional)**

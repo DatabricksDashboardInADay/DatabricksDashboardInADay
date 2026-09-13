@@ -25,7 +25,7 @@ This mirrors the "day in the life of a SQL analyst" workflow — start with ques
 ## Instructions
 
 Before you start, please verify:
-- You have completed **Lab 1 [SQL]** (or Lab 1 SDP) and the gold tables are available in Unity Catalog.
+- You have completed the **[SQL] Building the Medallion with SQL** Deep Dive so the `*_sql` gold tables exist in Unity Catalog. (These queries use the `*_sql` tables that Deep Dive creates.)
 - Your **SQL Warehouse** (Serverless Starter Warehouse or Pro) is running.
 - The **SQL Editor** is open and connected to your warehouse.
 
@@ -293,7 +293,7 @@ ORDER BY total_rev DESC;
 
 **Optional — Genie Code in the AI/BI Dashboard editor**
 
-If you want to go further with **Genie Code** outside the SQL Editor, open **Lab 1 [SQL] — Step 6: Build a Sales Analytics Dashboard with Genie Code (Optional)**. There you **Create Dashboard**, open **Genie Code**, and ask it to build a dashboard from the **`sunny_bay_roastery.gold`** schema in one prompt — it can name the dashboard, add data, and create visuals; see the lab for an example screenshot and refinement tips.
+If you want to go further with **Genie Code** outside the SQL Editor, open the **[SQL] Building the Medallion with SQL** Deep Dive — **Step 6: Build a Sales Analytics Dashboard with Genie Code (Optional)**. There you **Create Dashboard**, open **Genie Code**, and ask it to build a dashboard from the **`sunny_bay_roastery.gold`** schema in one prompt — it can name the dashboard, add data, and create visuals; see the lab for an example screenshot and refinement tips.
 
 **Step 5: Explore Lakeflow Designer (Optional)**
 
