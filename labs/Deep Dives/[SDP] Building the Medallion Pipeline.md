@@ -70,13 +70,13 @@ SDP allows non-engineers to safely contribute to data transformation logic.
 8. You can confirm your code with this example solution:
 
    ```sql
-   CREATE OR REFRESH STREAMING TABLE silver.fact_coffee_sales (
+   CREATE OR REFRESH STREAMING TABLE silver.${prefix}fact_coffee_sales (
      CONSTRAINT valid_quantity EXPECT (quantity_sold > 0) ON VIOLATION DROP ROW
    ) AS
    SELECT
        *
    FROM STREAM read_files(
-     '/Volumes/${catalog}/bronze/raw/fact_coffee_sales/',
+     '/Volumes/${catalog}/bronze/raw/${prefix}fact_coffee_sales/',
      format => 'parquet'
    );
    ```
@@ -104,14 +104,14 @@ SDP allows non-engineers to safely contribute to data transformation logic.
 
 **Step 3: Create a New Aggregated Gold Table for Revenue by Store**
 
-1. Create a new file **`gold/total_revenue_by_year.sql`** and add a new gold table that aggregates the total revenue for each store:
+1. Create a new file **`gold/total_revenue_by_store.sql`** and add a new gold table that aggregates the total revenue for each store:
 
    ```sql
-   CREATE OR REFRESH MATERIALIZED VIEW gold.total_revenue_by_year AS
+   CREATE OR REFRESH MATERIALIZED VIEW gold.${prefix}total_revenue_by_store AS
    SELECT
        store_key AS store_key,
        SUM(gross_revenue_usd) AS total_gross_revenue_usd
-   FROM gold.fact_coffee_sales
+   FROM gold.${prefix}fact_coffee_sales
    GROUP BY store_key;
    ```
 
@@ -119,6 +119,7 @@ SDP allows non-engineers to safely contribute to data transformation logic.
 <div style="text-align:left;">
   <img src="../artifacts/screenshots/SDP_DatasetAction.png" width="70%">
 </div>
+
 3. Congratulations, the data is ready to be analyzed
 
 ## Final Steps
@@ -131,6 +132,6 @@ Your gold tables now include:
 
 - Data quality enforcement  
 - Extended business logic (EUR revenue)  
-- Aggregated yearly metrics  
+- Aggregated per-store revenue  
 
 These enriched datasets will be used in **Lab 2**, where you will build Metric Views on top of this refined gold layer.
