@@ -21,7 +21,7 @@ Sunny Bay uses **Databricks** for analytics; you will too.
 
 ## Step 2 – Clone This Repo & Set Up the Workshop with Lab 0
 
-**Clone the GitHub repository into your Databricks workspace**.
+**Clone the GitHub repository into your Databricks workspace, then run Lab 0 — one notebook that sets up everything.**
 
 ### ✅ Instructions
 1. In Databricks, go to the sidebar and select **Workspace**.
@@ -29,7 +29,12 @@ Sunny Bay uses **Databricks** for analytics; you will too.
 3. Click **Create > Git folder**.
 4. Enter the repository URL: `https://github.com/DatabricksDashboardInADay/DatabricksDashboardInADay`
 5. Click **Create**.
-6. Expand the repo folder and open the `Lab 0` notebook in the folder `labs`.
+6. Expand the repo folder and open **[Lab 0 – Intro](labs/Lab%200%20-%20Intro.ipynb)** in the `labs` folder.
+7. *(Optional)* Change the parameters at the top (catalog name, or a `prefix` if you share a catalog) — the defaults work as-is.
+8. Click **Run all**. Lab 0 creates your catalog, deploys the bundle (job, pipeline, and dashboards), and runs the setup job end-to-end (~10–15 min). When the final cell prints **"✅ SETUP COMPLETE"**, every asset the labs need is ready.
+
+> [!NOTE]
+> On a shared workshop where several people use the **same** catalog, set the `prefix` (e.g. your name) at the top of Lab 0 so everyone's objects stay separate. If you can't create a catalog on your workspace, set `catalog` to one you already own — the setup falls back to using it.
 
 ## Step 3 – Choose Your Starting Point
 
@@ -38,7 +43,7 @@ The labs are modular — you can start from any lab. Lab 0 pre-deploys all neces
 
 | Lab | Topic | Guide |
 |-----|-------|-------|
-| **Lab 0** | Setup: Clone the repo, deploy assets, and configure the workspace | [guide](labs/Lab%200%20-%20Intro.ipynb) |
+| **Lab 0** | Setup + Intro: run one notebook that deploys every asset, and meet the Sunny Bay Roastery story | [guide](labs/Lab%200%20-%20Intro.ipynb) |
 | **Lab 1** | Explore Your Data: Tour the workspace, Unity Catalog, lineage, and Genie Code | [guide](labs/Lab%201%20-%20Explore%20Your%20Data%20with%20Unity%20Catalog%20and%20Genie%20Code.md) |
 | **Lab 2** | Data Modelling: Create Metric Views to add business semantics to gold data | [guide](labs/Lab%202%20-%20Data%20Modelling.md) |
 | **Lab 3** | Dashboard Creation: Build interactive AI/BI Dashboards | [guide](labs/Lab%203%20-%20Dashboard%20Creation.md) |
