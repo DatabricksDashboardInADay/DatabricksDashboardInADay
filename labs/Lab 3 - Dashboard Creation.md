@@ -22,10 +22,13 @@ Your final dashboard should look like this:
 
 AI/BI Dashboards in Databricks are interactive, web-based reports that combine tables, charts, filters, and text into a single, shareable view. They run directly on governed datasets such as Unity Catalog metric views, and support AI-assisted visual creation, cross-filtering, drill-through, and global filters.
 
+> [!TIP]
+> This lab builds on the pre-deployed **`sm_fact_coffee_sales_genie`** metric view, and we recommend using it: its KPIs already carry the right currency and number **formats**, so your dashboard visuals inherit them and you never format a measure by hand. If you prefer, you can point the dashboard at the **`sm_fact_coffee_sales`** view you built in Lab 2 instead — the steps are the same (only the profit measure is named `total_net_profit_usd` there instead of `total_profit_usd`).
+
 ## Instructions
 
 Before you start, please verify:
-- The **Sunny Bay Coffee Sales Metric View** `sm_fact_coffee_sales` from Lab 2 is created and published in Unity Catalog.
+- The **`sm_fact_coffee_sales_genie`** metric view exists in Unity Catalog (it was pre-deployed in Lab 0). *(You can also use the `sm_fact_coffee_sales` view you built in Lab 2.)*
 - A **SQL warehouse** (Pro or serverless) is available for running dashboard queries.
 
 > [!TIP]
@@ -59,7 +62,7 @@ Every AI/BI Dashboard must have one or more data sources, which are used to crea
 
 1. Click on the "Data" tab to select the source data for the Dashboard
 
-2. Click on "Add data source", and select the Metric View from Lab 2 as the data source
+2. Click on "Add data source", and select the **`sm_fact_coffee_sales_genie`** metric view as the data source (or the `sm_fact_coffee_sales` view from Lab 2 if you prefer)
 
 <div style="text-align:left;">
   <img src="./artifacts/screenshots/Dashboard_AddDataSource.png" width="30%">
@@ -87,18 +90,12 @@ Counter visuals allow you to display a key metric for the current period alongsi
 
 7. Under **Comparison**, click **"+"** and select `MEASURE(total_net_revenue_usd)` again. Set **Years ago offset** to `1` and set **Change** format to `%`
 
-8. Click on the value field `MEASURE(total_net_revenue_usd)` and navigate to the **Format** and **Custom** tab. Set the following:
-   - **Type:** `$`
-   - **Currency:** `US-Dollar ($)`
-   - **Decimal places:** `Exact` → `0`
-   - **Group separator:** ✅ enabled
+8. Your counter visual should now show the current year's net revenue with a year-over-year comparison — already formatted as currency, because the format is defined on the metric view.
 
-9. Your counter visual should now show the current year's net revenue with a year-over-year comparison
-
-10. To create the second counter, right-click the widget and select **"Duplicate"**. Update the following settings in the copy:
+9. To create the second counter, right-click the widget and select **"Duplicate"**. Update the following settings in the copy:
    - **Title:** `Net Profit per Year [$]`
-   - **Value:** change to `MEASURE(total_net_profit_usd)`
-   - **Comparison:** change to `MEASURE(total_net_profit_usd)`
+   - **Value:** change to `MEASURE(total_profit_usd)`
+   - **Comparison:** change to `MEASURE(total_profit_usd)`
 
 **Step 4: Create an AI-Assisted Bar Chart with Genie Code**
 
@@ -118,25 +115,19 @@ Genie Code can generate visuals directly from natural-language prompts.
   <img src="./artifacts/screenshots/Dashboard_Accept.png" width="60%">
 </div>
 
-4. Change the format of the Net Profit to the type "$" with no decimal places.
+4. Rename the axis title to "Net Profit [$]"
 
-<div style="text-align:left;">
-  <img src="./artifacts/screenshots/Dashboard_YAxisFormat.png" width="30%">
-</div>
-
-5. Rename the axis title to "Net Profit [$]"
-
-6. To group the sales by store, click on the "+" next to the "Color" field in the widget settings, and choose the value "store_name"
+5. To group the sales by store, click on the "+" next to the "Color" field in the widget settings, and choose the value "store_name"
 
 <div style="text-align:left;">
   <img src="./artifacts/screenshots/Dashboard_GroupByStore.png" width="30%">
 </div>
 
-7. Add the measures "total_cost_of_goods_usd" and "total_net_revenue_usd" as tooltip
+6. Add the measures "total_cost_of_goods_usd" and "total_net_revenue_usd" as tooltip
 
-8. Rename the tooltip values to "Total Costs of Goods [$]" and "Total Net Revenue [$]"
+7. Rename the tooltip values to "Total Costs of Goods [$]" and "Total Net Revenue [$]"
 
-9. Rename the title to "Net Profit per Month [$]"
+8. Rename the title to "Net Profit per Month [$]"
 
 Your dashboard should look like this:
 
@@ -152,7 +143,7 @@ Your dashboard should look like this:
 
 3. Add the title to `Net Profit Online vs. Offline [$]`
 
-4. Choose the `total_net_profit_usd` as the `angle`, and `store_online` as the `color`
+4. Choose the `total_profit_usd` as the `angle`, and `store_online` as the `color`
 
 5. Select your preferred colors for the values `true`, and `false`
 
@@ -178,7 +169,7 @@ Your dashboard should look like this:
 
 4. Select the dimensions `store_latitude`, and `store_longitude` for the coordinates
 
-5. Choose the measure `total_net_profit_usd` as the size
+5. Choose the measure `total_profit_usd` as the size
 
 6. Use the dimension `product_category` as the color
 
@@ -200,7 +191,7 @@ Pivot tables allow you to explore your data across multiple dimensions simultane
 
 3. Rename the title to `Revenue Breakdown by Store & Product [$]`
 
-4. Select `sm_fact_coffee_sales` as the dataset
+4. Select `sm_fact_coffee_sales_genie` as the dataset
 
 5. Add a visual filter to limit the date range:
    - Click **"+"** next to **Filter fields**
@@ -215,12 +206,7 @@ Pivot tables allow you to explore your data across multiple dimensions simultane
 
 8. Click on `product_category` in the columns and enable the **"Display total"** checkbox
 
-9. Under **Values**, click **"+"** and select `MEASURE(total_net_revenue_usd)`
-   - Change the **Display name** to `Total Net Revenue`
-   - Navigate to the **Format** tab and configure:
-     - **Type:** `$`
-     - **Currency:** `US-Dollar ($)`
-     - **Decimal places:** `Exact` → `0`
+9. Under **Values**, click **"+"** and select `MEASURE(total_net_revenue_usd)`, and change the **Display name** to `Total Net Revenue`. It is already formatted as currency because the format lives on the metric view.
 
 10. Your pivot table should now show net revenue broken down by store (rows) and product category/subcategory (columns)
 
@@ -319,7 +305,7 @@ In this step, you will add page-level filters for store and product to enable in
 
 5. Choose `day_of_week` for the x-axis, and `product_name` for the y-axis
 
-6. Select `total_net_profit_usd` as the color
+6. Select `total_profit_usd` as the color
 
 7. Activate labels for this visualization
 
@@ -359,11 +345,7 @@ Published AI/BI Dashboards include an **Ask Genie** entry point, so consumers ca
    - "_Which store had the highest net profit last year?_"
    - "_Compare net revenue for online versus in-store sales._"
 
-3. Review Genie's answer and the generated result. Notice that Genie uses the **same metric view semantics** (measures, synonyms, formats) you enriched in Lab 2.
-
-<div style="text-align:left;">
-  <img src="./artifacts/screenshots/Dashboard_AskGenie.png" width="60%">
-</div>
+3. Review Genie's answer and the generated result. Notice that Genie uses the **same metric view semantics** (measures, synonyms, formats) baked into the view.
 
 > [!NOTE]
 > Ask Genie must be enabled in your workspace and is not available to external (unauthenticated) embedding viewers. This is your bridge into **Lab 4 (BI Meets AI)**, where you build a dedicated Genie Agent on top of the same semantics.
@@ -386,22 +368,17 @@ These optional tasks go beyond the core dashboard. Complete them if you finish e
 
 Sometimes the built-in chart types don't cover exactly what you need. AI/BI Dashboards let you build a **custom visualization** with the [Vega-Lite](https://docs.databricks.com/aws/en/dashboards/manage/visualizations) grammar, and Genie Code can draft the specification for you from a natural-language prompt.
 
-In this task you'll visualize the **basket size** distribution — the value bands (`basket_size`) you defined back in Lab 2 that none of the earlier charts use yet.
+This is where Vega-Lite shines — it can *layer* marks that the built-in charts can't. You'll chart total net revenue by **basket size** (the value bands defined on the metric view), label each bar with its value, and overlay a reference line at the average.
 
 1. Click the `Add a visualization` icon and select **`Custom`** as the visualization type
 
-2. Ask **Genie Code** to draft the chart, for example: "_Create a bar chart of total net revenue by basket size, ordered by basket size_"
+2. Ask **Genie Code** to draft the chart, for example:
 
-3. Review the generated Vega-Lite specification, then refine it — for example, adjust the axis titles to `Basket Size` and `Total Net Revenue [$]`, and format the value as currency.
+   > *"Create a horizontal bar chart of total net revenue by basket size, ordered by basket size. Label each bar with its revenue value, and add a dashed vertical reference line at the average net revenue across basket sizes."*
+
+3. Review the generated Vega-Lite specification, then refine it — for example, adjust the axis titles to `Basket Size` and `Total Net Revenue [$]`, format the values as currency, and tweak the colours to match the dashboard.
 
 4. Rename the title to `Net Revenue by Basket Size [$]`
-
-<div style="text-align:left;">
-  <img src="./artifacts/screenshots/Dashboard_CustomVegaViz.png" width="60%">
-</div>
-
-> [!IMPORTANT]
-> Custom (Vega-Lite) visualizations are a **Preview** feature and roll out gradually per region. Confirm the `Custom` visualization type is available in your workshop workspace before relying on it in a live session.
 
 **Add-On 2: Add a Dashboard Parameter**
 
@@ -409,20 +386,16 @@ Dashboard parameters let a consumer switch what a visual shows at view time — 
 
 1. Add (or reuse) a bar chart on the `Sales Report` page.
 
-2. Add a **parameter** that lets the viewer swap the displayed measure between `MEASURE(total_net_revenue_usd)` and `MEASURE(total_net_profit_usd)`.
+2. Add a **parameter** that lets the viewer swap the displayed measure between `MEASURE(total_net_revenue_usd)` and `MEASURE(total_profit_usd)`.
 
 3. Bind the visual's value to the parameter, then switch to the deployed view and change the parameter to see the chart update.
-
-<div style="text-align:left;">
-  <img src="./artifacts/screenshots/Dashboard_Parameters.png" width="40%">
-</div>
 
 > [!TIP]
 > Parameters are ideal when you want a single, compact report that different audiences can re-point at the metric they care about, instead of building a separate chart for every variation.
 
 ## What Happens Next?
 
-You have now created a production-ready AI/BI Dashboard for Sunny Bay Roastery, powered by the `sm_fact_coffee_sales` metric view.
+You have now created a production-ready AI/BI Dashboard for Sunny Bay Roastery, powered by the `sm_fact_coffee_sales_genie` metric view.
 Business users can:
 
 - Filter by store and product to answer ad-hoc questions.
