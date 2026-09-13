@@ -2,7 +2,7 @@
 
 ## 🎯 Learning Objectives
 By the end of this lab, you will:
-- Understand how [Databricks Metric Views](https://learn.microsoft.com/azure/databricks/metric-views/) will allow you to add business semantics using relationships and calculations to your data
+- Understand how [Databricks Metric Views](https://docs.databricks.com/aws/en/metric-views/) will allow you to add business semantics using relationships and calculations to your data
 - Create a metric view with
     - relationships to our tables to allow implicit joining of tables.
     - dimensions and measures with attributes and common calculations
