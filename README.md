@@ -39,13 +39,12 @@ Sunny Bay uses **Databricks** for analytics; you will too.
 ## Step 3 – Choose Your Starting Point
 
 ### ✅ Instructions
-The labs are modular — you can start from any lab. Lab 0 (Step 2) pre-deploys all necessary assets (pipelines, Metric View, dashboards), so feel free to skip ahead to the topics that interest you most. Lab 1 comes in two flavors: **SDP** (Spark Declarative Pipelines) and **SQL**. The SQL path uses a `_sql` suffix on its table names to avoid conflicts with SDP streaming tables. Labs 2–4 use the SDP-created gold tables, which are always available after Lab 0.
+The labs are modular — you can start from any lab. Lab 0 pre-deploys all necessary assets (pipelines, Metric View, dashboards), so feel free to skip ahead to the topics that interest you most. Lab 1 is an **exploration lab** for analysts and analytics engineers: since Lab 0 already built the data, Lab 1 focuses on getting to know the workspace, Unity Catalog, lineage, and Genie Code. Prefer to build the medallion architecture yourself? Two optional Deep Dives ([SDP] and [SQL]) cover that data-engineering path.
 
 | Lab | Topic | Guide |
 |-----|-------|-------|
 | **Lab 0** | Setup + Intro: run one notebook that deploys every asset, and meet the Sunny Bay Roastery story | [guide](labs/Lab%200%20-%20Intro.ipynb) |
-| **Lab 1 [SDP]** | Data Integration: Build the medallion architecture using Spark Declarative Pipelines | [guide](labs/Lab%201%20-%20%5BSDP%5D%20Data%20Integration%20and%20Transformation.md) |
-| **Lab 1 [SQL]** | Data Integration: Build the same medallion architecture with pure SQL on a SQL Warehouse | [guide](labs/Lab%201%20-%20%5BSQL%5D%20Data%20Integration%20and%20Transformation.md) |
+| **Lab 1** | Explore Your Data: Tour the workspace, Unity Catalog, lineage, and Genie Code | [guide](labs/Lab%201%20-%20Explore%20Your%20Data%20with%20Unity%20Catalog%20and%20Genie%20Code.md) |
 | **Lab 2** | Data Modelling: Create Metric Views to add business semantics to gold data | [guide](labs/Lab%202%20-%20Data%20Modelling.md) |
 | **Lab 3** | Dashboard Creation: Build interactive AI/BI Dashboards | [guide](labs/Lab%203%20-%20Dashboard%20Creation.md) |
 | **Lab 4** | BI Meets AI: Build a Genie Agent for natural-language analytics | [guide](labs/Lab%204%20-%20BI%20Meets%20AI.md) |
@@ -56,5 +55,7 @@ Deep dives are standalone labs that go deeper into a specific topic. They can be
 
 | Deep Dive | What to Expect | Prerequisite |
 |-----------|---------------|--------------|
-| **[SQL] SQL Analyst Essentials** ([guide](labs/Deep%20Dives/%5BSQL%5D%20SQL%20Analyst%20Essentials.md)) | Explore data with ad-hoc queries, create reusable SQL views, and use Genie Code to generate and optimise SQL. | Lab 1 [SQL] |
+| **[SDP] Building the Medallion Pipeline** ([guide](labs/Deep%20Dives/%5BSDP%5D%20Building%20the%20Medallion%20Pipeline.md)) | Build the bronze → silver → gold medallion yourself with Spark Declarative Pipelines: add data-quality expectations, derived columns, and an aggregated gold table. | Lab 0 |
+| **[SQL] Building the Medallion with SQL** ([guide](labs/Deep%20Dives/%5BSQL%5D%20Building%20the%20Medallion%20with%20SQL.md)) | Build the same medallion architecture with pure SQL on a SQL Warehouse (creates parallel `*_sql` tables so nothing collides with the deployed data). | Lab 0 |
+| **[SQL] SQL Analyst Essentials** ([guide](labs/Deep%20Dives/%5BSQL%5D%20SQL%20Analyst%20Essentials.md)) | Explore data with ad-hoc queries, create reusable SQL views, and use Genie Code to generate and optimise SQL. | [SQL] Building the Medallion with SQL |
 | **[SQL] Monitoring and Self-Service** ([guide](labs/Deep%20Dives/%5BSQL%5D%20Monitoring%20and%20Self-Service.md)) | Schedule recurring queries, set up SQL alerts, upload CSV data for self-service analysis, and explore Genie One (formerly Databricks One). | [SQL] SQL Analyst Essentials |
