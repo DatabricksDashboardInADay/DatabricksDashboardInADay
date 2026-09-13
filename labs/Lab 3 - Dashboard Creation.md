@@ -6,8 +6,9 @@ By the end of this lab, you will be able to:
 
 - Use a Databricks metric view as the primary semantic source for dashboard visuals.
 - Build interactive AI/BI dashboards with charts, filters, drill-downs, and summary tiles.
+- Leverage Genie Code to create visuals from natural-language prompts, including a fully custom Vega-Lite visualization.
 - Configure page-level and global filters (date, store, product) to enable rich interactivity.
-- Leverage AI-assisted visual creation with natural-language prompts to accelerate dashboard building.
+- Ask Genie questions directly on a published dashboard and share it with business consumers.
 
 Your final dashboard should look like this:
 
@@ -27,13 +28,25 @@ Before you start, please verify:
 - The **Sunny Bay Coffee Sales Metric View** `sm_fact_coffee_sales` from Lab 2 is created and published in Unity Catalog.
 - A **SQL warehouse** (Pro or serverless) is available for running dashboard queries.
 
+> [!TIP]
+> This lab is organized into four parts. First you **build** the visuals so you see results quickly, then you **make them interactive** with filters and drill-through, then you **share and consume** the report, and finally there are optional **add-on** tasks for anyone who finishes early.
+> - **Part A – Build the Dashboard (Visuals First)**
+> - **Part B – Make It Interactive (Filters, Headers, Drill-Through)**
+> - **Part C – Share, Consume & Ask**
+> - **Part D – Add-On Tasks (Optional)**
+
+### 🏗️ Part A – Build the Dashboard (Visuals First)
+
 **Step 1: Open the AI/BI Dashboard Template**
 
 AI/BI Dashboards can be stored as templates which contain the corporate identity, logos, and more elements that should be standardized.
 
 1. In the Databricks workspace, open **Dashboards** from the left navigation.
+
 2. Open the Dashboard "[Template] Sunny Bay Roastery - Sales Report"
+
 3. You are now viewing the Dashboard from the perspective of a **Dashboard Consumer**
+
 4. Click on "Edit Draft" to switch to the **Dashboard Creator** perspective
 
 <div style="text-align:left;">
@@ -45,82 +58,19 @@ AI/BI Dashboards can be stored as templates which contain the corporate identity
 Every AI/BI Dashboard must have one or more data sources, which are used to create the visualizations.
 
 1. Click on the "Data" tab to select the source data for the Dashboard
+
 2. Click on "Add data source", and select the Metric View from Lab 2 as the data source
 
 <div style="text-align:left;">
   <img src="./artifacts/screenshots/Dashboard_AddDataSource.png" width="30%">
 </div>
 
-**Step 3: Add a Global Filter**
+**Step 3: Add KPI Counter Visuals for Revenue and Profit**
 
-Global filters are helpful to apply a filter for multiple report pages. We are going to filter out all the sales before 2015.
+Counter visuals allow you to display a key metric for the current period alongside a comparison to a previous period. Let's start here so you have a visual on the canvas right away.
 
-1. Click on the "Show Global Filters" icon (you need to click on a report such as `Sales Report` before)
+1. Navigate to the **"Sales Report"** tab and click the `Add a visualization` icon to add a new widget to the dashboard
 
-<div style="text-align:left;">
-  <img src="./artifacts/screenshots/Dashboard_GlobalFilters.png" width="50%">
-</div>
-
-2. Click on the "+" icon to add a new global filter widget
-3. Select the `Date Range Picker` as the filter type
-4. Choose `date` as a field
-5. Rename the widget from `date` to `Date`
-6. Change the Default Value from `Jan 01, 2015` to `Dec 31, 2025`, which will become the default for the global filter
-
-<div style="text-align:left;">
-  <img src="./artifacts/screenshots/Dashboard_GlobalFilters2.png" width="20%">
-</div>
-
-7. Minimize the global filters by clicking on "Hide Global Filters"
-
-> 💡 Default filter values limit the data loaded on initial render, improving dashboard performance and ensuring users always start with a meaningful, pre-scoped view of the data.
-
----
-
-**Step 4: Add a Page Level Filter for Store Name, Product Category, and Product Subcategory**
-
-In this step, you will add page-level filters for store and product to enable interactive exploration for business users.
-
-1. Click on the `Add a filter` icon
-
-<div style="text-align:left;">
-  <img src="./artifacts/screenshots/Dashboard_PageFilter.png" width="25%">
-</div>
-
-2. Select `Multiple values` as the filter type in the widget settings
-3. Choose the value `store_name` in the fields selection
-4. Rename the title from `store_name` to `Store Name`
-5. Duplicate the filter widget twice, by selecting it, pressing `CTRL + C`, and `CTRL + V`
-6. Rename the first duplicate to `Category`, remove the existing value from fields, and select `product_category`
-7. Rename the second duplicate to `Subcategory`, remove the existing value from fields, and select `product_subcategory`
-8. Take a moment to explore the filters — click through the dropdowns to familiarize yourself with the available stores and products.
-9. Select `Beans` as the `Category` and notice how the `Subcategory` filter automatically updates to only show relevant options — this is cascading filters in action.
-<div style="text-align:left;">
-  <img src="./artifacts/screenshots/Dashboard_CascadingFilter.png" width="60%">
-</div>
-
-**Step 5: Add Section Headers**
-
-Text widgets can be used as section headers to structure your dashboard into logical sections.
-
-1. Click the `Add a text box` icon to add a new text widget
-2. Enter `## Financial Highlights` as the text and format it as a **Heading**
-3. Resize the text box to span the full width of the dashboard and reduce the height to a single row
-4. Repeat the same steps to create two more section headers:
-   - `## Sales by Location & Channel`
-   - `## Deep Dive`
-
-5. Move the section headers to the correct position above each section of your dashboard. Your final structure should look like this:
-
-   - 📌 **Financial Highlights** → above the KPI counters and bar chart
-   - 📌 **Sales by Location & Channel** → above the donut chart and map
-   - 📌 **Deep Dive** → above the pivot/detail table
-
-**Step 6: Add KPI Counter Visuals for Revenue and Profit**
-
-Counter visuals allow you to display a key metric for the current period alongside a comparison to a previous period.
-
-1. Click the `Add a visualization` icon to add a new widget to the dashboard
 <div style="text-align:left;">
   <img src="./artifacts/screenshots/Dashboard_AddVisualization.png" width="60%">
 </div>
@@ -150,15 +100,18 @@ Counter visuals allow you to display a key metric for the current period alongsi
    - **Value:** change to `MEASURE(total_net_profit_usd)`
    - **Comparison:** change to `MEASURE(total_net_profit_usd)`
 
-**Step 7: Create Your First AI-Assisted Bar Chart**
+**Step 4: Create an AI-Assisted Bar Chart with Genie Code**
 
-Genie Code can generate visuals directly from natural language prompts.
+Genie Code can generate visuals directly from natural-language prompts.
 
 1. Click the `Add a visualization` icon to add a new widget to the dashboard
-2. Ask the AI Assistant in the visualization to "_Create a bar chart that shows the net profit over date aggregated by month_"
+
+2. Ask **Genie Code** in the visualization to "_Create a bar chart that shows the net profit over date aggregated by month_"
+
 <div style="text-align:left;">
   <img src="./artifacts/screenshots/Dashboard_VisualPrompt.png" width="60%">
 </div>
+
 3. Press "Accept" when you are satisfied with the visualization. If not, press "Reject", and refine the prompt.
 
 <div style="text-align:left;">
@@ -172,6 +125,7 @@ Genie Code can generate visuals directly from natural language prompts.
 </div>
 
 5. Rename the axis title to "Net Profit [$]"
+
 6. To group the sales by store, click on the "+" next to the "Color" field in the widget settings, and choose the value "store_name"
 
 <div style="text-align:left;">
@@ -179,7 +133,9 @@ Genie Code can generate visuals directly from natural language prompts.
 </div>
 
 7. Add the measures "total_cost_of_goods_usd" and "total_net_revenue_usd" as tooltip
+
 8. Rename the tooltip values to "Total Costs of Goods [$]" and "Total Net Revenue [$]"
+
 9. Rename the title to "Net Profit per Month [$]"
 
 Your dashboard should look like this:
@@ -188,46 +144,64 @@ Your dashboard should look like this:
   <img src="./artifacts/screenshots/Dashboard_FinancialHighlights.png" width="100%">
 </div>
 
-**Step 8: Create a Pie Chart and Explore Cross-Filtering**
+**Step 5: Create a Pie Chart and Explore Cross-Filtering**
 
-1. Make sure that all report level filters are not applied
-2. Create a new visualization by clicking on `Add visualization`
-3. Select the `Pie` as visualization type
-4. Add the title to `Net Profit Online vs. Offline [$]`
-5. Choose the `total_net_profit_usd` as the `angle`, and `store_online` as the `color`
-6. Select your preferred colors for the values `true`, and `false` 
-7. Open the formatting of Color, and add the aliases "Online" and "In-Store"
-8. Rename the angle `Display name` to "Net Profit [$]"
-9. Activate labels for this visualization 
-10. Click on one of the values of the pie chart, and see how the cross-filtering functionality affects the bar chart
+1. Create a new visualization by clicking on `Add visualization`
+
+2. Select the `Pie` as visualization type
+
+3. Add the title to `Net Profit Online vs. Offline [$]`
+
+4. Choose the `total_net_profit_usd` as the `angle`, and `store_online` as the `color`
+
+5. Select your preferred colors for the values `true`, and `false`
+
+6. Open the formatting of Color, and add the aliases "Online" and "In-Store"
+
+7. Rename the angle `Display name` to "Net Profit [$]"
+
+8. Activate labels for this visualization
+
+9. Click on one of the values of the pie chart, and see how the cross-filtering functionality affects the bar chart
 
 <div style="text-align:left;">
   <img src="./artifacts/screenshots/Dashboard_CrossFiltering.png" width="40%">
 </div>
 
-**Step 9: Create a Map Visualization**
+**Step 6: Create a Map Visualization**
 
 1. Create a new visualization by clicking on `Add visualization`
+
 2. Select `Point map` as `visualization type`
+
 3. Add the title `Total Net Profit by Store [$]`
+
 4. Select the dimensions `store_latitude`, and `store_longitude` for the coordinates
+
 5. Choose the measure `total_net_profit_usd` as the size
+
 6. Use the dimension `product_category` as the color
+
 7. Rename the color's `Legend title` to `Product Category`
+
 8. Click on the kebab menu of the map visual and click on `View fullscreen`
 
 <div style="text-align:left;">
   <img src="./artifacts/screenshots/Dashboard_MapFullScreen.png" width="30%">
 </div>
 
-**Step 10: Add a Pivot Table for Detailed Sales Breakdown**
+**Step 7: Add a Pivot Table for Detailed Sales Breakdown**
 
 Pivot tables allow you to explore your data across multiple dimensions simultaneously — perfect for a detailed breakdown of revenue by store and product.
 
-1. Navigate to the **"Sales Report"** tab and scroll down to the **"Deep Dive"** section
+1. Scroll down to the bottom of the **"Sales Report"** tab, where the **"Deep Dive"** section will live
+
 2. Click the **"Add a visualization"** icon and select **"Pivot"** as the visualization type
+
 3. Rename the title to `Revenue Breakdown by Store & Product [$]`
+
 4. Select `sm_fact_coffee_sales` as the dataset
+
 5. Add a visual filter to limit the date range:
    - Click **"+"** next to **Filter fields**
    - Select `date` as the filter field
@@ -250,26 +224,122 @@ Pivot tables allow you to explore your data across multiple dimensions simultane
 
 10. Your pivot table should now show net revenue broken down by store (rows) and product category/subcategory (columns)
 
+### 🎛️ Part B – Make It Interactive (Filters, Headers, Drill-Through)
+
+Now that the visuals exist, let's structure the page and make it interactive.
+
+**Step 8: Add Section Headers**
+
+Text widgets can be used as section headers to structure your dashboard into logical sections.
+
+1. Click the `Add a text box` icon to add a new text widget
+
+2. Enter `## Financial Highlights` as the text and format it as a **Heading**
+
+3. Resize the text box to span the full width of the dashboard and reduce the height to a single row
+
+4. Repeat the same steps to create two more section headers:
+   - `## Sales by Location & Channel`
+   - `## Deep Dive`
+
+5. Move the section headers to the correct position above each section of your dashboard. Your final structure should look like this:
+
+   - 📌 **Financial Highlights** → above the KPI counters and bar chart
+   - 📌 **Sales by Location & Channel** → above the pie chart and map
+   - 📌 **Deep Dive** → above the pivot/detail table
+
+**Step 9: Add a Global Filter**
+
+Global filters are helpful to apply a filter for multiple report pages. We are going to filter out all the sales before 2015.
+
+1. Click on the "Show Global Filters" icon (you need to click on a report such as `Sales Report` before)
+
+<div style="text-align:left;">
+  <img src="./artifacts/screenshots/Dashboard_GlobalFilters.png" width="50%">
+</div>
+
+2. Click on the "+" icon to add a new global filter widget
+
+3. Select the `Date Range Picker` as the filter type
+
+4. Choose `date` as a field
+
+5. Rename the widget from `date` to `Date`
+
+6. Change the Default Value from `Jan 01, 2015` to `Dec 31, 2025`, which will become the default for the global filter
+
+<div style="text-align:left;">
+  <img src="./artifacts/screenshots/Dashboard_GlobalFilters2.png" width="20%">
+</div>
+
+7. Minimize the global filters by clicking on "Hide Global Filters"
+
+> [!TIP]
+> Default filter values limit the data loaded on initial render, improving dashboard performance and ensuring users always start with a meaningful, pre-scoped view of the data.
+
+**Step 10: Add a Page-Level Filter for Store Name, Product Category, and Product Subcategory**
+
+In this step, you will add page-level filters for store and product to enable interactive exploration for business users.
+
+1. Click the `Add a filter` icon
+
+<div style="text-align:left;">
+  <img src="./artifacts/screenshots/Dashboard_PageFilter.png" width="25%">
+</div>
+
+2. Select `Multiple values` as the filter type in the widget settings
+
+3. Choose the value `store_name` in the fields selection
+
+4. Rename the title from `store_name` to `Store Name`
+
+5. Duplicate the filter widget twice, by selecting it, pressing `CTRL + C`, and `CTRL + V`
+
+6. Rename the first duplicate to `Category`, remove the existing value from fields, and select `product_category`
+
+7. Rename the second duplicate to `Subcategory`, remove the existing value from fields, and select `product_subcategory`
+
+8. Take a moment to explore the filters — click through the dropdowns to familiarize yourself with the available stores and products.
+
+9. Select `Beans` as the `Category` and notice how the `Subcategory` filter automatically updates to only show relevant options — this is cascading filters in action.
+
+<div style="text-align:left;">
+  <img src="./artifacts/screenshots/Dashboard_CascadingFilter.png" width="60%">
+</div>
+
 **Step 11: Explore the Drill-Through Feature**
 
 1. Open the "Market Report" page of the report
+
 2. Copy the page-level filters from the `Sales Report`
+
 3. Create a new visualization by clicking on `Add visualization`
+
 4. Select the visualization type `Heatmap`
+
 5. Choose `day_of_week` for the x-axis, and `product_name` for the y-axis
+
 6. Select `total_net_profit_usd` as the color
+
 7. Activate labels for this visualization
+
 8. Rename the value to "Net Profit by Day of Week and Product [$]"
+
 9. Change the x-axis scale type to `categorical`
+
 10. Jump back to `Sales Report` page
-11. Drill into the market report by right-clicking on the value for one store, clicking `drill to`, and `Market Report` 
+
+11. Drill into the market report by right-clicking on the value for one store, clicking `drill to`, and `Market Report`
 
 <div style="text-align:left;">
   <img src="./artifacts/screenshots/Dashboard_DrillThrough.png" width="30%">
 </div>
 
 12. The filter is propagated to the `Market Report`, and the revenue for each product grouped by day of the week is displayed
+
 13. Reset the filter by clicking `Reset all to default`
+
+### 🚀 Part C – Share, Consume & Ask
 
 **Step 12: View the Deployed Report**
 
@@ -279,7 +349,26 @@ Pivot tables allow you to explore your data across multiple dimensions simultane
 
 3. Download the Dashboard as a PDF by clicking on the kebab menu and `Download as PDF`.
 
-**Step 13: View the Report as a Consumer**
+**Step 13: Ask Genie on the Dashboard**
+
+Published AI/BI Dashboards include an **Ask Genie** entry point, so consumers can ask ad-hoc questions in natural language against the same governed data — no new visual required.
+
+1. On the deployed dashboard, open **Ask Genie** (the Genie entry point in the dashboard toolbar).
+
+2. Ask a question in natural language, for example:
+   - "_Which store had the highest net profit last year?_"
+   - "_Compare net revenue for online versus in-store sales._"
+
+3. Review Genie's answer and the generated result. Notice that Genie uses the **same metric view semantics** (measures, synonyms, formats) you enriched in Lab 2.
+
+<div style="text-align:left;">
+  <img src="./artifacts/screenshots/Dashboard_AskGenie.png" width="60%">
+</div>
+
+> [!NOTE]
+> Ask Genie must be enabled in your workspace and is not available to external (unauthenticated) embedding viewers. This is your bridge into **Lab 4 (BI Meets AI)**, where you build a dedicated Genie Agent on top of the same semantics.
+
+**Step 14: View the Report as a Consumer in Genie One**
 
 1. Open **Genie One** (formerly Databricks One) by clicking the **app switcher** icon in the upper-right corner and selecting **Genie One**, or by adding `/one` to your workspace URL
 
@@ -289,11 +378,56 @@ Pivot tables allow you to explore your data across multiple dimensions simultane
 
 2. Search for the report, or click on `Dashboards` to find all available dashboards
 
+### ➕ Part D – Add-On Tasks (Optional)
+
+These optional tasks go beyond the core dashboard. Complete them if you finish early or want to explore newer AI/BI capabilities. They are independent of each other.
+
+**Add-On 1: Create a Custom Visualization with Genie Code**
+
+Sometimes the built-in chart types don't cover exactly what you need. AI/BI Dashboards let you build a **custom visualization** with the [Vega-Lite](https://docs.databricks.com/aws/en/dashboards/manage/visualizations) grammar, and Genie Code can draft the specification for you from a natural-language prompt.
+
+In this task you'll visualize the **basket size** distribution — the value bands (`basket_size`) you defined back in Lab 2 that none of the earlier charts use yet.
+
+1. Click the `Add a visualization` icon and select **`Custom`** as the visualization type
+
+2. Ask **Genie Code** to draft the chart, for example: "_Create a bar chart of total net revenue by basket size, ordered by basket size_"
+
+3. Review the generated Vega-Lite specification, then refine it — for example, adjust the axis titles to `Basket Size` and `Total Net Revenue [$]`, and format the value as currency.
+
+4. Rename the title to `Net Revenue by Basket Size [$]`
+
+<div style="text-align:left;">
+  <img src="./artifacts/screenshots/Dashboard_CustomVegaViz.png" width="60%">
+</div>
+
+> [!IMPORTANT]
+> Custom (Vega-Lite) visualizations are a **Preview** feature and roll out gradually per region. Confirm the `Custom` visualization type is available in your workshop workspace before relying on it in a live session.
+
+**Add-On 2: Add a Dashboard Parameter**
+
+Dashboard parameters let a consumer switch what a visual shows at view time — without editing the dashboard.
+
+1. Add (or reuse) a bar chart on the `Sales Report` page.
+
+2. Add a **parameter** that lets the viewer swap the displayed measure between `MEASURE(total_net_revenue_usd)` and `MEASURE(total_net_profit_usd)`.
+
+3. Bind the visual's value to the parameter, then switch to the deployed view and change the parameter to see the chart update.
+
+<div style="text-align:left;">
+  <img src="./artifacts/screenshots/Dashboard_Parameters.png" width="40%">
+</div>
+
+> [!TIP]
+> Parameters are ideal when you want a single, compact report that different audiences can re-point at the metric they care about, instead of building a separate chart for every variation.
+
 ## What Happens Next?
 
-You have now created a production-ready AI/BI Dashboard for Sunny Bay Roastery, powered by the `sm_fact_coffee_sales` metric view.  
+You have now created a production-ready AI/BI Dashboard for Sunny Bay Roastery, powered by the `sm_fact_coffee_sales` metric view.
 Business users can:
 
 - Filter by store and product to answer ad-hoc questions.
 - Use cross-filtering and drill-through for deeper analysis.
-- Access the report in Databricks Genie UI as dashboard consumers.
+- Ask Genie natural-language questions directly on the dashboard.
+- Access the report in the Databricks Genie One UI as dashboard consumers.
+
+In **Lab 4 (BI Meets AI)** you will build a dedicated Genie Agent on the same metric view, so the semantics you defined power both self-service dashboards and conversational analytics.
