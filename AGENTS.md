@@ -34,6 +34,7 @@ Each lab markdown file in `labs/` follows a consistent structure:
   ```
 - Code blocks use fenced triple backticks with a language tag (`sql`, `python`).
 - Do not add trailing whitespace or empty cells/sections.
+- **Documentation links must always point to the AWS docs** (`https://docs.databricks.com/aws/en/...`). Never link to the Azure (`learn.microsoft.com/azure/databricks/...`) or GCP documentation.
 - Use GitHub-style alerts for callouts:
   - `> [!NOTE]` — Highlights information that users should take into account, even when skimming.
   - `> [!TIP]` — Helpful advice for doing things better or more easily.
