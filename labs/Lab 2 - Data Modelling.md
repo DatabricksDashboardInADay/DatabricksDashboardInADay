@@ -5,7 +5,7 @@ By the end of this lab, you will:
 - Understand how [Databricks Metric Views](https://docs.databricks.com/aws/en/metric-views/) will allow you to add business semantics using relationships and calculations to your data
 - Create a metric view with
     - relationships to our tables to allow implicit joining of tables.
-    - dimensions and measures with attributes and common calculations
+    - fields and measures with attributes and common calculations
     - formatting instructions and synonyms
 - Publish the metric view to make it available in Unity Catalog to make it accessible by subsequent features and tools such as Databricks Dashboards.
 
@@ -59,23 +59,25 @@ They allow consistent reporting, simplify complex SQL logic, and centralize metr
 > [!NOTE]
 > Joins link your fact table to dimension tables, allowing users to slice and filter metrics by attributes like product name, store location, or date — e.g., "show revenue by product category."
 
-1. We will now create our first join. In the overview page, expand the Metric View Canvas by clicking the Arrow button and then click the Join button (2 circles)
+1. We will now create our first join. On the **Overview** page, click the **Join** button (top-right).
 
 ![alt text](./artifacts/screenshots/MetricView_UI_OpenJoinDialog.png)
 
-2. Add the `dim_product` table and define the Join Condition using the columns with the `_key` suffix (e.g., `product_key`).
+2. Add the `dim_product` table and define the **Join Condition** using the columns with the `_key` suffix (e.g., `product_key = product_key`).
+
+> [!TIP]
+> If a **second join key** row appears automatically, remove it with the **✕** next to it — you only need to match on the `_key` columns.
 
 ![alt text](./artifacts/screenshots/MetricView_UI_DefineJoin.png)
 
-3. In the following dialog, only select the `Product Name`, `Product Subcategory` and `Product Category`attributes. 
+> [!NOTE]
+> Under **Query performance** you can enable **At most one match**. It tells Databricks that each fact row matches at most one row in the dimension — a true to-one relationship, as here, where `product_key` is unique in `dim_product`. This lets the optimizer skip duplicate-checking and rewrite queries more efficiently. Only enable it when the dimension key really is unique; if a fact row could match several dimension rows, the results would be wrong.
 
-4. See the results of your join-configuration. To get back to the overview page, click the back button. 
+3. In the following dialog, only select the `Product Name`, `Product Subcategory` and `Product Category` attributes.
 
-![alt text](./artifacts/screenshots/MetricView_UI_JoinResultAndBack.png)
+4. Now add the remaining dimension tables using the same approach. Use the following table as a reference:
 
-5. Now add the remaining dimension tables using the same approach. Use the following table as a reference:
-
-| Dimension Table | Join Condition | Dimensions to Select |
+| Dimension Table | Join Condition | Fields to Select |
 |---|---|---|
 | `dim_date` | `source.date_key = date.date_key` | Date, Day of Week |
 | `dim_store` | `source.store_key = store.store_key` | Store Name, Is Online, Latitude, Longitude |
@@ -85,16 +87,14 @@ They allow consistent reporting, simplify complex SQL logic, and centralize metr
 
 ![alt text](./artifacts/screenshots/MetricView_UI_AddJoin.png)
 
-6. For each dimension you can enter a `Display Name`. This is the bridge between technical column names used by developers (e.g., `product_category`) and human-readable labels for business users (e.g., `Product Category`).
+5. For each field you can enter a `Display Name`. This is the bridge between technical column names used by developers (e.g., `product_category`) and human-readable labels for business users (e.g., `Product Category`).
 
-![alt text](./artifacts/screenshots/MetricView_UI_DimensionConf.png)
-
-7. Delete the irrelevant dimension columns such as: `Date Key`, `Txn Seq`, `Product Key`, `Customer Key`, and `Store Key`.
+6. Delete the irrelevant fields such as: `Date Key`, `Txn Seq`, `Product Key`, `Customer Key`, and `Store Key`.
 
 > [!NOTE]
 > It is best practice to hide non-relevant and technical columns from business users who consume metric views. This keeps the model clean and easy to navigate.
 
-8. Now create a derived dimension that groups each order into a value band. Open `Dimensions`, click `+ Add`, set the name to `basket_size` (Display Name `Basket Size`), and copy this snippet into the `Expression` field:
+7. Now create a derived field that groups each order into a value band. Open `Fields`, click `+ Add`, set the name to `basket_size` (Display Name `Basket Size`), and copy this snippet into the `Expression` field:
 
 ```sql
 CASE
@@ -105,7 +105,7 @@ CASE
 END
 ```
 
-9. Congratulations for creating the basic semantic model of Sunny Bay Roastery. In the next step we are going to integrate measures.
+8. Congratulations for creating the basic semantic model of Sunny Bay Roastery. In the next step we are going to integrate measures.
 
 ![alt text](./artifacts/screenshots/MetricView_UI_DataModel.png)
 
