@@ -40,17 +40,17 @@ Before you start, please verify:
 
 ### 🏗️ Part A – Build the Dashboard (Visuals First)
 
-**Step 1: Open the AI/BI Dashboard Template**
+**Step 1: Open Your Dashboard and Switch to Edit Mode**
 
-AI/BI Dashboards can be stored as templates which contain the corporate identity, logos, and more elements that should be standardized.
+Lab 0 created an editable dashboard for you named **Sunny Bay Roastery - Sales Report**. It is a branded starting point (title, description, and logo are already in place) that carries the corporate identity so your report looks consistent, and it is your own copy, so you have full edit rights. A read-only **[Final]** version is also deployed as a reference you can compare against at the end.
 
 1. In the Databricks workspace, open **Dashboards** from the left navigation.
 
-2. Open the Dashboard "[Template] Sunny Bay Roastery - Sales Report"
+2. Open the Dashboard "Sunny Bay Roastery - Sales Report"
 
 3. You are now viewing the Dashboard from the perspective of a **Dashboard Consumer**
 
-4. Click on "Edit Draft" to switch to the **Dashboard Creator** perspective
+4. Click on "Edit" (top-right) to switch to the **Dashboard Creator** perspective
 
 <div style="text-align:left;">
   <img src="./artifacts/screenshots/Dashboard_EditDraft.png" width="50%">
