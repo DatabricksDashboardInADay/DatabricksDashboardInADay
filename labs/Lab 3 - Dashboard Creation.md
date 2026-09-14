@@ -46,15 +46,7 @@ Lab 0 created an editable dashboard for you named **Sunny Bay Roastery - Sales R
 
 1. In the Databricks workspace, open **Dashboards** from the left navigation.
 
-2. Open the Dashboard "Sunny Bay Roastery - Sales Report"
-
-3. You are now viewing the Dashboard from the perspective of a **Dashboard Consumer**
-
-4. Click on "Edit" (top-right) to switch to the **Dashboard Creator** perspective
-
-<div style="text-align:left;">
-  <img src="./artifacts/screenshots/Dashboard_EditDraft.png" width="50%">
-</div>
+2. Open the Dashboard "Sunny Bay Roastery - Sales Report" — because it is your own draft, it opens directly in the **Dashboard Creator** (edit) view, ready for you to build on.
 
 **Step 2: Configure the Metric View as a Data Source**
 
@@ -84,18 +76,22 @@ Counter visuals allow you to display a key metric for the current period alongsi
 
 4. Resize the widget to a width of `4` and a height of `3`
 
-5. Under **Date**, click **"+"** and select `YEARLY(date)`
+5. Under **Date**, click **"+"** and select `YEARLY(Date)`
 
-6. Under **Value**, click **"+"** and select `MEASURE(total_net_revenue_usd)`
+6. Under **Value**, click **"+"** and select `Total Net Revenue (USD)`
 
-7. Under **Comparison**, click **"+"** and select `MEASURE(total_net_revenue_usd)` again. Set **Years ago offset** to `1` and set **Change** format to `%`
+7. Under **Comparison**, click **"+"** and select `Total Net Revenue (USD)` again. Set **Years ago offset** to `1` and set **Change** format to `%`
 
 8. Your counter visual should now show the current year's net revenue with a year-over-year comparison — already formatted as currency, because the format is defined on the metric view.
 
-9. To create the second counter, right-click the widget and select **"Duplicate"**. Update the following settings in the copy:
+9. To create the second counter, right-click the widget and select **"Clone"**. Update the following settings in the copy:
    - **Title:** `Net Profit per Year [$]`
-   - **Value:** change to `MEASURE(total_profit_usd)`
-   - **Comparison:** change to `MEASURE(total_profit_usd)`
+   - **Value:** change to `Total Profit (USD)`
+   - **Comparison:** change to `Total Profit (USD)`
+
+<div style="text-align:left;">
+  <img src="./artifacts/screenshots/Dashboard_Counters.png" width="60%">
+</div>
 
 **Step 4: Create an AI-Assisted Bar Chart with Genie Code**
 
@@ -117,13 +113,13 @@ Genie Code can generate visuals directly from natural-language prompts.
 
 4. Rename the axis title to "Net Profit [$]"
 
-5. To group the sales by store, click on the "+" next to the "Color" field in the widget settings, and choose the value "store_name"
+5. To group the sales by store, click on the "+" next to the "Color" field in the widget settings, and choose the value `Store Name`
 
 <div style="text-align:left;">
   <img src="./artifacts/screenshots/Dashboard_GroupByStore.png" width="30%">
 </div>
 
-6. Add the measures "total_cost_of_goods_usd" and "total_net_revenue_usd" as tooltip
+6. Add the measures `Total Cost of Goods Sold (USD)` and `Total Net Revenue (USD)` as tooltip
 
 7. Rename the tooltip values to "Total Costs of Goods [$]" and "Total Net Revenue [$]"
 
@@ -143,7 +139,7 @@ Your dashboard should look like this:
 
 3. Add the title to `Net Profit Online vs. Offline [$]`
 
-4. Choose the `total_profit_usd` as the `angle`, and `store_online` as the `color`
+4. Choose `Total Profit (USD)` as the `angle`, and `Store Online` as the `color`
 
 5. Select your preferred colors for the values `true`, and `false`
 
@@ -155,10 +151,6 @@ Your dashboard should look like this:
 
 9. Click on one of the values of the pie chart, and see how the cross-filtering functionality affects the bar chart
 
-<div style="text-align:left;">
-  <img src="./artifacts/screenshots/Dashboard_CrossFiltering.png" width="40%">
-</div>
-
 **Step 6: Create a Map Visualization**
 
 1. Create a new visualization by clicking on `Add visualization`
@@ -167,15 +159,13 @@ Your dashboard should look like this:
 
 3. Add the title `Total Net Profit by Store [$]`
 
-4. Select the dimensions `store_latitude`, and `store_longitude` for the coordinates
+4. Select the dimensions `Store Latitude`, and `Store Longitude` for the coordinates
 
-5. Choose the measure `total_profit_usd` as the size
+5. Choose the measure `Total Profit (USD)` as the size
 
-6. Use the dimension `product_category` as the color
+6. Use the dimension `Product Category` as the color
 
-7. Rename the color's `Legend title` to `Product Category`
-
-8. Click on the kebab menu of the map visual and click on `View fullscreen`
+7. Click on the kebab menu of the map visual and click on `View fullscreen`
 
 <div style="text-align:left;">
   <img src="./artifacts/screenshots/Dashboard_MapFullScreen.png" width="30%">
@@ -195,18 +185,18 @@ Pivot tables allow you to explore your data across multiple dimensions simultane
 
 5. Add a visual filter to limit the date range:
    - Click **"+"** next to **Filter fields**
-   - Select `date` as the filter field
+   - Select `Date` as the filter field
    - Set the range from `01 January 2020` to `31 December 2025`
 
-6. Under **Rows**, click **"+"** and select `store_name`
+6. Under **Rows**, click **"+"** and select `Store Name`
 
 7. Under **Columns**, click **"+"** and add the following in order:
-   - `product_category`
-   - `product_subcategory`
+   - `Product Category`
+   - `Product Subcategory`
 
-8. Click on `product_category` in the columns and enable the **"Display total"** checkbox
+8. Click on `Product Category` in the columns and enable the **"Display total"** checkbox
 
-9. Under **Values**, click **"+"** and select `MEASURE(total_net_revenue_usd)`, and change the **Display name** to `Total Net Revenue`. It is already formatted as currency because the format lives on the metric view.
+9. Under **Values**, click **"+"** and select `Total Net Revenue (USD)`, and change the **Display name** to `Total Net Revenue`. It is already formatted as currency because the format lives on the metric view.
 
 10. Your pivot table should now show net revenue broken down by store (rows) and product category/subcategory (columns)
 
@@ -248,17 +238,11 @@ Global filters are helpful to apply a filter for multiple report pages. We are g
 
 3. Select the `Date Range Picker` as the filter type
 
-4. Choose `date` as a field
+4. Choose `Date` as a field. The widget title already reads **Date** because it uses the field's display name, so there is nothing to rename.
 
-5. Rename the widget from `date` to `Date`
+5. Change the Default Value from `Jan 01, 2015` to `Dec 31, 2025`, which will become the default for the global filter
 
-6. Change the Default Value from `Jan 01, 2015` to `Dec 31, 2025`, which will become the default for the global filter
-
-<div style="text-align:left;">
-  <img src="./artifacts/screenshots/Dashboard_GlobalFilters2.png" width="20%">
-</div>
-
-7. Minimize the global filters by clicking on "Hide Global Filters"
+6. Minimize the global filters by clicking on "Hide Global Filters"
 
 > [!TIP]
 > Default filter values limit the data loaded on initial render, improving dashboard performance and ensuring users always start with a meaningful, pre-scoped view of the data.
@@ -275,19 +259,17 @@ In this step, you will add page-level filters for store and product to enable in
 
 2. Select `Multiple values` as the filter type in the widget settings
 
-3. Choose the value `store_name` in the fields selection
+3. Choose the field `Store Name` in the fields selection. The title already reads **Store Name** because the filter uses the field's display name, so there is nothing to rename.
 
-4. Rename the title from `store_name` to `Store Name`
+4. Duplicate the filter widget twice, by selecting it, pressing `CTRL + C`, and `CTRL + V`
 
-5. Duplicate the filter widget twice, by selecting it, pressing `CTRL + C`, and `CTRL + V`
+5. Rename the first duplicate to `Category`, remove the existing value from fields, and select `Product Category`
 
-6. Rename the first duplicate to `Category`, remove the existing value from fields, and select `product_category`
+6. Rename the second duplicate to `Subcategory`, remove the existing value from fields, and select `Product Subcategory`
 
-7. Rename the second duplicate to `Subcategory`, remove the existing value from fields, and select `product_subcategory`
+7. Take a moment to explore the filters — click through the dropdowns to familiarize yourself with the available stores and products.
 
-8. Take a moment to explore the filters — click through the dropdowns to familiarize yourself with the available stores and products.
-
-9. Select `Beans` as the `Category` and notice how the `Subcategory` filter automatically updates to only show relevant options — this is cascading filters in action.
+8. Select `Beans` as the `Category` and notice how the `Subcategory` filter automatically updates to only show relevant options — this is cascading filters in action.
 
 <div style="text-align:left;">
   <img src="./artifacts/screenshots/Dashboard_CascadingFilter.png" width="60%">
@@ -303,9 +285,9 @@ In this step, you will add page-level filters for store and product to enable in
 
 4. Select the visualization type `Heatmap`
 
-5. Choose `day_of_week` for the x-axis, and `product_name` for the y-axis
+5. Choose `Day of Week` for the x-axis, and `Product Name` for the y-axis
 
-6. Select `total_profit_usd` as the color
+6. Select `Total Profit (USD)` as the color
 
 7. Activate labels for this visualization
 
@@ -327,11 +309,15 @@ In this step, you will add page-level filters for store and product to enable in
 
 ### 🚀 Part C – Share, Consume & Ask
 
-**Step 12: View the Deployed Report**
+**Step 12: Publish and View the Report**
 
-1. Congratulations, the report is ready. Because this dashboard is deployed and managed by your asset bundle, you won't see a `Publish` button — instead there is a `View Deployed` button.
+1. Congratulations, the report is ready! Click the **`Publish`** button (top-right) to publish your dashboard.
 
-2. Click `View Deployed` to switch to the perspective of a **Dashboard Consumer**.
+<div style="text-align:left;">
+  <img src="./artifacts/screenshots/Dashboard_Publish.png" width="50%">
+</div>
+
+2. You are now viewing it from the perspective of a **Dashboard Consumer**.
 
 3. Download the Dashboard as a PDF by clicking on the kebab menu and `Download as PDF`.
 
@@ -386,7 +372,7 @@ Dashboard parameters let a consumer switch what a visual shows at view time — 
 
 1. Add (or reuse) a bar chart on the `Sales Report` page.
 
-2. Add a **parameter** that lets the viewer swap the displayed measure between `MEASURE(total_net_revenue_usd)` and `MEASURE(total_profit_usd)`.
+2. Add a **parameter** that lets the viewer swap the displayed measure between `Total Net Revenue (USD)` and `Total Profit (USD)`.
 
 3. Bind the visual's value to the parameter, then switch to the deployed view and change the parameter to see the chart update.
 
