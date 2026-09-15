@@ -27,6 +27,11 @@ resources:
             - task_key: generate_data
           pipeline_task:
             pipeline_id: ${resources.pipelines.sunny_bay_roastery_pipeline.id}
+        - task_key: deploy_metadata
+          depends_on:
+            - task_key: run_pipeline
+          notebook_task:
+            notebook_path: ../src/notebooks/deploy_metadata.ipynb
         - task_key: deploy_metric_view
           depends_on:
             - task_key: run_pipeline

@@ -2,10 +2,10 @@
 
 ## 🎯 Learning Objectives
 By the end of this lab, you will:
-- Understand how [Databricks Metric Views](https://learn.microsoft.com/azure/databricks/metric-views/) will allow you to add business semantics using relationships and calculations to your data
+- Understand how [Databricks Metric Views](https://docs.databricks.com/aws/en/metric-views/) will allow you to add business semantics using relationships and calculations to your data
 - Create a metric view with
     - relationships to our tables to allow implicit joining of tables.
-    - dimensions and measures with attributes and common calculations
+    - fields and measures with attributes and common calculations
     - formatting instructions and synonyms
 - Publish the metric view to make it available in Unity Catalog to make it accessible by subsequent features and tools such as Databricks Dashboards.
 
@@ -59,23 +59,25 @@ They allow consistent reporting, simplify complex SQL logic, and centralize metr
 > [!NOTE]
 > Joins link your fact table to dimension tables, allowing users to slice and filter metrics by attributes like product name, store location, or date — e.g., "show revenue by product category."
 
-1. We will now create our first join. In the overview page, expand the Metric View Canvas by clicking the Arrow button and then click the Join button (2 circles)
+1. We will now create our first join. On the **Overview** page, click the **Join** button (top-right).
 
 ![alt text](./artifacts/screenshots/MetricView_UI_OpenJoinDialog.png)
 
-2. Add the `dim_product` table and define the Join Condition using the columns with the `_key` suffix (e.g., `product_key`).
+2. Add the `dim_product` table and define the **Join Condition** using the columns with the `_key` suffix (e.g., `product_key = product_key`).
+
+> [!TIP]
+> If a **second join key** row appears automatically, remove it with the **✕** next to it — you only need to match on the `_key` columns.
 
 ![alt text](./artifacts/screenshots/MetricView_UI_DefineJoin.png)
 
-3. In the following dialog, only select the `Product Name`, `Product Subcategory` and `Product Category`attributes. 
+> [!NOTE]
+> Under **Query performance** you can enable **At most one match**. It tells Databricks that each fact row matches at most one row in the dimension — a true to-one relationship, as here, where `product_key` is unique in `dim_product`. This lets the optimizer skip duplicate-checking and rewrite queries more efficiently. Only enable it when the dimension key really is unique; if a fact row could match several dimension rows, the results would be wrong.
 
-4. See the results of your join-configuration. To get back to the overview page, click the back button. 
+3. In the following dialog, only select the `Product Name`, `Product Subcategory` and `Product Category` attributes.
 
-![alt text](./artifacts/screenshots/MetricView_UI_JoinResultAndBack.png)
+4. Now add the remaining dimension tables using the same approach. Use the following table as a reference:
 
-5. Now add the remaining dimension tables using the same approach. Use the following table as a reference:
-
-| Dimension Table | Join Condition | Dimensions to Select |
+| Dimension Table | Join Condition | Fields to Select |
 |---|---|---|
 | `dim_date` | `source.date_key = date.date_key` | Date, Day of Week |
 | `dim_store` | `source.store_key = store.store_key` | Store Name, Is Online, Latitude, Longitude |
@@ -85,16 +87,14 @@ They allow consistent reporting, simplify complex SQL logic, and centralize metr
 
 ![alt text](./artifacts/screenshots/MetricView_UI_AddJoin.png)
 
-6. For each dimension you can enter a `Display Name`. This is the bridge between technical column names used by developers (e.g., `product_category`) and human-readable labels for business users (e.g., `Product Category`).
+5. For each field you can enter a `Display Name`. This is the bridge between technical column names used by developers (e.g., `product_category`) and human-readable labels for business users (e.g., `Product Category`).
 
-![alt text](./artifacts/screenshots/MetricView_UI_DimensionConf.png)
-
-7. Delete the irrelevant dimension columns such as: `Date Key`, `Txn Seq`, `Product Key`, `Customer Key`, and `Store Key`.
+6. Delete the irrelevant fields such as: `Date Key`, `Txn Seq`, `Product Key`, `Customer Key`, and `Store Key`.
 
 > [!NOTE]
 > It is best practice to hide non-relevant and technical columns from business users who consume metric views. This keeps the model clean and easy to navigate.
 
-8. Now create a derived dimension that groups each order into a value band. Open `Dimensions`, click `+ Add`, set the name to `basket_size` (Display Name `Basket Size`), and copy this snippet into the `Expression` field:
+7. Now create a derived field that groups each order into a value band. Open `Fields`, click `+ Add`, set the name to `basket_size` (Display Name `Basket Size`), and copy this snippet into the `Expression` field:
 
 ```sql
 CASE
@@ -105,7 +105,7 @@ CASE
 END
 ```
 
-9. Congratulations for creating the basic semantic model of Sunny Bay Roastery. In the next step we are going to integrate measures.
+8. Congratulations for creating the basic semantic model of Sunny Bay Roastery. In the next step we are going to integrate measures.
 
 ![alt text](./artifacts/screenshots/MetricView_UI_DataModel.png)
 
@@ -113,6 +113,9 @@ END
 
 > [!NOTE]
 > Measures define the calculations that business users can query — e.g., `SUM(net_revenue_usd)` to get total revenue across any combination of dimensions.
+
+> [!TIP]
+> For the full list of aggregate functions and measure options — including filtered measures, ratios, and window measures — see the official [Metric view YAML syntax reference (Measures)](https://docs.databricks.com/aws/en/uc-semantics/metric-views/yaml-reference) documentation.
 
 1. Now, we are going to create three measures for `total_net_revenue_usd`, `total_cost_of_goods_usd`, and `total_net_profit_usd`.
 
@@ -140,7 +143,74 @@ END
 
 ![alt text](./artifacts/screenshots/MetricView_UI_MeasurePreview.png)
 
-**Step 4: Final Steps**
+**Step 4: Enrich Measures with Metadata for AI Agents**
+
+> [!NOTE]
+> Metadata such as **display names**, **comments**, **synonyms**, and **number formats** don't change the numbers a measure returns — they add business context. This context is what lets AI agents like Genie map a natural-language question ("what was our revenue?") to the right measure and present the result correctly.
+
+1. Re-open the `total_net_revenue_usd` measure you created in the previous step.
+
+2. Add a human-friendly **Display Name**: `Total Net Revenue (USD)`.
+
+3. Add a **Comment** describing the measure, e.g. `Total net revenue in USD after discounts, before costs`.
+
+4. Add one or more **Synonyms** so an agent recognises everyday wording. For this measure add: `revenue`, `net revenue`, and `sales`.
+
+5. Set a **Format** so the value renders as currency everywhere it is used. Choose type `Currency`, currency code `USD`, and `2` decimal places.
+
+6. If you prefer the YAML editor, the same metadata looks like this:
+
+```YAML
+  - name: total_net_revenue_usd
+    expr: SUM(net_revenue_usd)
+    display_name: Total Net Revenue (USD)
+    comment: Total net revenue in USD after discounts, before costs
+    format:
+      type: currency
+      currency_code: USD
+      decimal_places:
+        type: exact
+        places: 2
+      abbreviation: compact
+    synonyms:
+      - revenue
+      - net revenue
+      - sales
+```
+
+> [!TIP]
+> Rich metadata pays off in **Lab 4 (BI Meets AI)**, where Genie relies on synonyms and formats to answer natural-language questions accurately.
+
+**Step 5: Accelerate Queries with Materialization (Optional)**
+
+> [!NOTE]
+> **Materialization** pre-computes and stores metric aggregations on a schedule, so dashboards and queries return results faster instead of recomputing from the raw fact table every time. Databricks automatically rewrites matching queries to use the materialized data when it can.
+
+1. Switch to the **YAML editor** using the toggle at the top.
+
+2. Add a `materialization` block at the end of the definition. This example pre-computes revenue and profit by product category and date, refreshed every 6 hours:
+
+```YAML
+materialization:
+  schedule: every 6 hours
+  mode: relaxed
+  materialized_views:
+    - name: revenue_by_category
+      type: aggregated
+      dimensions:
+        - product_category
+        - date
+      measures:
+        - total_net_revenue_usd
+        - total_net_profit_usd
+```
+
+3. When you save the metric view, Databricks provisions a managed pipeline that keeps the materialized data fresh on the schedule you defined.
+
+> [!IMPORTANT]
+> Materialization requires **serverless compute enabled** and a SQL warehouse or compute running **Databricks Runtime 17.3 or above**. It can't be used on metric views that define parameters, or whose source tables use row-level security, column masks, or ABAC policies.
+
+**Step 6: Final Steps**
 1. Click on `Save`.
 
 2. You have now published the Metric View to Unity Catalog by saving the YAML. This makes the metric view discoverable and available to teams and tools, including Databricks Dashboards and downstream analytics, provided they have access inherited from the schema. 
@@ -204,6 +274,19 @@ dimensions:
 measures:
   - name: total_net_revenue_usd
     expr: SUM(net_revenue_usd)
+    display_name: Total Net Revenue (USD)
+    comment: Total net revenue in USD after discounts, before costs
+    format:
+      type: currency
+      currency_code: USD
+      decimal_places:
+        type: exact
+        places: 2
+      abbreviation: compact
+    synonyms:
+      - revenue
+      - net revenue
+      - sales
   - name: total_cost_of_goods_usd
     expr: SUM(cost_of_goods_usd)
   - name: total_net_profit_usd
@@ -214,7 +297,7 @@ measures:
 
 You created a simple Metric View and users will be able to directly query business metrics without writing SQL joins or recalculating KPIs.
 
-On purpose, you did not yet use any advanced features such as complex calculations, synonyms, formatting, etc. We encourage you to look into more advanced calculations and modelling capabilities such as:
+You added agent metadata (synonyms and formatting) and, optionally, materialization. We encourage you to look into even more advanced calculations and modelling capabilities such as:
 
 **Different aggregation functions:**
 ```YAML 
@@ -232,23 +315,6 @@ On purpose, you did not yet use any advanced features such as complex calculatio
       - order: date
         semiadditive: last
         range: trailing 1 day
-```
-**Number formatting and synonyms:**
-```YAML
-  - name: total_gross_revenue_usd
-    expr: SUM(`gross_revenue_usd`)
-    comment: Total gross revenue in USD before VAT and costs
-    display_name: Total Gross Revenue (USD)
-    format:
-      type: currency
-      currency_code: USD
-      decimal_places:
-        type: exact
-        places: 2
-      abbreviation: compact
-    synonyms:
-      - revenue
-      - gross revenue
 ```
 
 > [!NOTE]

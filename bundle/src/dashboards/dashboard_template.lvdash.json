@@ -93,7 +93,7 @@
   "uiSettings": {
     "theme": {
       "canvasBackgroundColor": {
-        "light": "#D1E3D1",
+        "light": "#FFFFFF",
         "dark": "#1F272D"
       },
       "widgetBackgroundColor": {
@@ -120,7 +120,10 @@
         "#8CC665",
         "#D1E3D1"
       ],
-      "widgetHeaderAlignment": "LEFT"
+      "widgetHeaderAlignment": "LEFT",
+      "widgetPadding": 8,
+      "widgetCornerRadius": 16,
+      "widgetShadow": 65
     },
     "genieSpace": {
       "isEnabled": true,
