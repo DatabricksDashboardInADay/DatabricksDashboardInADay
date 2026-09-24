@@ -66,7 +66,7 @@ They allow consistent reporting, simplify complex SQL logic, and centralize metr
 2. Add the `dim_product` table and define the **Join Condition** using the columns with the `_key` suffix (e.g., `product_key = product_key`).
 
 > [!TIP]
-> If a **second join key** row appears automatically, remove it with the **✕** next to it — you only need to match on the `_key` columns.
+> If a **second join key** row appears automatically, remove it by clicking the **delete** (trash) icon next to it — you only need to match on the `_key` columns.
 
 ![alt text](./artifacts/screenshots/MetricView_UI_DefineJoin.png)
 

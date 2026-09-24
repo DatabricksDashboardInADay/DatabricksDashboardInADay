@@ -143,11 +143,11 @@ Your dashboard should look like this:
 
 5. Select your preferred colors for the values `true`, and `false`
 
-6. Open the formatting of Color, and add the aliases "Online" and "In-Store"
+6. Click the **three dots (⋮)** next to the **Color** field, then select **Format**. In the formatting panel, set the alias for `true` to `Online` and the alias for `false` to `In-Store`
 
-7. Rename the angle `Display name` to "Net Profit [$]"
+7. Click the **three dots (⋮)** next to the **Angle** field, select **Format**, and change the **Display name** to `Net Profit [$]`
 
-8. Activate labels for this visualization
+8. In the widget settings, scroll to the **Labels** section and toggle it **on** to display values on the pie slices
 
 9. Click on one of the values of the pie chart, and see how the cross-filtering functionality affects the bar chart
 
