@@ -220,7 +220,10 @@ So far you have *read* the gold data. In this optional add-on you will do a litt
 
 3. Review the flow Genie builds — a source, a join, an aggregate, and a sort — and **preview** the result right in the canvas. Each node is a transformation you can see, reorder, and edit, so the logic stays transparent.
 
-4. *(Optional)* Save the output to a new gold table, for example `sunny_bay_roastery.gold.top_products_by_revenue`, and run it.
+4. *(Optional)* Save the output to a new gold table:
+   - Click the **`+`** button on the last node in your flow and select **Target** (write to table).
+   - In the target configuration, enter the full table path — for example `sunny_bay_roastery.gold.top_products_by_revenue`.
+   - Click **Run** at the top to execute the flow and write the results to that table.
 
 **💡 What just happened?**
 
