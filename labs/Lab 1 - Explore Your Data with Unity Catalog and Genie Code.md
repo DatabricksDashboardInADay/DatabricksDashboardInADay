@@ -54,7 +54,7 @@ Take a minute to orient yourself before touching any data.
    - **Jobs & Pipelines** — scheduled and automated data processing.
 
 <div style="text-align:left;">
-  <img src="./artifacts/screenshots/Lab1_Workspace_Sidebar.png" width="20%">
+  <img src="./artifacts/screenshots/Lab1_Workspace_Sidebar.png" width="100%">
 </div>
 
 **💡 What just happened?**
@@ -76,7 +76,7 @@ You now know the places you will return to all day. Everything in the workshop i
    > *"What columns are in the sunny_bay_roastery.gold.fact_coffee_sales table?"*
 
 <div style="text-align:left;">
-  <img src="./artifacts/screenshots/Lab1_GenieCode_Panel.png" width="35%">
+  <img src="./artifacts/screenshots/Lab1_GenieCode_Panel.png" width="100%">
 </div>
 
 > [!TIP]
@@ -100,7 +100,7 @@ You learned where your AI assistant lives and that it already knows your data. F
 3. Expand **`gold`**. This is your analyst home base. It holds a classic **star schema**: one central *fact* table surrounded by *dimension* tables.
 
 <div style="text-align:left;">
-  <img src="./artifacts/screenshots/Lab1_Catalog_GoldSchema.png" width="30%">
+  <img src="./artifacts/screenshots/Lab1_Catalog_GoldSchema.png" width="100%">
 </div>
 
 **☕ Meet your data**
@@ -128,7 +128,7 @@ Let's get to know `fact_coffee_sales` — the table every dashboard and Genie an
 3. Open the **Sample Data** tab to preview real rows without writing any SQL.
 
 <div style="text-align:left;">
-  <img src="./artifacts/screenshots/Lab1_Table_SampleData.png" width="60%">
+  <img src="./artifacts/screenshots/Lab1_Table_SampleData.png" width="100%">
 </div>
 
 4. Open the **Details** tab. Note that this is a **managed** gold table, and see its owner and the schema it belongs to.
@@ -157,7 +157,7 @@ Before you build a report on a number, you want to know *how it was produced*. *
 3. Now follow the flow **downstream** (to the right). The gold table's consumers appear under **Assets that read data**. That is everything built on top of it — the **metric view** (`sm_fact_coffee_sales_genie`) from Lab 2, the **AI/BI dashboards** from Lab 3, and the **Sales Genie** from Lab 4.
 
 <div style="text-align:left;">
-  <img src="./artifacts/screenshots/Lab1_Lineage_Graph.png" width="80%">
+  <img src="./artifacts/screenshots/Lab1_Lineage_Graph.png" width="100%">
 </div>
 
 > [!NOTE]
@@ -184,7 +184,7 @@ One table was left undocumented on purpose: **`dim_customer`**. Documenting it i
 4. Add a **tag** to the table — for example a key/value like `domain: sales` or `certified: true`. Tags make assets easy to filter and group across the whole catalog.
 
 <div style="text-align:left;">
-  <img src="./artifacts/screenshots/Lab1_AI_Description.png" width="60%">
+  <img src="./artifacts/screenshots/Lab1_AI_Description.png" width="100%">
 </div>
 
 > [!NOTE]
