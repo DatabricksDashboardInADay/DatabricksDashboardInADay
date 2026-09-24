@@ -33,7 +33,7 @@ They allow consistent reporting, simplify complex SQL logic, and centralize metr
 **Step 1: Create an Empty Metric View**
 
 
-1. Navigate to the gold schema using the Catalog Explorer and create a new Metric View by selecting it after clicking the New Button.
+1. Navigate to the gold schema using the Catalog Explorer and create a new Metric View by selecting it after clicking the **Create** button.
 
 ![alt text](./artifacts/screenshots/MetricView_CreateMetricView.png)
 
