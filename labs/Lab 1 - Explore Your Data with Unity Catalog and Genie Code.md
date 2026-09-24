@@ -133,7 +133,7 @@ Let's get to know `fact_coffee_sales` — the table every dashboard and Genie an
 
 4. Open the **Details** tab. Note that this is a **managed** gold table, and see its owner and the schema it belongs to.
 
-5. Read the **column descriptions** (comments) shown next to each column. Good descriptions are what let both people *and* Genie Code understand the data correctly — the `gold` tables were documented for you during setup.
+5. Switch back to the **Overview** tab and read the **column descriptions** (comments) shown next to each column. Good descriptions are what let both people *and* Genie Code understand the data correctly — the `gold` tables were documented for you during setup.
 
 > [!TIP]
 > Not sure what a column like `date_key` means? Highlight it and **ask Genie Code** — it reads the same Unity Catalog metadata you are looking at.
