@@ -181,9 +181,7 @@ Pivot tables allow you to explore your data across multiple dimensions simultane
 
 3. Rename the title to `Revenue Breakdown by Store & Product [$]`
 
-4. Select `sm_fact_coffee_sales_genie` as the dataset
-
-5. Add a visual filter to limit the date range:
+4. Add a visual filter to limit the date range:
    - Click **"+"** next to **Filter fields**
    - Select `Date` as the filter field
    - Set the range from `01 January 2020` to `31 December 2025`
@@ -291,13 +289,13 @@ In this step, you will add page-level filters for store and product to enable in
 
 7. Activate labels for this visualization
 
-8. Rename the value to "Net Profit by Day of Week and Product [$]"
+8. Rename the title to `Net Profit by Day of Week and Product [$]`
 
-9. Change the x-axis scale type to `categorical`
+9. Change the x-axis scale type to categorical: click on `day_of_week` in the **X axis** field list, then under **Scale type**, click **Categorical**
 
 10. Jump back to `Sales Report` page
 
-11. Drill into the market report by right-clicking on the value for one store, clicking `drill to`, and `Market Report`
+11. On the **Sales Report** page, go to the bar chart ("Net Profit per Month"). **Right-click** on a bar segment for a specific store, select **Drill to**, then click **Market Report**
 
 <div style="text-align:left;">
   <img src="./artifacts/screenshots/Dashboard_DrillThrough.png" width="30%">
