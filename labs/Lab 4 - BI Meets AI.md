@@ -36,19 +36,19 @@ Before you start, please verify:
 1. In the Databricks workspace sidebar, click **Genie Agents** (under the **SQL** section).  
 2. Click **New**.  
 
-![](./artifacts/screenshots/Genie_CreateGenieSpace.png)
+<img src="./artifacts/screenshots/Genie_CreateGenieSpace.png" width="100%">
 
 3. Under **Data sources** (or equivalent section), **add the Sunny Bay Coffee metric view** that you defined in Lab 2 named `sm_fact_coffee_sales_genie`
 
-![](./artifacts/screenshots/Genie_SetDataSource.png)
+<img src="./artifacts/screenshots/Genie_SetDataSource.png" width="100%">
 
 4. Once the Genie Agent is created, fill in the basic information under "Configure" -> "About" :
    - **Title:** `Sunny Bay Sales Genie`  
    - **Description:**   “Ask questions about Sunny Bay Roastery coffee sales, customers, products, and stores using governed metrics from the Sunny Bay metric view.”  
    - Alternatively, you can use the AI generated description, which is more elaborate.
-   - **Thumbnail:** Download the [Genie Agent thumbnail](./artifacts/Lab%204%20-%20BI%20Meets%20AI/genie_thumbnail.jpeg) and upload it as the thumbnail image for your Genie Agent.
+   - **Thumbnail:** Upload the Genie Agent thumbnail as the thumbnail image for your Genie Agent. You can find it in your workspace at `labs/artifacts/Lab 4 - BI Meets AI/genie_thumbnail.jpeg`.
 
-![](./artifacts/screenshots/Genie_BasicSettings.png)
+<img src="./artifacts/screenshots/Genie_BasicSettings.png" width="100%">
 
 5. Select a **Pro or serverless SQL warehouse** to run queries.  
 6. Click **Save** to save the changes to the Genie Agent.  
@@ -57,13 +57,13 @@ Before you start, please verify:
     - Describe the business context: Sunny Bay Roastery, coffee sales, currencies, time grain, etc. 
     - Clarify metric meanings
     - Specify standard aggregations and filters (e.g., “Prefer last 30 days when no date is specified”).
-    - To save you from typing, you can paste [this text](./artifacts/Lab%204%20-%20BI%20Meets%20AI/Genie_Instructions.txt).
+    - To save you from typing, you can paste the content of the instructions file located in your workspace at `labs/artifacts/Lab 4 - BI Meets AI/Genie_Instructions.txt`.
     
-![](./artifacts/screenshots/Genie_Instructions.png)
+<img src="./artifacts/screenshots/Genie_Instructions.png" width="100%">
 
 8. You can now ask a first question to Genie and it should give acceptable results. For example, you can type **Show me the profit by month for the year 2023 as a bar chart** in the chat window, which should provide the following output:
 
-![](./artifacts/screenshots/Genie_TestQuestion.png)
+<img src="./artifacts/screenshots/Genie_TestQuestion.png" width="100%">
 
 9. (Optional) By clicking on `Show Code`, you can review the SQL query that Genie created to select data from your Metric View. Find that option below the result (table or chart) --> `Source`
 
@@ -76,7 +76,7 @@ Before you start, please verify:
 
 2. Open a new chat to reflect the updated instructions and ask the same question. Genie should now adjust the selected months to the defined fiscal year.
 
-![](./artifacts/screenshots/Genie_FiscalYear.png)
+<img src="./artifacts/screenshots/Genie_FiscalYear.png" width="100%">
 
 3. Review the changed time selector and optionally the SQL query that was updated equally.
 
@@ -137,23 +137,23 @@ ORDER BY
 
 4. Open a new chat and ask the same question again. **Make sure to start this chat in `Chat` mode (see instructions below).** You will notice that the results are not filtered by the selection, the parameter can be configured and a certification mark is added to the response to indicate that a trusted asset has been used to answer the question.
 
-![](./artifacts/screenshots/Genie_TrustedAsset.png)
+<img src="./artifacts/screenshots/Genie_TrustedAsset.png" width="100%">
 
 **Step 3: Extend Genie's Knowledge with Additional Data**
 
-1. Let's assume you want to separately analyse all products that are Fair Trade certified. Unfortunately, this information is not available anywhere in your data model, but you have a file that lists all these products using their product key. You can download such a file [here](./artifacts/Lab%204%20-%20BI%20Meets%20AI/Genie_FairTrade.csv) (the download button in Github is in the top right corner). 
+1. Let's assume you want to separately analyse all products that are Fair Trade certified. Unfortunately, this information is not available anywhere in your data model, but you have a file that lists all these products using their product key. You can find this file in your workspace at `labs/artifacts/Lab 4 - BI Meets AI/Genie_FairTrade.csv`. 
 
 
 
 2. Open a new chat and click the `Attach a file` button and navigate to the file that you downloaded. Select this file and upload to Genie. Make sure to select the `Chat` mode as only here this option is available.
 
-![](./artifacts/screenshots/Genie_UploadData.png)
+<img src="./artifacts/screenshots/Genie_UploadData.png" width="100%">
 
 3. Genie will analyze your file and explain what it understood from the content. In your case, it will list the certified products.
 
 4. You can now ask Genie questions that include the additional context, for example `What is the profit of the fair trade products in 2024? list the products and their profit and create a pie chart.` You will get an answer that only contains the certified products. All other context information will also be included such as the fiscal year definition.
 
-![](./artifacts/screenshots/Genie_FairTradeAnswer.png)
+<img src="./artifacts/screenshots/Genie_FairTradeAnswer.png" width="100%">
 
 5. (Optional) Review the SQL query that was generated. You will see that the file is joined to the Metric View or used as a filter in a subquery, depending how Genie chooses to create the query.
 
