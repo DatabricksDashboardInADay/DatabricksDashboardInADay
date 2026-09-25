@@ -57,7 +57,7 @@ Every AI/BI Dashboard must have one or more data sources, which are used to crea
 2. Click on "Add data source", and select the **`sm_fact_coffee_sales_genie`** metric view as the data source (or the `sm_fact_coffee_sales` view from Lab 2 if you prefer)
 
 <div style="text-align:left;">
-  <img src="./artifacts/screenshots/Dashboard_AddDataSource.png" width="100%">
+  <img src="./artifacts/screenshots/Dashboard_AddDataSource.png" width="30%">
 </div>
 
 **Step 3: Add KPI Counter Visuals for Revenue and Profit**
@@ -67,7 +67,7 @@ Counter visuals allow you to display a key metric for the current period alongsi
 1. Navigate to the **"Sales Report"** tab and click the `Add a visualization` icon to add a new widget to the dashboard
 
 <div style="text-align:left;">
-  <img src="./artifacts/screenshots/Dashboard_AddVisualization.png" width="100%">
+  <img src="./artifacts/screenshots/Dashboard_AddVisualization.png" width="60%">
 </div>
 
 2. Select **`Counter`** as the visualization type
@@ -90,7 +90,7 @@ Counter visuals allow you to display a key metric for the current period alongsi
    - **Comparison:** change to `Total Profit (USD)`
 
 <div style="text-align:left;">
-  <img src="./artifacts/screenshots/Dashboard_Counters.png" width="100%">
+  <img src="./artifacts/screenshots/Dashboard_Counters.png" width="60%">
 </div>
 
 **Step 4: Create an AI-Assisted Bar Chart with Genie Code**
@@ -102,13 +102,13 @@ Genie Code can generate visuals directly from natural-language prompts.
 2. Ask **Genie Code** in the visualization to "_Create a bar chart that shows the net profit over date aggregated by month_"
 
 <div style="text-align:left;">
-  <img src="./artifacts/screenshots/Dashboard_VisualPrompt.png" width="100%">
+  <img src="./artifacts/screenshots/Dashboard_VisualPrompt.png" width="60%">
 </div>
 
 3. Press "Accept" when you are satisfied with the visualization. If not, press "Reject", and refine the prompt.
 
 <div style="text-align:left;">
-  <img src="./artifacts/screenshots/Dashboard_Accept.png" width="100%">
+  <img src="./artifacts/screenshots/Dashboard_Accept.png" width="60%">
 </div>
 
 4. Rename the axis title to "Net Profit [$]"
@@ -116,7 +116,7 @@ Genie Code can generate visuals directly from natural-language prompts.
 5. To group the sales by store, click on the "+" next to the "Color" field in the widget settings, and choose the value `Store Name`
 
 <div style="text-align:left;">
-  <img src="./artifacts/screenshots/Dashboard_GroupByStore.png" width="100%">
+  <img src="./artifacts/screenshots/Dashboard_GroupByStore.png" width="30%">
 </div>
 
 6. Add the measures `Total Cost of Goods Sold (USD)` and `Total Net Revenue (USD)` as tooltip
@@ -168,7 +168,7 @@ Your dashboard should look like this:
 7. Click on the kebab menu of the map visual and click on `View fullscreen`
 
 <div style="text-align:left;">
-  <img src="./artifacts/screenshots/Dashboard_MapFullScreen.png" width="100%">
+  <img src="./artifacts/screenshots/Dashboard_MapFullScreen.png" width="30%">
 </div>
 
 **Step 7: Add a Pivot Table for Detailed Sales Breakdown**
@@ -231,7 +231,7 @@ Global filters are helpful to apply a filter for multiple report pages. We are g
 1. Click on the "Show Global Filters" icon (you need to click on a report such as `Sales Report` before)
 
 <div style="text-align:left;">
-  <img src="./artifacts/screenshots/Dashboard_GlobalFilters.png" width="100%">
+  <img src="./artifacts/screenshots/Dashboard_GlobalFilters.png" width="50%">
 </div>
 
 2. Click on the "+" icon to add a new global filter widget
@@ -254,7 +254,7 @@ In this step, you will add page-level filters for store and product to enable in
 1. Click the `Add a filter` icon
 
 <div style="text-align:left;">
-  <img src="./artifacts/screenshots/Dashboard_PageFilter.png" width="100%">
+  <img src="./artifacts/screenshots/Dashboard_PageFilter.png" width="25%">
 </div>
 
 2. Select `Multiple values` as the filter type in the widget settings
@@ -272,7 +272,7 @@ In this step, you will add page-level filters for store and product to enable in
 8. Select `Beans` as the `Category` and notice how the `Subcategory` filter automatically updates to only show relevant options — this is cascading filters in action.
 
 <div style="text-align:left;">
-  <img src="./artifacts/screenshots/Dashboard_CascadingFilter.png" width="100%">
+  <img src="./artifacts/screenshots/Dashboard_CascadingFilter.png" width="60%">
 </div>
 
 **Step 11: Explore the Drill-Through Feature**
@@ -300,7 +300,7 @@ In this step, you will add page-level filters for store and product to enable in
 11. Drill into the market report by right-clicking on the value for one store, clicking `drill to`, and `Market Report`
 
 <div style="text-align:left;">
-  <img src="./artifacts/screenshots/Dashboard_DrillThrough.png" width="100%">
+  <img src="./artifacts/screenshots/Dashboard_DrillThrough.png" width="30%">
 </div>
 
 12. The filter is propagated to the `Market Report`, and the revenue for each product grouped by day of the week is displayed
@@ -314,7 +314,7 @@ In this step, you will add page-level filters for store and product to enable in
 1. Congratulations, the report is ready! Click the **`Publish`** button (top-right) to publish your dashboard.
 
 <div style="text-align:left;">
-  <img src="./artifacts/screenshots/Dashboard_Publish.png" width="100%">
+  <img src="./artifacts/screenshots/Dashboard_Publish.png" width="50%">
 </div>
 
 2. You are now viewing it from the perspective of a **Dashboard Consumer**.
@@ -341,7 +341,7 @@ Published AI/BI Dashboards include an **Ask Genie** entry point, so consumers ca
 1. Open **Genie One** (formerly Databricks One) by clicking the **app switcher** icon in the upper-right corner and selecting **Genie One**, or by adding `/one` to your workspace URL
 
 <div style="text-align:left;">
-  <img src="./artifacts/screenshots/Dashboard_DatabricksOne.png" width="100%">
+  <img src="./artifacts/screenshots/Dashboard_DatabricksOne.png" width="15%">
 </div>
 
 2. Search for the report, or click on `Dashboards` to find all available dashboards

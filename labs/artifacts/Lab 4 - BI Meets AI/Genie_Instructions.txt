@@ -7,6 +7,6 @@
 
 * Prefer last 30 days when no date is specified
 
-* as the Covid-19 pandemic had significant impact on the business, users might refer to it. it happend between early 2020 and early 2023
+* as the Covid-19 pandemic had significant impact on the business, users might refer to it. it happened between early 2020 and early 2023
 
-* if you can't provide an answer, state that cleary to avoid inaccurate results.
+* if you can't provide an answer, state that clearly to avoid inaccurate results.

@@ -46,7 +46,7 @@ Before you start, please verify:
    - **Title:** `Sunny Bay Sales Genie`  
    - **Description:**   “Ask questions about Sunny Bay Roastery coffee sales, customers, products, and stores using governed metrics from the Sunny Bay metric view.”  
    - Alternatively, you can use the AI generated description, which is more elaborate.
-   - **Thumbnail:** Download the [Genie Agent thumbnail](./artifacts/Lab%204%20-%20BI%20Meets%20AI/genie_thumbnail.jpeg) and upload it as the thumbnail image for your Genie Agent.
+   - **Thumbnail:** Upload the Genie Agent thumbnail as the thumbnail image for your Genie Agent. You can find it in your workspace at `labs/artifacts/Lab 4 - BI Meets AI/genie_thumbnail.jpeg`.
 
 ![](./artifacts/screenshots/Genie_BasicSettings.png)
 
@@ -57,7 +57,7 @@ Before you start, please verify:
     - Describe the business context: Sunny Bay Roastery, coffee sales, currencies, time grain, etc. 
     - Clarify metric meanings
     - Specify standard aggregations and filters (e.g., “Prefer last 30 days when no date is specified”).
-    - To save you from typing, you can paste [this text](./artifacts/Lab%204%20-%20BI%20Meets%20AI/Genie_Instructions.txt).
+    - To save you from typing, you can paste the content of the instructions file located in your workspace at `labs/artifacts/Lab 4 - BI Meets AI/Genie_Instructions.txt`.
     
 ![](./artifacts/screenshots/Genie_Instructions.png)
 
@@ -141,7 +141,7 @@ ORDER BY
 
 **Step 3: Extend Genie's Knowledge with Additional Data**
 
-1. Let's assume you want to separately analyse all products that are Fair Trade certified. Unfortunately, this information is not available anywhere in your data model, but you have a file that lists all these products using their product key. You can download such a file [here](./artifacts/Lab%204%20-%20BI%20Meets%20AI/Genie_FairTrade.csv) (the download button in Github is in the top right corner). 
+1. Let's assume you want to separately analyse all products that are Fair Trade certified. Unfortunately, this information is not available anywhere in your data model, but you have a file that lists all these products using their product key. You can find this file in your workspace at `labs/artifacts/Lab 4 - BI Meets AI/Genie_FairTrade.csv`. 
 
 
 
