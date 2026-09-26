@@ -181,18 +181,16 @@ Pivot tables allow you to explore your data across multiple dimensions simultane
 
 3. Rename the title to `Revenue Breakdown by Store & Product [$]`
 
-4. Select `sm_fact_coffee_sales_genie` as the dataset
+4. Under **Rows**, click **"+"** and select `Store Name`
+
+6. Under **Columns**, click **"+"** and add the following in order:
+   - `Product Category`
+   - `Product Subcategory`
 
 5. Add a visual filter to limit the date range:
    - Click **"+"** next to **Filter fields**
    - Select `Date` as the filter field
    - Set the range from `01 January 2020` to `31 December 2025`
-
-6. Under **Rows**, click **"+"** and select `Store Name`
-
-7. Under **Columns**, click **"+"** and add the following in order:
-   - `Product Category`
-   - `Product Subcategory`
 
 8. Click on `Product Category` in the columns and enable the **"Display total"** checkbox
 
@@ -366,18 +364,7 @@ This is where Vega-Lite shines — it can *layer* marks that the built-in charts
 
 4. Rename the title to `Net Revenue by Basket Size [$]`
 
-**Add-On 2: Add a Dashboard Parameter**
 
-Dashboard parameters let a consumer switch what a visual shows at view time — without editing the dashboard.
-
-1. Add (or reuse) a bar chart on the `Sales Report` page.
-
-2. Add a **parameter** that lets the viewer swap the displayed measure between `Total Net Revenue (USD)` and `Total Profit (USD)`.
-
-3. Bind the visual's value to the parameter, then switch to the deployed view and change the parameter to see the chart update.
-
-> [!TIP]
-> Parameters are ideal when you want a single, compact report that different audiences can re-point at the metric they care about, instead of building a separate chart for every variation.
 
 ## What Happens Next?
 
