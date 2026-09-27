@@ -87,7 +87,7 @@ Before you start, please verify:
 
 Additionally, you can add a provided SQL query as an example for Genie how your data needs to be queried. Among instructions, providing examples is a powerful setting to increase the quality of your agent.
 
-1. Navigate to the Examples setting and add an  `Exsample Query` pane. Note that you can also provide example filter instructions, table relationships, etc.
+1. Navigate to the Examples setting and add an `Example Query` pane. Note that you can also provide example filter instructions, table relationships, etc.
 
 2. The question we want to provide a query for will be `Show online and offline sales per year.` For the SQL query, provide this one:
 
@@ -113,13 +113,13 @@ ORDER BY
 
 ![](./artifacts/screenshots/Genie_SampleSQL.png)
 
-4. Open a new chat and ask the question mentioned above. You will notice that for this specific question, the provided query will be executed.
+4. Open a new chat and ask the question mentioned above. You will notice that for this specific question, the provided query will be executed. But not only that: Genie will also learn from examples how the generate it's own queries on your data model.
 
 #### Trusted Assets
 
 1. [Trusted Assets](https://docs.databricks.com/aws/en/genie-agents/tune-quality#trusted-assets) are a great way to indicate to users that a verified, trusted SQL query is being used to answer questions. To make a query a Trusted Asset, it has to be reusable by adding parameters that the user can configure. Navigate back to the query you provided in the previous step
 
-2. Add a new example with a parameterized version of the same that will allow users to select between online and offline sales by changing a parameter. The question that this answers could be `Show offline sales per year.`.
+2. Add a new example with a parameterized version of the same that will allow users to select between online and offline sales by changing a parameter. The question that this answers could be `Show offline sales per year.`
 
 ```SQL
  SELECT
@@ -145,7 +145,7 @@ ORDER BY
 4. Open a new chat and ask the same question again. **Make sure to start this chat in `Chat` mode (see instructions below).** You will notice that the results are now filtered by the default selection and the parameter can be configured in the results. 
 
 > [!TIP]
-> The main benefit of this feature is reusability and the resulting trust in the answer. The query has been validated by the Genie Agent author and can still be parameterized. 
+> The main benefit of this feature is reusability and the resulting trust in the answer. The query has been validated by the Genie Agent author and can be dynamically parameterized. 
 
 ![](./artifacts/screenshots/Genie_TrustedAsset.png)
 
@@ -155,11 +155,11 @@ ORDER BY
 
 
 
-2. Open a new chat and click the `Attach a file` button and navigate to the file that you downloaded. Select this file and upload to Genie. Make sure to select the `Chat` mode as only here this option is available.
+2. Open a new chat and click the `Attach a file` button and navigate to the file that you downloaded. Select this file and upload to Genie.
 
 ![](./artifacts/screenshots/Genie_UploadData.png)
 
-3. Genie will analyze your file and explain what it understood from the content. In your case, it will list the certified products.
+3. Genie will analyze your file in subsequent queries and figure out how to connect it to the existent datasets. 
 
 4. You can now ask Genie questions that include the additional context, for example `What is the profit of the fair trade products in 2024? list the products and their profit and create a pie chart.` You will get an answer that only contains the certified products. All other context information will also be included such as the fiscal year definition.
 
@@ -174,3 +174,6 @@ You have now created a Genie Agent and provided some context information to opti
 Please note that there are more modelling features available in Genie, that we didn't need to use as we provided a high quality data source already. Alternatively, you can provide tables or views (as opposed to a Metric View) as data source and define the relationships, table and column descriptions in the Genie Agent directly. 
 
 As Genie Agent administrators, we encourage you to look into the [benchmarking](https://docs.databricks.com/aws/en/genie/benchmarks) and [monitoring](https://docs.databricks.com/aws/en/genie/monitor).
+
+> [!TIP]
+> Genie Agent are accessable in several ways. In this example, we used the chat UI directly in the Genie Agent configuration section. However, it is also available in [Genie One](https://docs.databricks.com/aws/en/genie-one/), which is a dedicated business user interface. As it also provides APIs via REST and MCP, it can be integrated into your own application. For [Microsoft Teams](https://docs.databricks.com/aws/en/integrations/msft-teams) and [Slack](https://docs.databricks.com/aws/en/genie-one/genie-slack), Databricks provides apps that integrate into them. 
