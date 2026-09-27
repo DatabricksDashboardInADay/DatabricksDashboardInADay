@@ -80,9 +80,14 @@ Before you start, please verify:
 
 3. Review the changed time selector and optionally the SQL query that was updated equally.
 
+> [!TIP]
+> Sometimes, it takes some time for the changes to propagate. Make sure to create a new chat. If the instructions still are not considered, you can simply ask Genie to re-evaluate ("Refresh the instructions and answer the question again").
+
 #### SQL Queries
 
-1. Additionally, you can add a provided SQL query. The purpose is to provide a SQL query yourself for a given question instead of letting Genie generate it. For frequently asked questions, this will provide a higher level of trust to users. Navigate to the instruction setting and open the `SQL Queries` pane. 
+Additionally, you can add a provided SQL query as an example for Genie how your data needs to be queried. Among instructions, providing examples is a powerful setting to increase the quality of your agent.
+
+1. Navigate to the Examples setting and add an  `Exsample Query` pane. Note that you can also provide example filter instructions, table relationships, etc.
 
 2. The question we want to provide a query for will be `Show online and offline sales per year.` For the SQL query, provide this one:
 
@@ -106,13 +111,15 @@ ORDER BY
 ```
 3. Save the query by clicking the `Save` button. 
 
+![](./artifacts/screenshots/Genie_SampleSQL.png)
+
 4. Open a new chat and ask the question mentioned above. You will notice that for this specific question, the provided query will be executed.
 
 #### Trusted Assets
 
-1. [Trusted Assets](https://docs.databricks.com/aws/en/genie/trusted-assets) are a great way to indicate to users that a verified, trusted SQL query is being used to answer questions. To make a query a Trusted Asset, it has to be reusable by adding parameters that the user can configure. Navigate back to the query you provided in the previous step
+1. [Trusted Assets](https://docs.databricks.com/aws/en/genie-agents/tune-quality#trusted-assets) are a great way to indicate to users that a verified, trusted SQL query is being used to answer questions. To make a query a Trusted Asset, it has to be reusable by adding parameters that the user can configure. Navigate back to the query you provided in the previous step
 
-2. Replace the existing query with a parameterized version that will allow users to select between online and offline sales by changing a parameter
+2. Add a new example with a parameterized version of the same that will allow users to select between online and offline sales by changing a parameter. The question that this answers could be `Show offline sales per year.`.
 
 ```SQL
  SELECT
@@ -135,7 +142,10 @@ ORDER BY
 
 3. Notice that a parameter named `onlinesales` has been added to the query (`:onlinesales`) and a configuration option was added. Verify that the data type is set to `string` by clicking the cog symbol. Type `false` in the text pane to set a default value.
 
-4. Open a new chat and ask the same question again. **Make sure to start this chat in `Chat` mode (see instructions below).** You will notice that the results are not filtered by the selection, the parameter can be configured and a certification mark is added to the response to indicate that a trusted asset has been used to answer the question.
+4. Open a new chat and ask the same question again. **Make sure to start this chat in `Chat` mode (see instructions below).** You will notice that the results are now filtered by the default selection and the parameter can be configured in the results. 
+
+> [!TIP]
+> The main benefit of this feature is reusability and the resulting trust in the answer. The query has been validated by the Genie Agent author and can still be parameterized. 
 
 ![](./artifacts/screenshots/Genie_TrustedAsset.png)
 
