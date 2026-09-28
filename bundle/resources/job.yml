@@ -1,4 +1,4 @@
-# A sample job for dab_personal_finance.
+# Run setup tasks one at a time to keep Free Edition serverless demand low.
 
 resources:
   jobs:
@@ -34,7 +34,7 @@ resources:
             notebook_path: ../src/notebooks/deploy_metadata.ipynb
         - task_key: deploy_metric_view
           depends_on:
-            - task_key: run_pipeline
+            - task_key: deploy_metadata
           notebook_task:
             notebook_path: ../src/notebooks/deploy_metric_view.ipynb
         - task_key: deploy_genie_space

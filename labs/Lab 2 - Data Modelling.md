@@ -183,6 +183,9 @@ END
 
 **Step 5: Accelerate Queries with Materialization (Optional)**
 
+> [!IMPORTANT]
+> **Skip this optional step on Databricks Free Edition.** Saving a materialized metric view provisions another managed pipeline. Free Edition allows only one active pipeline of each type per account, and an extra scheduled pipeline can compete with the workshop pipeline for limited serverless capacity. Continue with Step 6 instead.
+
 > [!NOTE]
 > **Materialization** pre-computes and stores metric aggregations on a schedule, so dashboards and queries return results faster instead of recomputing from the raw fact table every time. Databricks automatically rewrites matching queries to use the materialized data when it can.
 
@@ -297,7 +300,7 @@ measures:
 
 You created a simple Metric View and users will be able to directly query business metrics without writing SQL joins or recalculating KPIs.
 
-You added agent metadata (synonyms and formatting) and, optionally, materialization. We encourage you to look into even more advanced calculations and modelling capabilities such as:
+You added agent metadata (synonyms and formatting) and, if your workspace has sufficient capacity, optionally materialization. We encourage you to look into even more advanced calculations and modelling capabilities such as:
 
 **Different aggregation functions:**
 ```YAML 
