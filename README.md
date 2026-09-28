@@ -44,7 +44,7 @@ Sunny Bay uses **Databricks** for analytics; you will too.
 ## Step 3 – Choose Your Starting Point
 
 ### ✅ Instructions
-The labs are modular — you can start from any lab. Lab 0 pre-deploys all necessary assets (pipelines, Metric View, dashboards), so feel free to skip ahead to the topics that interest you most. Lab 1 is an **exploration lab** for analysts and analytics engineers: since Lab 0 already built the data, Lab 1 focuses on getting to know the workspace, Unity Catalog, lineage, and Genie Code. Prefer to build the medallion architecture yourself? Two optional Deep Dives ([SDP] and [SQL]) cover that data-engineering path.
+The labs are modular — after the Lab 0 setup job succeeds, the data, metric view, pipeline, and dashboards are ready, so feel free to skip ahead to the topics that interest you most. Lab 1 is an **exploration lab** for analysts and analytics engineers: since the setup job already built the data, Lab 1 focuses on getting to know the workspace, Unity Catalog, lineage, and Genie Code. Prefer to build the medallion architecture yourself? Two optional Deep Dives ([SDP] and [SQL]) cover that data-engineering path.
 
 | Lab | Topic | Guide |
 |-----|-------|-------|

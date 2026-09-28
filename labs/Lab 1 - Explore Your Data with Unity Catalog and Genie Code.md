@@ -17,7 +17,7 @@ By the end of this lab, you will:
 
 You do not need to be a data engineer to get value from Databricks. Most people who work with Sunny Bay's data are **analysts** and **analytics engineers**: they ask business questions, model data, and build reports. This lab is your guided tour of the platform from *that* point of view.
 
-In **Lab 0** you ran one notebook that set everything up: it generated the sales data, ran the medallion pipeline (bronze → silver → gold), built a metric view, and pre-created the dashboards and Sales Genie. So the data is already there. Your job in Lab 1 is not to *build* it — it is to **find it, understand it, and trust it**, and to learn the handful of workspace features you will use in every lab that follows.
+In **Lab 0** you deployed the workshop, disconnected the notebook's compute, then ran the setup job. The job generated the sales data, ran the medallion pipeline (bronze → silver → gold), and built the metric view and Sales Genie. The dashboards were created during deployment. Once the job shows **Succeeded**, the data is ready. Your job in Lab 1 is not to *build* it — it is to **find it, understand it, and trust it**, and to learn the handful of workspace features you will use in every lab that follows.
 
 **What you will explore**
 
