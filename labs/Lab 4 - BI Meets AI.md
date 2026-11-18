@@ -33,7 +33,7 @@ Before you start, please verify:
 
 **Step 1: Create the "Sunny Bay Sales Genie" Agent**
 
-1. In the Databricks workspace sidebar, click **Genie Agents** (under the **SQL** section).  
+1. In the Databricks workspace sidebar, click **Genie Agents** (under the **Analytics** section).  
 2. Click **New**.  
 
 <img src="./artifacts/screenshots/Genie_CreateGenieSpace.png" width="100%">
