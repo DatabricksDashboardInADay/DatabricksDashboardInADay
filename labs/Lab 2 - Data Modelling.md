@@ -75,6 +75,10 @@ They allow consistent reporting, simplify complex SQL logic, and centralize metr
 
 3. In the following dialog, unselect `dynamically import all columns from the source`, and only select the `Product Name`, `Product Subcategory` and `Product Category` attributes.
 
+<div style="text-align:left;">
+  <img src="./artifacts/screenshots/MetricView_UI_AddFields.png" width="50%">
+</div>
+
 4. Now join the `dim_store` table and `dim_date` table using the same approach and use the following table as a reference:
 
 | Dimension Table | Join Condition | Fields to Select |
@@ -94,7 +98,13 @@ They allow consistent reporting, simplify complex SQL logic, and centralize metr
 > [!NOTE]
 > It is best practice to hide non-relevant and technical columns from business users who consume metric views. This keeps the model clean and easy to navigate.
 
-7. Now create a derived field that groups each order into a value band. Open `Fields`, click `+ Add`, set the name to `basket_size` (Display Name `Basket Size`), and copy this snippet into the `Expression` field:
+7. Now create a derived field that groups each order into a value band. Open `Fields`, click `+ Add`
+
+<div style="text-align:left;">
+  <img src="./artifacts/screenshots/MetricView_UI_DerivedField.png" width="100%">
+</div>
+
+8. Set the name to `basket_size` (Display Name `Basket Size`), and copy this snippet into the `Expression` field with `Custom` mode:
 
 ```sql
 CASE
@@ -105,7 +115,7 @@ CASE
 END
 ```
 
-8. Now Save it. Congratulations for creating the basic semantic model of Sunny Bay Roastery. In the next step we are going to integrate measures.
+9. Now Save it. Congratulations on creating the basic semantic model of Sunny Bay Roastery. In the next step we are going to integrate measures.
 
 ![alt text](./artifacts/screenshots/MetricView_UI_DataModel.png)
 

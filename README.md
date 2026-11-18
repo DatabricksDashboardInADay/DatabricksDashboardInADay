@@ -12,10 +12,10 @@ Sunny Bay uses **Databricks** for analytics; you will too.
 
 ### ✅ Instructions
 1. Go to [https://databricks.com/try-databricks](https://databricks.com/try-databricks)
-2. Click **"Try Databricks for free"**
-3. Sign up with GitHub or Google.
-4. Select **Free Edition**.
-5. When ready, note your workspace URL.
+2. Click **"Get Free Edition"** or **"Try Databricks"**
+3. Sign up with Google email or Microsoft.
+4. You should receive a confirmation email after that.
+5. Check your email inbox and click on the workspace URL.
 
 ---
 
@@ -28,7 +28,7 @@ Sunny Bay uses **Databricks** for analytics; you will too.
 2. Navigate to your desired folder (e.g., under your username).
 3. Click **Create > Git folder**.
 4. Enter the repository URL: `https://github.com/DatabricksDashboardInADay/DatabricksDashboardInADay`
-5. Click **Create**.
+5. Click **Create Git Folder**.
 6. Expand the repo folder and open **[Lab 0 – Intro](labs/Lab%200%20-%20Intro.ipynb)** in the `labs` folder.
 7. *(Optional)* Change the parameters at the top (catalog name, or a `prefix` if you share a catalog) — the defaults work as-is.
 8. Click **Run all**. Lab 0 creates your catalog, deploys the bundle (job, pipeline, and dashboards), and runs the setup job end-to-end (~10–15 min). When the final cell prints **"✅ SETUP COMPLETE"**, every asset the labs need is ready.
