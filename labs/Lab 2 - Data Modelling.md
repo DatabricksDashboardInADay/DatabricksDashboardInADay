@@ -73,9 +73,9 @@ They allow consistent reporting, simplify complex SQL logic, and centralize metr
 > [!NOTE]
 > Under **Query performance** you can enable **At most one match**. It tells Databricks that each fact row matches at most one row in the dimension — a true to-one relationship, as here, where `product_key` is unique in `dim_product`. This lets the optimizer skip duplicate-checking and rewrite queries more efficiently. Only enable it when the dimension key really is unique; if a fact row could match several dimension rows, the results would be wrong.
 
-3. In the following dialog, only select the `Product Name`, `Product Subcategory` and `Product Category` attributes.
+3. In the following dialog, unselect `dynamically import all columns from the source`, and only select the `Product Name`, `Product Subcategory` and `Product Category` attributes.
 
-4. Now add the remaining dimension tables using the same approach. Use the following table as a reference:
+4. Now join the `dim_store` table and `dim_date` table using the same approach and use the following table as a reference:
 
 | Dimension Table | Join Condition | Fields to Select |
 |---|---|---|
@@ -105,7 +105,7 @@ CASE
 END
 ```
 
-8. Congratulations for creating the basic semantic model of Sunny Bay Roastery. In the next step we are going to integrate measures.
+8. Now Save it. Congratulations for creating the basic semantic model of Sunny Bay Roastery. In the next step we are going to integrate measures.
 
 ![alt text](./artifacts/screenshots/MetricView_UI_DataModel.png)
 
