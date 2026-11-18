@@ -33,7 +33,7 @@ They allow consistent reporting, simplify complex SQL logic, and centralize metr
 **Step 1: Create an Empty Metric View**
 
 
-1. Navigate to the gold schema using the Catalog Explorer and create a new Metric View by selecting it after clicking the New Button.
+1. Navigate to the gold schema using the Catalog Explorer and create a new Metric View by selecting it after clicking the **Create** button.
 
 ![alt text](./artifacts/screenshots/MetricView_CreateMetricView.png)
 
@@ -66,7 +66,7 @@ They allow consistent reporting, simplify complex SQL logic, and centralize metr
 2. Add the `dim_product` table and define the **Join Condition** using the columns with the `_key` suffix (e.g., `product_key = product_key`).
 
 > [!TIP]
-> If a **second join key** row appears automatically, remove it with the **✕** next to it — you only need to match on the `_key` columns.
+> If a **second join key** row appears automatically, remove it by clicking the **delete** (trash) icon next to it — you only need to match on the `_key` columns.
 
 ![alt text](./artifacts/screenshots/MetricView_UI_DefineJoin.png)
 
