@@ -27,11 +27,11 @@
 ### 3.1 Initial Visual
 - Create visual with the Agent with a suggested query
 - Remove this visual
-- Add chart for **Total Gross Revenue (USD)** over time.
+- Add chart for **Total Gross Revenue (EUR)** over time.
 
 ### 3.2 Filters & Formatting
-- Add **global date filter** → last 10 years.
-- Tooltip: **Total Profit USD**.
+- Add **global date filter** → last 12 months.
+- Tooltip: **Total Profit EUR**.
 - Add labels
 - Remove decimals from number formatting.
 
@@ -66,16 +66,16 @@
 Example questions:
 - Which products do we offer in the online shop?
 - Which products generated the most profit?
-- “The Decaf Specialty Blend 250g had a 99% discount in 2021. Deduct it.”
+- “The Decaf Specialty Blend 250g had a 99% discount last month. Deduct it.”
 - Show gross revenue of Decaf Specialty Blend over years.
 
 ### Parameterized Query Example
 
 ```sql
-SELECT measure(total_gross_revenue_usd),
-       year
-FROM sunny_bay_roastery.gold.fact_coffee_sales
-WHERE year = :year_param
+SELECT measure(total_gross_revenue_eur),
+       date_year
+FROM sunny_bay_roastery.gold.sm_fact_coffee_sales_genie
+WHERE date_year = :year_param
 GROUP BY ALL
 ORDER BY 1 ASC;
 ```

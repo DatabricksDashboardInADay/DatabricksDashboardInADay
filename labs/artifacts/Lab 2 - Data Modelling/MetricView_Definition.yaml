@@ -118,78 +118,78 @@ measures:
       decimal_places:
         type: exact
         places: 0
-  - name: total_gross_revenue_usd
-    expr: SUM(gross_revenue_usd)
-    comment: Total gross revenue in USD before VAT and costs
-    display_name: Total Gross Revenue (USD)
+  - name: total_gross_revenue_eur
+    expr: SUM(gross_revenue_eur)
+    comment: Total gross revenue in EUR before VAT and costs
+    display_name: Total Gross Revenue (EUR)
     format:
       type: currency
-      currency_code: USD
+      currency_code: EUR
       decimal_places:
         type: exact
         places: 2
       abbreviation: compact
     synonyms:
       - gross revenue
-  - name: total_net_revenue_usd
-    expr: SUM(net_revenue_usd)
-    comment: Total net revenue in USD
-    display_name: Total Net Revenue (USD)
+  - name: total_net_revenue_eur
+    expr: SUM(net_revenue_eur)
+    comment: Total net revenue in EUR
+    display_name: Total Net Revenue (EUR)
     format:
       type: currency
-      currency_code: USD
+      currency_code: EUR
       decimal_places:
         type: exact
         places: 2
       abbreviation: compact
     synonyms:
       - net revenue
-  - name: total_cost_of_goods_usd
-    expr: SUM(cost_of_goods_usd)
-    comment: Total cost of goods sold in USD
-    display_name: Total Cost of Goods Sold (USD)
+  - name: total_cost_of_goods_eur
+    expr: SUM(cost_of_goods_eur)
+    comment: Total cost of goods sold in EUR
+    display_name: Total Cost of Goods Sold (EUR)
     format:
       type: currency
-      currency_code: USD
+      currency_code: EUR
       decimal_places:
         type: exact
         places: 2
       abbreviation: compact
-  - name: total_profit_usd
-    expr: SUM(gross_revenue_usd) - SUM(cost_of_goods_usd) - SUM(vat_usd)
+  - name: total_profit_eur
+    expr: SUM(gross_revenue_eur) - SUM(cost_of_goods_eur) - SUM(vat_eur)
     comment: Total profit calculated as gross revenue minus cost of goods and VAT
-    display_name: Total Profit (USD)
+    display_name: Total Profit (EUR)
     format:
       type: currency
-      currency_code: USD
+      currency_code: EUR
       decimal_places:
         type: exact
         places: 2
       abbreviation: compact
     synonyms:
       - profit
-  - name: total_gross_revenue_usd_previous_day
-    expr: measure(total_gross_revenue_usd)
+  - name: total_gross_revenue_eur_previous_day
+    expr: measure(total_gross_revenue_eur)
     window:
       - order: date_date
         semiadditive: last
         range: trailing 1 day
-    comment: Gross revenue (USD) for the previous day
-    display_name: Previous Day Sales Amount (USD)
+    comment: Gross revenue (EUR) for the previous day
+    display_name: Previous Day Sales Amount (EUR)
     format:
       type: currency
-      currency_code: USD
+      currency_code: EUR
       decimal_places:
         type: exact
         places: 2
       abbreviation: compact
-  - name: total_gross_revenue_usd_previous_day_diff
-    expr: MEASURE(total_gross_revenue_usd) - MEASURE(total_gross_revenue_usd_previous_day)
-    comment: Gross revenue (USD) for the previous day
-    display_name: Difference to previous Day Sales Amount (USD)
+  - name: total_gross_revenue_eur_previous_day_diff
+    expr: MEASURE(total_gross_revenue_eur) - MEASURE(total_gross_revenue_eur_previous_day)
+    comment: Gross revenue (EUR) for the previous day
+    display_name: Difference to previous Day Sales Amount (EUR)
     format:
       type: currency
-      currency_code: USD
+      currency_code: EUR
       decimal_places:
         type: exact
         places: 2

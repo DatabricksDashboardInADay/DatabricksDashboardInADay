@@ -56,10 +56,10 @@ SDP allows non-engineers to safely contribute to data transformation logic.
   <img src="../artifacts/screenshots/SDP_Transformations.png" width="30%">
 </div>
 
-6. Open `silver/fact_coffee_sales.sql` and ensure that invalid quantities are removed before silver by adding the following constraint to the table `fact_coffee_sales`. If you're unsure where to place it, check the example solution in step 8:
+6. Have a look at the three folders: `bronze` ingests the raw files of every source system, `silver` integrates them into business objects, and `gold` builds the star schema. Then open `silver/sales_order_line.sql` and ensure that invalid quantities are removed in silver by adding the following constraint to the table `sales_order_line`. If you're unsure where to place it, check the example solution in step 8:
 
    ```sql
-   CONSTRAINT valid_quantity EXPECT (quantity_sold > 0) ON VIOLATION DROP ROW
+   CONSTRAINT valid_quantity EXPECT (quantity > 0) ON VIOLATION DROP ROW
    ```
 
 7. Run the pipeline with a full table refresh to re-process all the data. This ensures that downstream analytics do not include negative or zero-sold quantities. How many rows did not meet the expectations?
@@ -70,15 +70,13 @@ SDP allows non-engineers to safely contribute to data transformation logic.
 8. You can confirm your code with this example solution:
 
    ```sql
-   CREATE OR REFRESH STREAMING TABLE silver.${prefix}fact_coffee_sales (
-     CONSTRAINT valid_quantity EXPECT (quantity_sold > 0) ON VIOLATION DROP ROW
-   ) AS
-   SELECT
-       *
-   FROM STREAM read_files(
-     '/Volumes/${catalog}/bronze/raw/${prefix}fact_coffee_sales/',
-     format => 'parquet'
-   );
+   CREATE OR REFRESH MATERIALIZED VIEW silver.${prefix}sales_order_line (
+     CONSTRAINT valid_quantity EXPECT (quantity > 0) ON VIOLATION DROP ROW
+   )
+   COMMENT 'Order lines of all channels (café receipt lines and exploded web order items), one row per product and order.'
+   AS
+   WITH pos_lines AS (
+       ...   -- the rest of the query stays unchanged
    ```
 
 9. Analyse the effect of the expectation column
@@ -86,16 +84,16 @@ SDP allows non-engineers to safely contribute to data transformation logic.
   <img src="../artifacts/screenshots/SDP_Expectations.png" width="50%">
 </div>
 
-**Step 2: Add a New Derived Column (Gross Revenue in EUR)**
+**Step 2: Add a New Derived Column (Gross Margin in EUR)**
 
 1. Make sure you are now in the file **`gold/fact_coffee_sales.sql`**
-2. Add a new calculated column to the table **fact_coffee_sales** that computes gross revenue in EUR using a fixed conversion rate of **1.1**:
+2. Add a new calculated column to the final `SELECT` of the table **fact_coffee_sales** that computes the gross margin – net revenue minus cost of goods:
 
    ```sql
-   (dp.list_price_usd * fcs.quantity_sold) * 1.1 AS gross_revenue_eur
+   ROUND(gross_revenue_eur / (1 + vat_rate), 2) - ROUND(quantity * unit_cost_eur, 2) AS gross_margin_eur
    ```
 
-3. This mirrors the USD metric and prepares multi‑currency reporting.
+3. The column is calculated from the columns of the `lines` CTE, because a column alias such as `net_revenue_eur` is not yet available in the same `SELECT`. Business users can now analyze the margin of every order line directly.
 4. Run the pipeline **without** a full table refresh to re-process all the data
 5. Find the new column in the Unity Catalog
 <div style="text-align:left;">
@@ -110,7 +108,7 @@ SDP allows non-engineers to safely contribute to data transformation logic.
    CREATE OR REFRESH MATERIALIZED VIEW gold.${prefix}total_revenue_by_store AS
    SELECT
        store_key AS store_key,
-       SUM(gross_revenue_usd) AS total_gross_revenue_usd
+       SUM(gross_revenue_eur) AS total_gross_revenue_eur
    FROM gold.${prefix}fact_coffee_sales
    GROUP BY store_key;
    ```
@@ -123,7 +121,10 @@ SDP allows non-engineers to safely contribute to data transformation logic.
 3. Congratulations, the data is ready to be analyzed
 
 ## Final Steps
-If you run into errors you can’t resolve, you can review the full reference implementations of both transformation files. They are available in **`labs/artifacts/Lab 1 - [SDP] Data Integration and Transformation/`** as **`silver_fallback.sql`** and **`gold_fallback.sql`**.
+If you run into errors you can’t resolve, you can review the full reference implementations of the silver and gold layer including all changes of this deep dive. They are available in **`labs/artifacts/Lab 1 - [SDP] Data Integration and Transformation/`** as **`silver_fallback.sql`** and **`gold_fallback.sql`**.
+
+> [!TIP]
+> Want to understand every join and function in these files? The **SQL Track** (`labs/SQL Track/`) explains them step by step on the same data.
 
 ## What Happens Next?
 
@@ -131,7 +132,7 @@ You have successfully enhanced the transformation logic of your Lakehouse pipeli
 Your gold tables now include:
 
 - Data quality enforcement  
-- Extended business logic (EUR revenue)  
+- Extended business logic (gross margin in EUR)  
 - Aggregated per-store revenue  
 
 These enriched datasets will be used in **Lab 2**, where you will build Metric Views on top of this refined gold layer.

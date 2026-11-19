@@ -43,8 +43,8 @@ SELECT
     year,
     month,
     store_name,
-    monthly_gross_revenue_usd,
-    monthly_profit_usd,
+    monthly_gross_revenue_eur,
+    monthly_profit_eur,
     monthly_orders
 FROM sunny_bay_roastery.gold.vw_monthly_revenue_summary
 WHERE year = YEAR(CURRENT_DATE())
@@ -86,15 +86,15 @@ SELECT
     store_name,
     year,
     month,
-    monthly_gross_revenue_usd
+    monthly_gross_revenue_eur
 FROM sunny_bay_roastery.gold.vw_monthly_revenue_summary
 WHERE year = YEAR(CURRENT_DATE())
   AND month = MONTH(CURRENT_DATE())
-  AND monthly_gross_revenue_usd < 50000
-ORDER BY monthly_gross_revenue_usd ASC;
+  AND monthly_gross_revenue_eur < 11000
+ORDER BY monthly_gross_revenue_eur ASC;
 ```
 
-This query returns rows only when a store's current-month revenue is below $50,000.
+This query returns rows only when a store's current-month revenue is below €11,000.
 
 **2. Create the alert**
 
@@ -102,7 +102,7 @@ This query returns rows only when a store's current-month revenue is below $50,0
 2. Click **Create Alert**.
 3. Configure the alert:
    - **Query:** Select the `Alert — Low Monthly Revenue` query you just saved.
-   - **Trigger condition:** Set to **"Rows > 0"** — the alert fires whenever the query returns at least one row (meaning at least one store is below the $50,000 threshold).
+   - **Trigger condition:** Set to **"Rows > 0"** — the alert fires whenever the query returns at least one row (meaning at least one store is below the €11,000 threshold).
    - **Title:** `Low Monthly Store Revenue Alert`
    - **Refresh schedule:** Every 1 day (or match your scheduled query frequency).
 4. Under **Notifications**, add your preferred notification destination (email, Slack, or webhook).
@@ -113,7 +113,7 @@ This query returns rows only when a store's current-month revenue is below $50,0
 | State | Meaning |
 |-------|---------|
 | **OK** | The query returned 0 rows — all stores are above the threshold |
-| **TRIGGERED** | The query returned 1+ rows — at least one store is below $50,000 |
+| **TRIGGERED** | The query returned 1+ rows — at least one store is below €11,000 |
 | **UNKNOWN** | The alert has not run yet or the query failed |
 
 **💡 What just happened?**
@@ -134,18 +134,18 @@ One of the most common analyst workflows is bringing in external reference data 
 
 A sample revenue target file has been provided for this exercise:
 
-**`labs/artifacts/[SQL] Monitoring and Self-Service/SQL_Store_Revenue_Targets_2025.csv`**
+**`labs/artifacts/[SQL] Monitoring and Self-Service/SQL_Store_Revenue_Targets.csv`**
 
-This file contains monthly revenue targets for each Sunny Bay store in 2025:
+This file contains the monthly revenue target (gross revenue in EUR) for each Sunny Bay store:
 
-| store_key | store_name | target_year | target_monthly_revenue_usd |
-|-----------|-----------|-------------|---------------------------|
-| 1 | Sunny Bay – Market Street | 2025 | 55000.00 |
-| 2 | Sunny Bay – Mission | 2025 | 45000.00 |
-| 3 | Sunny Bay – Westfield Mall | 2025 | 35000.00 |
-| 4 | Sunny Bay – SoMa Offices | 2025 | 50000.00 |
-| 5 | Sunny Bay – Hayes Valley | 2025 | 40000.00 |
-| 6 | Sunny Bay Online | 2025 | 70000.00 |
+| store_key | store_name | target_monthly_revenue_eur |
+|-----------|-----------|---------------------------|
+| 1 | Sunny Bay – Hamburg Schanze | 14000.00 |
+| 2 | Sunny Bay – Berlin Kreuzberg | 11000.00 |
+| 3 | Sunny Bay – München Maxvorstadt | 12500.00 |
+| 4 | Sunny Bay – Köln Ehrenfeld | 12000.00 |
+| 5 | Sunny Bay – Frankfurt Bankenviertel | 12000.00 |
+| 6 | Sunny Bay Online | 13000.00 |
 
 If you are running this lab in a Databricks workspace with access to GitHub, download this file from the repository. Otherwise, your facilitator will provide it.
 
@@ -153,11 +153,11 @@ If you are running this lab in a Databricks workspace with access to GitHub, dow
 
 1. In the sidebar, navigate to **Catalog > sunny_bay_roastery > gold**.
 2. Click the **Create Table** button and select **Upload file**.
-3. Select or drag the `SQL_Store_Revenue_Targets_2025.csv` file.
+3. Select or drag the `SQL_Store_Revenue_Targets.csv` file.
 4. Databricks will preview the data and infer column types. Verify that:
    - `store_key` is detected as **INT**
-   - `target_monthly_revenue_usd` is detected as **DOUBLE** or **DECIMAL**
-5. Set the table name to `revenue_targets_2025`.
+   - `target_monthly_revenue_eur` is detected as **DOUBLE** or **DECIMAL**
+5. Set the table name to `revenue_targets`.
 6. Click **Create Table**.
 
 **3. Query the uploaded data**
@@ -165,7 +165,7 @@ If you are running this lab in a Databricks workspace with access to GitHub, dow
 Confirm the upload by querying the new table:
 
 ```sql
-SELECT * FROM sunny_bay_roastery.gold.revenue_targets_2025;
+SELECT * FROM sunny_bay_roastery.gold.revenue_targets;
 ```
 
 You should see 6 rows — one target per store.
@@ -179,17 +179,17 @@ SELECT
     mrs.store_name,
     mrs.year,
     mrs.month,
-    mrs.monthly_gross_revenue_usd AS actual_revenue_usd,
-    rt.target_monthly_revenue_usd AS target_revenue_usd,
-    ROUND(mrs.monthly_gross_revenue_usd - rt.target_monthly_revenue_usd, 2) AS variance_usd,
+    mrs.monthly_gross_revenue_eur AS actual_revenue_eur,
+    rt.target_monthly_revenue_eur AS target_revenue_eur,
+    ROUND(mrs.monthly_gross_revenue_eur - rt.target_monthly_revenue_eur, 2) AS variance_eur,
     ROUND(
-      (mrs.monthly_gross_revenue_usd - rt.target_monthly_revenue_usd)
-      / rt.target_monthly_revenue_usd * 100
+      (mrs.monthly_gross_revenue_eur - rt.target_monthly_revenue_eur)
+      / rt.target_monthly_revenue_eur * 100
     , 1) AS variance_pct
-FROM sunny_bay_roastery.gold.vw_monthly_revenue_summary mrs
-JOIN sunny_bay_roastery.gold.revenue_targets_2025 rt
+FROM sunny_bay_roastery.gold.vw_monthly_revenue_summary AS mrs
+INNER JOIN sunny_bay_roastery.gold.revenue_targets AS rt
   ON mrs.store_name = rt.store_name
-WHERE mrs.year = 2025
+WHERE mrs.year = YEAR(CURRENT_DATE())
 ORDER BY mrs.month, variance_pct ASC;
 ```
 
@@ -203,29 +203,28 @@ SELECT
     mrs.store_name,
     mrs.year,
     mrs.month,
-    mrs.monthly_gross_revenue_usd AS actual_revenue_usd,
-    rt.target_monthly_revenue_usd AS target_revenue_usd,
-    ROUND(mrs.monthly_gross_revenue_usd - rt.target_monthly_revenue_usd, 2) AS variance_usd,
+    mrs.monthly_gross_revenue_eur AS actual_revenue_eur,
+    rt.target_monthly_revenue_eur AS target_revenue_eur,
+    ROUND(mrs.monthly_gross_revenue_eur - rt.target_monthly_revenue_eur, 2) AS variance_eur,
     ROUND(
-      (mrs.monthly_gross_revenue_usd - rt.target_monthly_revenue_usd)
-      / rt.target_monthly_revenue_usd * 100
+      (mrs.monthly_gross_revenue_eur - rt.target_monthly_revenue_eur)
+      / rt.target_monthly_revenue_eur * 100
     , 1) AS variance_pct,
     CASE
-      WHEN mrs.monthly_gross_revenue_usd >= rt.target_monthly_revenue_usd THEN 'On Track'
-      WHEN mrs.monthly_gross_revenue_usd >= rt.target_monthly_revenue_usd * 0.9 THEN 'At Risk'
+      WHEN mrs.monthly_gross_revenue_eur >= rt.target_monthly_revenue_eur THEN 'On Track'
+      WHEN mrs.monthly_gross_revenue_eur >= rt.target_monthly_revenue_eur * 0.9 THEN 'At Risk'
       ELSE 'Below Target'
     END AS status
-FROM sunny_bay_roastery.gold.vw_monthly_revenue_summary mrs
-JOIN sunny_bay_roastery.gold.revenue_targets_2025 rt
-  ON mrs.store_name = rt.store_name
-  AND mrs.year = rt.target_year;
+FROM sunny_bay_roastery.gold.vw_monthly_revenue_summary AS mrs
+INNER JOIN sunny_bay_roastery.gold.revenue_targets AS rt
+  ON mrs.store_name = rt.store_name;
 ```
 
-Query the view for 2025 to see which stores are meeting their targets:
+Query the view for the current year to see which stores are meeting their targets:
 
 ```sql
 SELECT * FROM sunny_bay_roastery.gold.vw_actual_vs_target
-WHERE year = 2025
+WHERE year = YEAR(CURRENT_DATE())
 ORDER BY month, status DESC, variance_pct ASC;
 ```
 
@@ -268,14 +267,14 @@ The Genie One home screen surfaces:
 **4. Preview the Genie experience**
 
 1. Click on **Genie Agents** in the left navigation.
-2. If a Genie Agent has already been created, you can ask a question in natural language (e.g., *"What was the total revenue in 2024?"*).
+2. If a Genie Agent has already been created, you can ask a question in natural language (e.g., *"What was the total revenue last month?"*).
 3. If no Genie Agent exists yet, don't worry — you will create one in **Lab 4**.
 
 **💡 What just happened?**
 
 - Genie One gives analysts a single pane of glass to find everything: data, reports, AI assistants, and shared queries.
-- Everything you built in Labs 1–3 [SQL] is discoverable here — tables, views, scheduled queries, and alerts.
-- This is the experience that bridges the SQL workflow (Labs 1–3 [SQL]) to the semantic and visual tools in Labs 2–4 (Metric Views, Dashboards, Genie).
+- Everything you built in the [SQL] deep dives is discoverable here — tables, views, scheduled queries, and alerts.
+- This is the experience that bridges the SQL workflow to the semantic and visual tools in Labs 2–4 (Metric Views, Dashboards, Genie).
 
 ## Final Steps
 
@@ -299,15 +298,15 @@ Use this section to adapt this lab for different audiences and time constraints.
 | **Time-constrained (< 30 min)** | Demo Steps 2 and 3, skip Step 1 (scheduling). Prioritise the CSV upload as the highest-impact exercise. |
 | **Already familiar with SQL alerts** | Skip Step 2, focus on Step 3 (CSV upload) and Step 4 (Genie One). |
 
-**Decision point:** After completing this lab, SQL analysts should proceed to **Lab 2 (Metric Views)** to learn how business semantics are layered on top of the gold tables they created. The [SQL] track and shared track converge at Lab 2.
+**Decision point:** After completing this lab, SQL analysts should proceed to **Lab 2 (Metric Views)** to learn how business semantics are layered on top of the gold tables they explored. The [SQL] track and shared track converge at Lab 2.
 
 ## What Happens Next?
 
-You have completed the SQL Analyst–specific labs. Your gold tables, views, scheduled queries, and alerts are all in place.
+You have completed the SQL Analyst–specific labs. Your views, scheduled queries, and alerts are all in place.
 
 Now continue with the shared workshop track:
 - **Lab 2** – Data Modelling: Build Metric Views to add business semantics to your gold data
 - **Lab 3** – Dashboard Creation: Create interactive AI/BI Dashboards using Metric Views
 - **Lab 4** – BI Meets AI: Explore Databricks Genie for natural-language analytics
 
-The gold tables you built are identical to those produced by the SDP path, so all shared labs work exactly the same regardless of which Lab 1 path you chose.
+All shared labs use the same gold tables you queried here, so everything you learned carries over directly.

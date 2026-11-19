@@ -41,19 +41,6 @@
                 "showTitle": true,
                 "title": "Date"
               },
-              "selection": {
-                "defaultSelection": {
-                  "range": {
-                    "dataType": "DATE",
-                    "min": {
-                      "value": "2013-01-01T00:00:00.000"
-                    },
-                    "max": {
-                      "value": "2025-12-31T00:00:00.000"
-                    }
-                  }
-                }
-              },
               "widgetType": "filter-date-range-picker",
               "encodings": {
                 "fields": [
@@ -87,7 +74,7 @@
               "lines": [
                 "# Sunny Bay Performance Dashboard\n",
                 "\n",
-                "*We are on a mission to bring exceptional coffee to San Francisco since 2013. Use this dashboard to explore store performance 🏪, track profitability 💰, uncover growth opportunities 📈, and delight our customers ❤️*"
+                "*We are on a mission to bring exceptional coffee to Germany since 2013. Use this dashboard to explore store performance 🏪, track profitability 💰, uncover growth opportunities 📈, and delight our customers ❤️*"
               ]
             }
           },
@@ -128,20 +115,20 @@
                       "expression": "`store_name`"
                     },
                     {
-                      "name": "measure(total_cost_of_goods_usd)",
-                      "expression": "MEASURE(`total_cost_of_goods_usd`)"
+                      "name": "measure(total_cost_of_goods_eur)",
+                      "expression": "MEASURE(`total_cost_of_goods_eur`)"
                     },
                     {
-                      "name": "measure(total_net_revenue_usd)",
-                      "expression": "MEASURE(`total_net_revenue_usd`)"
+                      "name": "measure(total_net_revenue_eur)",
+                      "expression": "MEASURE(`total_net_revenue_eur`)"
                     },
                     {
                       "name": "monthly(date)",
                       "expression": "DATE_TRUNC(\"MONTH\", `date`)"
                     },
                     {
-                      "name": "measure(total_profit_usd)",
-                      "expression": "MEASURE(`total_profit_usd`)"
+                      "name": "measure(total_profit_eur)",
+                      "expression": "MEASURE(`total_profit_eur`)"
                     }
                   ],
                   "disaggregated": false
@@ -151,7 +138,7 @@
             "spec": {
               "version": 3,
               "frame": {
-                "title": "Net Profit per Month [$]",
+                "title": "Net Profit per Month [€]",
                 "showTitle": true,
                 "showDescription": false
               },
@@ -164,10 +151,10 @@
                   }
                 },
                 "y": {
-                  "fieldName": "measure(total_profit_usd)",
+                  "fieldName": "measure(total_profit_eur)",
                   "format": {
                     "type": "number-currency",
-                    "currencyCode": "USD",
+                    "currencyCode": "EUR",
                     "abbreviation": "compact",
                     "decimalPlaces": {
                       "type": "exact",
@@ -175,7 +162,7 @@
                     }
                   },
                   "axis": {
-                    "title": "Net Profit [$]"
+                    "title": "Net Profit [€]"
                   },
                   "scale": {
                     "type": "quantitative"
@@ -192,10 +179,10 @@
                 },
                 "extra": [
                   {
-                    "fieldName": "measure(total_cost_of_goods_usd)"
+                    "fieldName": "measure(total_cost_of_goods_eur)"
                   },
                   {
-                    "fieldName": "measure(total_net_revenue_usd)"
+                    "fieldName": "measure(total_net_revenue_eur)"
                   }
                 ]
               }
@@ -356,8 +343,8 @@
                   "datasetName": "8420be85",
                   "fields": [
                     {
-                      "name": "measure(total_profit_usd)",
-                      "expression": "MEASURE(`total_profit_usd`)"
+                      "name": "measure(total_profit_eur)",
+                      "expression": "MEASURE(`total_profit_eur`)"
                     },
                     {
                       "name": "store_online",
@@ -372,17 +359,17 @@
               "version": 3,
               "frame": {
                 "showTitle": true,
-                "title": "Net Profit Online vs. Offline [$]"
+                "title": "Net Profit Online vs. Offline [€]"
               },
               "widgetType": "pie",
               "encodings": {
                 "angle": {
-                  "fieldName": "measure(total_profit_usd)",
+                  "fieldName": "measure(total_profit_eur)",
                   "scale": {
                     "type": "quantitative"
                   },
                   "axis": {
-                    "title": "Net Profit [$]"
+                    "title": "Net Profit [€]"
                   },
                   "format": {
                     "type": "number-percent",
@@ -462,8 +449,8 @@
                       "expression": "`store_name`"
                     },
                     {
-                      "name": "measure(total_profit_usd)",
-                      "expression": "MEASURE(`total_profit_usd`)"
+                      "name": "measure(total_profit_eur)",
+                      "expression": "MEASURE(`total_profit_eur`)"
                     }
                   ],
                   "disaggregated": false
@@ -474,7 +461,7 @@
               "version": 2,
               "frame": {
                 "showTitle": true,
-                "title": "Total Net Profit by Store [$]"
+                "title": "Total Net Profit by Store [€]"
               },
               "widgetType": "symbol-map",
               "encodings": {
@@ -519,13 +506,13 @@
                   }
                 },
                 "size": {
-                  "fieldName": "measure(total_profit_usd)",
+                  "fieldName": "measure(total_profit_eur)",
                   "scale": {
                     "type": "quantitative"
                   },
                   "format": {
                     "type": "number-currency",
-                    "currencyCode": "USD",
+                    "currencyCode": "EUR",
                     "abbreviation": "compact",
                     "decimalPlaces": {
                       "type": "max",
@@ -564,8 +551,8 @@
                       "expression": "DATE_TRUNC(\"YEAR\", `date`)"
                     },
                     {
-                      "name": "measure(total_net_revenue_usd)",
-                      "expression": "MEASURE(`total_net_revenue_usd`)"
+                      "name": "measure(total_net_revenue_eur)",
+                      "expression": "MEASURE(`total_net_revenue_eur`)"
                     }
                   ],
                   "disaggregated": false,
@@ -582,15 +569,15 @@
               "version": 2,
               "frame": {
                 "showTitle": true,
-                "title": "Net Revenue per Year [$]"
+                "title": "Net Revenue per Year [€]"
               },
               "widgetType": "counter",
               "encodings": {
                 "value": {
-                  "fieldName": "measure(total_net_revenue_usd)",
+                  "fieldName": "measure(total_net_revenue_eur)",
                   "format": {
                     "type": "number-currency",
-                    "currencyCode": "USD",
+                    "currencyCode": "EUR",
                     "abbreviation": "compact",
                     "decimalPlaces": {
                       "type": "exact",
@@ -603,7 +590,7 @@
                   }
                 },
                 "target": {
-                  "fieldName": "measure(total_net_revenue_usd)",
+                  "fieldName": "measure(total_net_revenue_eur)",
                   "change": {
                     "type": "percent"
                   },
@@ -639,8 +626,8 @@
                       "expression": "DATE_TRUNC(\"YEAR\", `date`)"
                     },
                     {
-                      "name": "measure(total_profit_usd)",
-                      "expression": "MEASURE(`total_profit_usd`)"
+                      "name": "measure(total_profit_eur)",
+                      "expression": "MEASURE(`total_profit_eur`)"
                     }
                   ],
                   "disaggregated": false,
@@ -657,15 +644,15 @@
               "version": 2,
               "frame": {
                 "showTitle": true,
-                "title": "Net Profit per Year [$]"
+                "title": "Net Profit per Year [€]"
               },
               "widgetType": "counter",
               "encodings": {
                 "value": {
-                  "fieldName": "measure(total_profit_usd)",
+                  "fieldName": "measure(total_profit_eur)",
                   "format": {
                     "type": "number-currency",
-                    "currencyCode": "USD",
+                    "currencyCode": "EUR",
                     "abbreviation": "compact",
                     "decimalPlaces": {
                       "type": "exact",
@@ -678,7 +665,7 @@
                   }
                 },
                 "target": {
-                  "fieldName": "measure(total_profit_usd)",
+                  "fieldName": "measure(total_profit_eur)",
                   "change": {
                     "type": "percent"
                   },
@@ -780,13 +767,8 @@
                       "expression": "`product_subcategory`"
                     },
                     {
-                      "name": "measure(total_net_revenue_usd)",
-                      "expression": "MEASURE(`total_net_revenue_usd`)"
-                    }
-                  ],
-                  "filters": [
-                    {
-                      "expression": "IN_RANGE(`date`, DATE'2020-01-01', DATE'2025-12-31')"
+                      "name": "measure(total_net_revenue_eur)",
+                      "expression": "MEASURE(`total_net_revenue_eur`)"
                     }
                   ],
                   "cubeGroupingSets": {
@@ -850,11 +832,11 @@
                   "type": "multi-cell",
                   "fields": [
                     {
-                      "fieldName": "measure(total_net_revenue_usd)",
+                      "fieldName": "measure(total_net_revenue_eur)",
                       "cellType": "text",
                       "format": {
                         "type": "number-currency",
-                        "currencyCode": "USD",
+                        "currencyCode": "EUR",
                         "abbreviation": "none",
                         "decimalPlaces": {
                           "type": "exact",
@@ -925,8 +907,8 @@
                   "datasetName": "8420be85",
                   "fields": [
                     {
-                      "name": "measure(total_profit_usd)",
-                      "expression": "MEASURE(`total_profit_usd`)"
+                      "name": "measure(total_profit_eur)",
+                      "expression": "MEASURE(`total_profit_eur`)"
                     },
                     {
                       "name": "day_of_week",
@@ -945,7 +927,7 @@
               "version": 3,
               "frame": {
                 "showTitle": true,
-                "title": "Net Profit by Product and Day of the Week [$]"
+                "title": "Net Profit by Product and Day of the Week [€]"
               },
               "widgetType": "heatmap",
               "encodings": {
@@ -962,7 +944,7 @@
                   }
                 },
                 "color": {
-                  "fieldName": "measure(total_profit_usd)",
+                  "fieldName": "measure(total_profit_eur)",
                   "displayName": "Total Net Profit",
                   "scale": {
                     "type": "quantitative",
@@ -992,7 +974,7 @@
               "lines": [
                 "# Sunny Bay Market Report\n",
                 "\n",
-                "*We are on a mission to bring exceptional coffee to San Francisco since 2013. Use this dashboard to explore store performance 🏪, track profitability 💰, uncover growth opportunities 📈, and delight our customers ❤️*"
+                "*We are on a mission to bring exceptional coffee to Germany since 2013. Use this dashboard to explore store performance 🏪, track profitability 💰, uncover growth opportunities 📈, and delight our customers ❤️*"
               ]
             }
           },

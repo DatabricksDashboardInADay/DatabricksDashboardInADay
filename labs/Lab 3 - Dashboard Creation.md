@@ -23,7 +23,7 @@ Your final dashboard should look like this:
 AI/BI Dashboards in Databricks are interactive, web-based reports that combine tables, charts, filters, and text into a single, shareable view. They run directly on governed datasets such as Unity Catalog metric views, and support AI-assisted visual creation, cross-filtering, drill-through, and global filters.
 
 > [!TIP]
-> This lab builds on the pre-deployed **`sm_fact_coffee_sales_genie`** metric view, and we recommend using it: its KPIs already carry the right currency and number **formats**, so your dashboard visuals inherit them and you never format a measure by hand. If you prefer, you can point the dashboard at the **`sm_fact_coffee_sales`** view you built in Lab 2 instead — the steps are the same (only the profit measure is named `total_net_profit_usd` there instead of `total_profit_usd`).
+> This lab builds on the pre-deployed **`sm_fact_coffee_sales_genie`** metric view, and we recommend using it: its KPIs already carry the right currency and number **formats**, so your dashboard visuals inherit them and you never format a measure by hand. If you prefer, you can point the dashboard at the **`sm_fact_coffee_sales`** view you built in Lab 2 instead — the steps are the same (only the profit measure is named `total_net_profit_eur` there instead of `total_profit_eur`).
 
 ## Instructions
 
@@ -72,22 +72,22 @@ Counter visuals allow you to display a key metric for the current period alongsi
 
 2. Select **`Counter`** as the visualization type
 
-3. Enable the **Title** checkbox and enter `Net Revenue per Year [$]`
+3. Enable the **Title** checkbox and enter `Net Revenue per Year [€]`
 
 4. Resize the widget to a width of `4` and a height of `3`
 
 5. Under **Date**, click **"+"** and select `YEARLY(Date)`
 
-6. Under **Value**, click **"+"** and select `Total Net Revenue (USD)`
+6. Under **Value**, click **"+"** and select `Total Net Revenue (EUR)`
 
-7. Under **Comparison**, click **"+"** and select `Total Net Revenue (USD)` again. Set **Years ago offset** to `1` and set **Change** format to `%`
+7. Under **Comparison**, click **"+"** and select `Total Net Revenue (EUR)` again. Set **Years ago offset** to `1` and set **Change** format to `%`
 
 8. Your counter visual should now show the current year's net revenue with a year-over-year comparison — already formatted as currency, because the format is defined on the metric view.
 
 9. To create the second counter, right-click the widget and select **"Clone"**. Update the following settings in the copy:
-   - **Title:** `Net Profit per Year [$]`
-   - **Value:** change to `Total Profit (USD)`
-   - **Comparison:** change to `Total Profit (USD)`
+   - **Title:** `Net Profit per Year [€]`
+   - **Value:** change to `Total Profit (EUR)`
+   - **Comparison:** change to `Total Profit (EUR)`
 
 <div style="text-align:left;">
   <img src="./artifacts/screenshots/Dashboard_Counters.png" width="60%">
@@ -111,7 +111,7 @@ Genie Code can generate visuals directly from natural-language prompts.
   <img src="./artifacts/screenshots/Dashboard_Accept.png" width="60%">
 </div>
 
-4. Rename the axis title to "Net Profit [$]"
+4. Rename the axis title to "Net Profit [€]"
 
 5. To group the sales by store, click on the "+" next to the "Color" field in the widget settings, and choose the value `Store Name`
 
@@ -119,11 +119,11 @@ Genie Code can generate visuals directly from natural-language prompts.
   <img src="./artifacts/screenshots/Dashboard_GroupByStore.png" width="30%">
 </div>
 
-6. Add the measures `Total Cost of Goods Sold (USD)` and `Total Net Revenue (USD)` as tooltip
+6. Add the measures `Total Cost of Goods Sold (EUR)` and `Total Net Revenue (EUR)` as tooltip
 
-7. Rename the tooltip values to "Total Costs of Goods [$]" and "Total Net Revenue [$]"
+7. Rename the tooltip values to "Total Costs of Goods [€]" and "Total Net Revenue [€]"
 
-8. Rename the title to "Net Profit per Month [$]"
+8. Rename the title to "Net Profit per Month [€]"
 
 Your dashboard should look like this:
 
@@ -137,15 +137,15 @@ Your dashboard should look like this:
 
 2. Select the `Pie` as visualization type
 
-3. Add the title to `Net Profit Online vs. Offline [$]`
+3. Add the title to `Net Profit Online vs. Offline [€]`
 
-4. Choose `Total Profit (USD)` as the `angle`, and `Store Online` as the `color`
+4. Choose `Total Profit (EUR)` as the `angle`, and `Store Online` as the `color`
 
 5. Select your preferred colors for the values `true`, and `false`
 
 6. Open the formatting of Color, and add the aliases "Online" and "In-Store"
 
-7. Rename the angle `Display name` to "Net Profit [$]"
+7. Rename the angle `Display name` to "Net Profit [€]"
 
 8. Activate labels for this visualization
 
@@ -157,11 +157,11 @@ Your dashboard should look like this:
 
 2. Select `Point map` as `visualization type`
 
-3. Add the title `Total Net Profit by Store [$]`
+3. Add the title `Total Net Profit by Store [€]`
 
 4. Select the dimensions `Store Latitude`, and `Store Longitude` for the coordinates
 
-5. Choose the measure `Total Profit (USD)` as the size
+5. Choose the measure `Total Profit (EUR)` as the size
 
 6. Use the dimension `Product Category` as the color
 
@@ -179,24 +179,24 @@ Pivot tables allow you to explore your data across multiple dimensions simultane
 
 2. Click the **"Add a visualization"** icon and select **"Pivot"** as the visualization type
 
-3. Rename the title to `Revenue Breakdown by Store & Product [$]`
+3. Rename the title to `Revenue Breakdown by Store & Product [€]`
 
 4. Under **Rows**, click **"+"** and select `Store Name`
 
-6. Under **Columns**, click **"+"** and add the following in order:
+5. Under **Columns**, click **"+"** and add the following in order:
    - `Product Category`
    - `Product Subcategory`
 
-5. Add a visual filter to limit the date range:
+6. Add a visual filter to limit the date range:
    - Click **"+"** next to **Filter fields**
    - Select `Date` as the filter field
-   - Set the range from `01 January 2020` to `31 December 2025`
+   - Set a relative range, e.g. the **last 12 months**
 
-8. Click on `Product Category` in the columns and enable the **"Display total"** checkbox
+7. Click on `Product Category` in the columns and enable the **"Display total"** checkbox
 
-9. Under **Values**, click **"+"** and select `Total Net Revenue (USD)`, and change the **Display name** to `Total Net Revenue`. It is already formatted as currency because the format lives on the metric view.
+8. Under **Values**, click **"+"** and select `Total Net Revenue (EUR)`, and change the **Display name** to `Total Net Revenue`. It is already formatted as currency because the format lives on the metric view.
 
-10. Your pivot table should now show net revenue broken down by store (rows) and product category/subcategory (columns)
+9. Your pivot table should now show net revenue broken down by store (rows) and product category/subcategory (columns)
 
 ### 🎛️ Part B – Make It Interactive (Filters, Headers, Drill-Through)
 
@@ -224,7 +224,7 @@ Text widgets can be used as section headers to structure your dashboard into log
 
 **Step 9: Add a Global Filter**
 
-Global filters are helpful to apply a filter for multiple report pages. We are going to filter out all the sales before 2015.
+Global filters are helpful to apply a filter for multiple report pages. The data covers the last 24 months – we are going to make the dashboard open with the **last 12 months** by default.
 
 1. Click on the "Show Global Filters" icon (you need to click on a report such as `Sales Report` before)
 
@@ -238,7 +238,7 @@ Global filters are helpful to apply a filter for multiple report pages. We are g
 
 4. Choose `Date` as a field. The widget title already reads **Date** because it uses the field's display name, so there is nothing to rename.
 
-5. Change the Default Value from `Jan 01, 2015` to `Dec 31, 2025`, which will become the default for the global filter
+5. Set the Default Value to the relative range **Last 12 months**, which will become the default for the global filter. A relative range moves along with the data, so the dashboard always opens with the most recent year.
 
 6. Minimize the global filters by clicking on "Hide Global Filters"
 
@@ -285,11 +285,11 @@ In this step, you will add page-level filters for store and product to enable in
 
 5. Choose `Day of Week` for the x-axis, and `Product Name` for the y-axis
 
-6. Select `Total Profit (USD)` as the color
+6. Select `Total Profit (EUR)` as the color
 
 7. Activate labels for this visualization
 
-8. Rename the value to "Net Profit by Day of Week and Product [$]"
+8. Rename the value to "Net Profit by Day of Week and Product [€]"
 
 9. Change the x-axis scale type to `categorical`
 
@@ -360,9 +360,9 @@ This is where Vega-Lite shines — it can *layer* marks that the built-in charts
 
    > *"Create a horizontal bar chart of total net revenue by basket size, ordered by basket size. Label each bar with its revenue value, and add a dashed vertical reference line at the average net revenue across basket sizes."*
 
-3. Review the generated Vega-Lite specification, then refine it — for example, adjust the axis titles to `Basket Size` and `Total Net Revenue [$]`, format the values as currency, and tweak the colours to match the dashboard.
+3. Review the generated Vega-Lite specification, then refine it — for example, adjust the axis titles to `Basket Size` and `Total Net Revenue [€]`, format the values as currency, and tweak the colours to match the dashboard.
 
-4. Rename the title to `Net Revenue by Basket Size [$]`
+4. Rename the title to `Net Revenue by Basket Size [€]`
 
 
 

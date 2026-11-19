@@ -39,7 +39,7 @@ Sunny Bay uses **Databricks** for analytics; you will too.
 ## Step 3 – Choose Your Starting Point
 
 ### ✅ Instructions
-The labs are modular — you can start from any lab. Lab 0 pre-deploys all necessary assets (pipelines, Metric View, dashboards), so feel free to skip ahead to the topics that interest you most. Lab 1 is an **exploration lab** for analysts and analytics engineers: since Lab 0 already built the data, Lab 1 focuses on getting to know the workspace, Unity Catalog, lineage, and Genie Code. Prefer to build the medallion architecture yourself? Two optional Deep Dives ([SDP] and [SQL]) cover that data-engineering path.
+The labs are modular — you can start from any lab. Lab 0 pre-deploys all necessary assets (pipelines, Metric View, dashboards), so feel free to skip ahead to the topics that interest you most. Lab 1 is an **exploration lab** for analysts and analytics engineers: since Lab 0 already built the data, Lab 1 focuses on getting to know the workspace, Unity Catalog, lineage, and Genie Code. Want to learn the SQL behind the gold layer? The optional **SQL Track** teaches it step by step on the Sunny Bay data, and the Deep Dives cover the data-engineering and SQL-analyst paths.
 
 | Lab | Topic | Guide |
 |-----|-------|-------|
@@ -49,13 +49,22 @@ The labs are modular — you can start from any lab. Lab 0 pre-deploys all neces
 | **Lab 3** | Dashboard Creation: Build interactive AI/BI Dashboards | [guide](labs/Lab%203%20-%20Dashboard%20Creation.md) |
 | **Lab 4** | BI Meets AI: Build a Genie Agent for natural-language analytics | [guide](labs/Lab%204%20-%20BI%20Meets%20AI.md) |
 
+### 🧮 SQL Track (Optional)
+
+Sunny Bay's raw data comes from several operational source systems – café cash registers (POS), the online shop, CRM, ERP and HR. The pipeline integrates them into silver business objects and a gold star schema. The SQL Track teaches the SQL concepts needed to build such a gold layer, with tiny examples, exercises on the Sunny Bay data and hidden solutions. It is the one part of the workshop where participants write SQL themselves.
+
+| Lab | Concepts | Prerequisite |
+|-----|----------|--------------|
+| **SQL 1 – Filtering, Aggregating and Joining** ([guide](labs/SQL%20Track/SQL%201%20-%20Filtering,%20Aggregating%20and%20Joining.md)) | WHERE, GROUP BY / HAVING, INNER / LEFT / FULL OUTER / SEMI / ANTI / CROSS JOIN | Lab 0 |
+| **SQL 2 – Combining and Analyzing Data** ([guide](labs/SQL%20Track/SQL%202%20-%20Combining%20and%20Analyzing%20Data.md)) | UNION / MINUS / INTERSECT, WITH … AS, window functions with PARTITION BY, ROLLUP / CUBE, WITH RECURSIVE | SQL 1 |
+| **SQL 3 – Functions for the Gold Layer** ([guide](labs/SQL%20Track/SQL%203%20-%20Functions%20for%20the%20Gold%20Layer.md)) | EXPLODE, QUALIFY, COALESCE, CASE / IFF, DECODE, MAX_BY, FILTER (WHERE …), DATEADD – plus a capstone that rebuilds a gold dimension | SQL 2 |
+
 ### 🔎 Deep Dives (Optional)
 
 Deep dives are standalone labs that go deeper into a specific topic. They can be completed at any point after their prerequisite lab and are independent of each other.
 
 | Deep Dive | What to Expect | Prerequisite |
 |-----------|---------------|--------------|
-| **[SDP] Building the Medallion Pipeline** ([guide](labs/Deep%20Dives/%5BSDP%5D%20Building%20the%20Medallion%20Pipeline.md)) | Build the bronze → silver → gold medallion yourself with Spark Declarative Pipelines: add data-quality expectations, derived columns, and an aggregated gold table. | Lab 0 |
-| **[SQL] Building the Medallion with SQL** ([guide](labs/Deep%20Dives/%5BSQL%5D%20Building%20the%20Medallion%20with%20SQL.md)) | Build the same medallion architecture with pure SQL on a SQL Warehouse (creates parallel `*_sql` tables so nothing collides with the deployed data). | Lab 0 |
-| **[SQL] SQL Analyst Essentials** ([guide](labs/Deep%20Dives/%5BSQL%5D%20SQL%20Analyst%20Essentials.md)) | Explore data with ad-hoc queries, create reusable SQL views, and use Genie Code to generate and optimise SQL. | [SQL] Building the Medallion with SQL |
+| **[SDP] Building the Medallion Pipeline** ([guide](labs/Deep%20Dives/%5BSDP%5D%20Building%20the%20Medallion%20Pipeline.md)) | Explore the bronze → silver → gold pipeline built with Spark Declarative Pipelines: add data-quality expectations, derived columns, and an aggregated gold table. | Lab 0 |
+| **[SQL] SQL Analyst Essentials** ([guide](labs/Deep%20Dives/%5BSQL%5D%20SQL%20Analyst%20Essentials.md)) | Explore data with ad-hoc queries, create reusable SQL views, and use Genie Code to generate and optimise SQL. | Lab 0 (SQL Track recommended) |
 | **[SQL] Monitoring and Self-Service** ([guide](labs/Deep%20Dives/%5BSQL%5D%20Monitoring%20and%20Self-Service.md)) | Schedule recurring queries, set up SQL alerts, upload CSV data for self-service analysis, and explore Genie One (formerly Databricks One). | [SQL] SQL Analyst Essentials |

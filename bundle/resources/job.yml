@@ -1,4 +1,4 @@
-# A sample job for dab_personal_finance.
+# Setup job: generate the source files, run the pipeline, deploy metadata, metric view and Genie.
 
 resources:
   jobs:
@@ -27,6 +27,9 @@ resources:
             - task_key: generate_data
           pipeline_task:
             pipeline_id: ${resources.pipelines.sunny_bay_roastery_pipeline.id}
+            # The source files are regenerated on every run (rolling 24-month window),
+            # so the streaming tables are rebuilt from scratch instead of appending.
+            full_refresh: true
         - task_key: deploy_metadata
           depends_on:
             - task_key: run_pipeline

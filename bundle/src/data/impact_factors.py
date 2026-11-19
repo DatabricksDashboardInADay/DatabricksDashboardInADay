@@ -1,200 +1,74 @@
-from typing import List, Optional
-import math as _math
+"""Multiplicative volume factors used to simulate daily order volumes per store.
 
-from pyspark.sql import Column, DataFrame, SparkSession, functions as F
+simulated orders per day = base_volume x random noise x holiday x day-of-week
+                           x organic growth x seasonality x launch ramp
+"""
+
+import math as _math
+from datetime import date
+from typing import Iterable, List, Optional
+
+from pyspark.sql import Column, DataFrame, SparkSession, functions as F, types as T
 
 
 # ---------------------------------------------------------------------------
 # Partition-independent deterministic random helpers (hash-based)
 # ---------------------------------------------------------------------------
 
-def _det_uniform(seed: int, *id_cols: Column) -> Column:
-    """Partition-independent uniform [0, 1] value, deterministic per row."""
-    h = F.hash(*id_cols, F.lit(seed))
-    return F.pmod(h.cast("long"), F.lit(2147483647)).cast("double") / F.lit(2147483647.0)
+def det_uniform(seed: int, *id_cols: Column) -> Column:
+    """Partition-independent uniform [0, 1) value, deterministic per row."""
+    h = F.xxhash64(*id_cols, F.lit(seed))
+    return F.pmod(h, F.lit(1000003)).cast("double") / F.lit(1000003.0)
 
 
-def _det_normal(seed: int, *id_cols: Column) -> Column:
+def det_normal(seed: int, *id_cols: Column) -> Column:
     """Partition-independent standard-normal value, deterministic per row (Box-Muller)."""
-    u1 = F.greatest(_det_uniform(seed, *id_cols), F.lit(1e-10))
-    u2 = _det_uniform(seed + 7919, *id_cols)          # offset by a prime
+    u1 = F.greatest(det_uniform(seed, *id_cols), F.lit(1e-10))
+    u2 = det_uniform(seed + 7919, *id_cols)          # offset by a prime
     return F.sqrt(F.lit(-2.0) * F.log(u1)) * F.cos(F.lit(2.0 * _math.pi) * u2)
 
 
-def add_random_noise_features(
-    df: DataFrame,
-    stddev: float = 0.05,
-    seed: Optional[int] = 1,
-    id_cols: Optional[List[str]] = None,
-) -> DataFrame:
-    """
-    Adds column:
-      - random_impact_factor (double, clamped to [0.1, 2.0])
+def weighted_choice(u: Column, choices: List[tuple]) -> Column:
+    """Pick a value from ``[(value, weight), ...]`` using a uniform draw ``u``."""
+    total = float(sum(w for _, w in choices))
+    expr = None
+    cumulative = 0.0
+    for value, weight in choices[:-1]:
+        cumulative += weight / total
+        expr = (F.when(u < F.lit(cumulative), F.lit(value)) if expr is None
+                else expr.when(u < F.lit(cumulative), F.lit(value)))
+    last = F.lit(choices[-1][0])
+    return last if expr is None else expr.otherwise(last)
 
-    When *id_cols* is provided the noise is derived from a hash of those
-    columns, making the result deterministic regardless of partitioning.
-    """
-    if id_cols is not None:
-        cols = [F.col(c) for c in id_cols]
-        z = _det_normal(seed if seed is not None else 0, *cols)
-    else:
-        z = F.randn(seed) if seed is not None else F.randn()
-    noise = F.lit(float(stddev)) * z
-    factor_raw = F.lit(1.0) + noise
 
-    factor = (
-        F.when(factor_raw < F.lit(0.1), F.lit(0.1))
-         .when(factor_raw > F.lit(2.0), F.lit(2.0))
-         .otherwise(factor_raw)
-    )
+# ---------------------------------------------------------------------------
+# Volume factors
+# ---------------------------------------------------------------------------
 
+def add_random_noise_features(df: DataFrame, stddev: float = 0.05, seed: int = 1) -> DataFrame:
+    """random_impact_factor ~ N(1, stddev), clamped to [0.1, 2.0]."""
+    z = det_normal(seed, F.col("store_key"), F.col("date"))
+    factor = F.lit(1.0) + F.lit(float(stddev)) * z
+    factor = F.least(F.greatest(factor, F.lit(0.1)), F.lit(2.0))
     return df.withColumn("random_impact_factor", factor.cast("double"))
 
 
-def add_holiday_features(
-    df: DataFrame,
-) -> DataFrame:
-    """
-    Adds column:
-      - holiday_impact_factor (0.0 on holiday dates, 1.0 otherwise)
-    Holidays are embedded (no external file).
-    """
-    holidays_csv = """date,holiday
-2010-01-01,New Year’s Day
-2010-04-04,Easter
-2010-05-31,Memorial Day
-2010-07-04,Fourth of July
-2010-09-06,Labor Day
-2010-11-25,Thanksgiving
-2010-12-25,Christmas
-2011-01-01,New Year’s Day
-2011-04-24,Easter
-2011-05-30,Memorial Day
-2011-07-04,Fourth of July
-2011-09-05,Labor Day
-2011-11-24,Thanksgiving
-2011-12-25,Christmas
-2012-01-01,New Year’s Day
-2012-04-08,Easter
-2012-05-28,Memorial Day
-2012-07-04,Fourth of July
-2012-09-03,Labor Day
-2012-11-22,Thanksgiving
-2012-12-25,Christmas
-2013-01-01,New Year’s Day
-2013-03-31,Easter
-2013-05-27,Memorial Day
-2013-07-04,Fourth of July
-2013-09-02,Labor Day
-2013-11-28,Thanksgiving
-2013-12-25,Christmas
-2014-01-01,New Year’s Day
-2014-04-20,Easter
-2014-05-26,Memorial Day
-2014-07-04,Fourth of July
-2014-09-01,Labor Day
-2014-11-27,Thanksgiving
-2014-12-25,Christmas
-2015-01-01,New Year’s Day
-2015-04-05,Easter
-2015-05-25,Memorial Day
-2015-07-04,Fourth of July
-2015-09-07,Labor Day
-2015-11-26,Thanksgiving
-2015-12-25,Christmas
-2016-01-01,New Year’s Day
-2016-03-27,Easter
-2016-05-30,Memorial Day
-2016-07-04,Fourth of July
-2016-09-05,Labor Day
-2016-11-24,Thanksgiving
-2016-12-25,Christmas
-2017-01-01,New Year’s Day
-2017-04-16,Easter
-2017-05-29,Memorial Day
-2017-07-04,Fourth of July
-2017-09-04,Labor Day
-2017-11-23,Thanksgiving
-2017-12-25,Christmas
-2018-01-01,New Year’s Day
-2018-04-01,Easter
-2018-05-28,Memorial Day
-2018-07-04,Fourth of July
-2018-09-03,Labor Day
-2018-11-22,Thanksgiving
-2018-12-25,Christmas
-2019-01-01,New Year’s Day
-2019-04-21,Easter
-2019-05-27,Memorial Day
-2019-07-04,Fourth of July
-2019-09-02,Labor Day
-2019-11-28,Thanksgiving
-2019-12-25,Christmas
-2020-01-01,New Year’s Day
-2020-04-12,Easter
-2020-05-25,Memorial Day
-2020-07-04,Fourth of July
-2020-09-07,Labor Day
-2020-11-26,Thanksgiving
-2020-12-25,Christmas
-2021-01-01,New Year’s Day
-2021-04-04,Easter
-2021-05-31,Memorial Day
-2021-07-04,Fourth of July
-2021-09-06,Labor Day
-2021-11-25,Thanksgiving
-2021-12-25,Christmas
-2022-01-01,New Year’s Day
-2022-04-17,Easter
-2022-05-30,Memorial Day
-2022-07-04,Fourth of July
-2022-09-05,Labor Day
-2022-11-24,Thanksgiving
-2022-12-25,Christmas
-2023-01-01,New Year’s Day
-2023-04-09,Easter
-2023-05-29,Memorial Day
-2023-07-04,Fourth of July
-2023-09-04,Labor Day
-2023-11-23,Thanksgiving
-2023-12-25,Christmas
-2024-01-01,New Year’s Day
-2024-03-31,Easter
-2024-05-27,Memorial Day
-2024-07-04,Fourth of July
-2024-09-02,Labor Day
-2024-11-28,Thanksgiving
-2024-12-25,Christmas
-2025-01-01,New Year’s Day
-2025-04-20,Easter
-2025-05-26,Memorial Day
-2025-07-04,Fourth of July
-2025-09-01,Labor Day
-2025-11-27,Thanksgiving
-2025-12-25,Christmas
-"""
-    lines = holidays_csv.strip().splitlines()[1:]
-    holidays_data = [tuple(line.split(",", 1)) for line in lines]
+def add_holiday_features(df: DataFrame, holiday_dates: Iterable[date], closed_on_holidays: bool = True) -> DataFrame:
+    """holiday_impact_factor: 0.0 on public holidays when the store is closed, 1.0 otherwise."""
+    if not closed_on_holidays:
+        return df.withColumn("holiday_impact_factor", F.lit(1.0))
 
     spark = SparkSession.builder.getOrCreate()
+    holidays_df = spark.createDataFrame(
+        [(d,) for d in sorted(set(holiday_dates))],
+        schema=T.StructType([T.StructField("date", T.DateType(), False)]),
+    ).withColumn("_is_holiday", F.lit(True))
 
-    holidays_df = (
-        spark.createDataFrame(holidays_data, ["date", "holiday"])
-             .withColumn("date", F.to_date("date"))
-             .select("date")
-             .distinct()
-             .withColumn("is_holiday", F.lit(True))
+    return (
+        df.join(F.broadcast(holidays_df), on="date", how="left")
+          .withColumn("holiday_impact_factor", F.when(F.col("_is_holiday"), F.lit(0.0)).otherwise(F.lit(1.0)))
+          .drop("_is_holiday")
     )
-
-    df = df.withColumn("date", F.to_date("date"))
-    df = df.join(F.broadcast(holidays_df), on="date", how="left")
-
-    df = df.withColumn(
-        "holiday_impact_factor",
-        F.when(F.col("is_holiday"), F.lit(0.0)).otherwise(F.lit(1.0))
-    ).drop("is_holiday")
-
-    return df
 
 
 def add_day_of_week_features(
@@ -207,13 +81,7 @@ def add_day_of_week_features(
     sat_factor: float = 1.20,
     sun_factor: float = 1.10,
 ) -> DataFrame:
-    """
-    Adds column:
-      - day_of_week_impact_factor
-    """
-    df = df.withColumn("date", F.to_date("date"))
     dow = F.date_format("date", "E")
-
     return df.withColumn(
         "day_of_week_impact_factor",
         F.when(dow == "Mon", F.lit(float(mon_factor)))
@@ -226,73 +94,16 @@ def add_day_of_week_features(
     )
 
 
-def add_month_over_month_growth_features(
-    df: DataFrame,
-    monthly_growth_pct: float
-) -> DataFrame:
-    """
-    Adds column:
-      - organic_mom_growth_factor
-    """
+def add_month_over_month_growth_features(df: DataFrame, monthly_growth_pct: float, growth_start: date) -> DataFrame:
+    """organic_mom_growth_factor = (1 + pct)^(months since growth_start)."""
     monthly_rate = float(monthly_growth_pct) / 100.0
-
-    df = df.withColumn("date", F.to_date("date"))
-    df = df.withColumn("start_date", F.to_date("start_date"))
-
-    months_since_start = F.floor(
-        F.months_between(F.trunc(F.col("date"), "month"), F.trunc(F.col("start_date"), "month"))
+    months = F.floor(
+        F.months_between(F.trunc(F.col("date"), "month"), F.trunc(F.lit(growth_start), "month"))
     ).cast("int")
-
-    df = df.withColumn(
+    return df.withColumn(
         "organic_mom_growth_factor",
-        F.when(F.col("start_date").isNull(), F.lit(1.0))
-         .when(months_since_start < 0, F.lit(1.0))
-         .otherwise(F.pow(F.lit(1.0 + monthly_rate), months_since_start))
+        F.when(months < 0, F.lit(1.0)).otherwise(F.pow(F.lit(1.0 + monthly_rate), months)),
     )
-
-    return df
-
-
-def add_covid_store_features(
-    df: DataFrame,
-    covid_start: str = "2020-03-01",
-    covid_drop_depth: float = 0.8,
-    covid_drop_sigma: float = 100.0,
-    covid_recovery_rate: float = 0.003,
-    covid_recovery_start: str = "2023-06-01",
-) -> DataFrame:
-    """
-    Adds column:
-      - covid_impact_factor (double, clamped to [0.1, 1.2])
-    """
-    df = df.withColumn("date", F.to_date("date"))
-
-    covid_start_date = F.to_date(F.lit(covid_start))
-    covid_recovery_start_date = F.to_date(F.lit(covid_recovery_start))
-
-    days_since_start = F.datediff(F.col("date"), covid_start_date)
-
-    depth_lit = F.lit(float(covid_drop_depth))
-    sigma_sq = float(covid_drop_sigma) ** 2
-
-    gaussian_drop = depth_lit * F.exp(
-        - (F.pow(days_since_start.cast("double"), F.lit(2.0)) / F.lit(2.0 * sigma_sq))
-    )
-
-    days_since_recovery = F.datediff(F.col("date"), covid_recovery_start_date)
-    recovery_days_active = F.greatest(days_since_recovery, F.lit(0))
-
-    recovery = depth_lit * (F.lit(1.0) - F.exp(-F.lit(float(covid_recovery_rate)) * recovery_days_active.cast("double")))
-
-    covid_factor_raw = F.lit(1.0) - gaussian_drop + recovery
-
-    covid_factor = F.when(F.col("date") < covid_start_date, F.lit(1.0)).otherwise(covid_factor_raw)
-
-    covid_factor = F.when(covid_factor < F.lit(0.1), F.lit(0.1)) \
-                    .when(covid_factor > F.lit(1.2), F.lit(1.2)) \
-                    .otherwise(covid_factor)
-
-    return df.withColumn("covid_impact_factor", covid_factor.cast("double"))
 
 
 def add_seasonality_features(
@@ -302,187 +113,60 @@ def add_seasonality_features(
     summer_factor: float = 1.10,
     autumn_factor: float = 0.98,
 ) -> DataFrame:
-    """
-    Adds column:
-      - seasonality_impact_factor
-    """
-    df = df.withColumn("date", F.to_date("date"))
     month_col = F.month("date")
-
     return df.withColumn(
         "seasonality_impact_factor",
-        F.when(month_col.isin(12, 1, 2),  F.lit(float(winter_factor)))
-         .when(month_col.isin(3, 4, 5),   F.lit(float(spring_factor)))
-         .when(month_col.isin(6, 7, 8),   F.lit(float(summer_factor)))
+        F.when(month_col.isin(12, 1, 2), F.lit(float(winter_factor)))
+         .when(month_col.isin(3, 4, 5), F.lit(float(spring_factor)))
+         .when(month_col.isin(6, 7, 8), F.lit(float(summer_factor)))
          .otherwise(F.lit(float(autumn_factor)))
     )
 
 
-def add_launch_ramp_features(
-    df: DataFrame,
-    ramp_months: int = 0,
-    store_start_date: Optional[str] = None,
-) -> DataFrame:
-    """
-    Adds column:
-      - launch_ramp_factor (double)
-
-    Models a gradual store launch: instead of opening at full volume, sales
-    ramp linearly from 1/ramp_months in the first month up to 1.0 by month
-    ``ramp_months``, then stay at 1.0. With ``ramp_months`` <= 0 the factor is a
-    constant 1.0 (no ramp), so it is a no-op for stores that open at full volume.
-
-    The ramp is measured from ``store_start_date`` (the store's own opening),
-    NOT the global ``start_date`` helper column, which is the same calendar
-    origin for every store.
-    """
-    df = df.withColumn("date", F.to_date("date"))
-
-    if not ramp_months or ramp_months <= 0 or not store_start_date:
+def add_launch_ramp_features(df: DataFrame, ramp_months: int = 0, opened_on: Optional[date] = None) -> DataFrame:
+    """launch_ramp_factor ramps linearly from 1/ramp_months to 1.0 after a store opens."""
+    if not ramp_months or ramp_months <= 0 or not opened_on:
         return df.withColumn("launch_ramp_factor", F.lit(1.0))
 
-    open_date = F.to_date(F.lit(store_start_date))
     months_since_open = F.floor(
-        F.months_between(F.trunc(F.col("date"), "month"), F.trunc(open_date, "month"))
+        F.months_between(F.trunc(F.col("date"), "month"), F.trunc(F.lit(opened_on), "month"))
     ).cast("int")
-
-    ramp = F.least(
-        (months_since_open + F.lit(1)).cast("double") / F.lit(float(ramp_months)),
-        F.lit(1.0),
-    )
-    ramp = F.when(months_since_open < 0, F.lit(1.0)).otherwise(ramp)
-
-    return df.withColumn("launch_ramp_factor", ramp.cast("double"))
+    ramp = F.least((months_since_open + F.lit(1)).cast("double") / F.lit(float(ramp_months)), F.lit(1.0))
+    return df.withColumn("launch_ramp_factor", F.when(months_since_open < 0, F.lit(1.0)).otherwise(ramp))
 
 
-def add_total_impact_features(
-    df: DataFrame,
-    factor_cols: Optional[List[str]] = None,
-    output_col: str = "total_impact_factor",
-    output_volume_col: str = "simulated_volume",
-    base_volume_col: str = "base_volume",
-    volume_scale: float = 1.0,
-) -> DataFrame:
-    """
-    Adds:
-      - total_impact_factor (double) = product of factor columns
-      - simulated_volume = base_volume * total_impact_factor (if base_volume exists)
-    """
-    default_factor_cols = [
-        "random_impact_factor",
-        "holiday_impact_factor",
-        "day_of_week_impact_factor",
-        "organic_mom_growth_factor",
-        "covid_impact_factor",
-        "seasonality_impact_factor",
-        "launch_ramp_factor",
-    ]
-
-    if factor_cols is None:
-        factor_cols = [c for c in default_factor_cols if c in df.columns]
-
-    if not factor_cols:
-        df = df.withColumn(output_col, F.lit(1.0))
-    else:
-        total_expr = F.lit(1.0)
-        for c in factor_cols:
-            total_expr = total_expr * F.coalesce(F.col(c), F.lit(1.0))
-        df = df.withColumn(output_col, total_expr.cast("double"))
-
-    if base_volume_col in df.columns:
-        df = df.withColumn(output_volume_col, (F.col(base_volume_col).cast("double") * F.col(output_col) * F.lit(float(volume_scale))).cast("int"))
-
-    return df
+FACTOR_COLUMNS = [
+    "random_impact_factor",
+    "holiday_impact_factor",
+    "day_of_week_impact_factor",
+    "organic_mom_growth_factor",
+    "seasonality_impact_factor",
+    "launch_ramp_factor",
+]
 
 
-def explode_by_simulated_volume(
-    df: DataFrame,
-    volume_col: str = "simulated_volume",
-) -> DataFrame:
-    """
-    Explode rows according to simulated_volume (integer). Rows with <=0 produce no output.
-
-    Keeps a ``_txn_seq`` column (1-based sequence index per original row) so
-    that downstream hash-based random functions can uniquely identify each
-    exploded row.
-    """
-    df = df.withColumn(volume_col, F.coalesce(F.col(volume_col), F.lit(0)).cast("int"))
-
-    # Build a 1..volume sequence ONLY when volume >= 1. For volume <= 0 the
-    # sequence is left null so the explode drops the row entirely. (A naive
-    # sequence(1, volume) is wrong here: Spark infers a descending step when
-    # start > stop, so sequence(1, 0) -> [1, 0] and sequence(1, -1) -> [1, 0, -1],
-    # which would resurrect 2+ phantom transactions on every zero-volume day and
-    # mask deep dips such as the COVID trough.)
-    df = df.withColumn(
-        "volume_seq",
-        F.when(F.col(volume_col) >= F.lit(1), F.sequence(F.lit(1), F.col(volume_col))),
-    )
-    df = df.withColumn("_txn_seq", F.explode("volume_seq")).drop("volume_seq")
-
-    return df
+def add_simulated_volume(df: DataFrame) -> DataFrame:
+    """simulated_volume = base_volume x product of all factor columns (rounded down)."""
+    total = F.lit(1.0)
+    for c in FACTOR_COLUMNS:
+        if c in df.columns:
+            total = total * F.coalesce(F.col(c), F.lit(1.0))
+    return df.withColumn("simulated_volume", (F.col("base_volume").cast("double") * total).cast("int"))
 
 
-def remove_helper_columns(df: DataFrame) -> DataFrame:
-    cols_to_remove = [
-        "simulated_volume",
-        "total_impact_factor",
-        "seasonality_impact_factor",
-        "covid_impact_factor",
-        "organic_mom_growth_factor",
-        "day_of_week_impact_factor",
-        "holiday_impact_factor",
-        "random_impact_factor",
-        "covid_progress",
-        "days_since_covid_start",
-        "season",
-        "months_since_start",
-        "covid_sales_impact_factor",
-        "base_volume",
-        "is_weekend",
-        "day_name",
-        "day_of_week",
-        "calendar_week",
-        "day",
-        "month",
-        "year",
-        "end_date",
-        "start_date",
-        "date",
-    ]
-    existing_cols = [c for c in cols_to_remove if c in df.columns]
-    return df.drop(*existing_cols) if existing_cols else df
-
-
-def add_quantity_sold(
-    df: DataFrame,
-    p1: float = 0.80,
-    p2: float = 0.15,
-    p3: float = 0.04,
-    seed: Optional[int] = 42,
-    id_cols: Optional[List[str]] = None,
-) -> DataFrame:
-    """
-    Adds column:
-      - quantity_sold (int)
-
-    When *id_cols* is provided the draw is derived from a hash of those
-    columns, making the result deterministic regardless of partitioning.
-    """
-    _seed = seed if seed is not None else 42
-
-    if id_cols is not None:
-        cols = [F.col(c) for c in id_cols]
-        rand_val = _det_uniform(_seed, *cols)
-        rand_val2 = _det_uniform(_seed + 31, *cols)
-    else:
-        rand_val = F.rand(seed) if seed is not None else F.rand()
-        rand_val2 = F.rand(seed + 31 if seed is not None else None) if seed is not None else F.rand()
-
+def explode_by_simulated_volume(df: DataFrame, seq_col: str = "order_seq") -> DataFrame:
+    """One output row per simulated order; ``seq_col`` is the 1-based order number of the day."""
+    vol = F.coalesce(F.col("simulated_volume"), F.lit(0))
     return df.withColumn(
-        "quantity_sold",
-        F.when(rand_val < p1, F.lit(1))
-         .when(rand_val < p1 + p2, F.lit(2))
-         .when(rand_val < p1 + p2 + p3, F.lit(3))
-         .otherwise(F.floor(rand_val2 * 2 + 4).cast("int"))
+        seq_col, F.explode(F.when(vol >= 1, F.sequence(F.lit(1), vol)))
+    )
+
+
+def quantity_expr(u: Column, u2: Column, p1: float, p2: float, p3: float) -> Column:
+    """Quantity per order line: 1, 2, 3 with the given probabilities, otherwise 4 or 5."""
+    return (
+        F.when(u < p1, F.lit(1))
+         .when(u < p1 + p2, F.lit(2))
+         .when(u < p1 + p2 + p3, F.lit(3))
+         .otherwise(F.floor(u2 * 2 + 4).cast("int"))
     )

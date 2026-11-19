@@ -93,8 +93,8 @@ You learned where your AI assistant lives and that it already knows your data. F
 1. In the sidebar, click **Catalog**.
 
 2. Expand the **`sunny_bay_roastery`** catalog. You will see three schemas that match the medallion layers:
-   - **`bronze`** — raw data as it landed (plus a `raw` Volume of the original files).
-   - **`silver`** — cleansed and validated data.
+   - **`bronze`** — raw data exactly as it arrived from Sunny Bay's source systems: the café cash registers (`pos_*`), the online shop (`web_*`), the CRM (`crm_*`), the ERP (`erp_*`), HR (`hr_employees`) and reference data — plus a `raw` Volume with the original files.
+   - **`silver`** — cleansed data, integrated into business objects such as `customer`, `product`, `sales_order` and `sales_order_line`.
    - **`gold`** — business-ready tables, ready for reporting and AI.
 
 3. Expand **`gold`**. This is your analyst home base. It holds a classic **star schema**: one central *fact* table surrounded by *dimension* tables.
@@ -107,11 +107,11 @@ You learned where your AI assistant lives and that it already knows your data. F
 
 | Table | What it holds | Grain (one row = ) |
 |-------|---------------|--------------------|
-| `fact_coffee_sales` | Every sale, enriched with revenue, cost, and VAT | one sold line item |
-| `dim_product` | The coffee, beans, and gear Sunny Bay sells | one product |
-| `dim_store` | Cafés and the online channel | one store |
-| `dim_customer` | Loyalty segment and channel preference | one customer |
-| `dim_date` | Calendar with seasons, weekends, and holidays | one day |
+| `fact_coffee_sales` | Every sale of the cafés and the online shop, enriched with revenue, discount, cost, and VAT in EUR | one order line |
+| `dim_product` | The drinks, food, and coffee beans Sunny Bay sells | one product |
+| `dim_store` | The five cafés in German cities and the online shop | one store |
+| `dim_customer` | Loyalty tier, segment, and channel preference | one customer |
+| `dim_date` | Calendar with seasons, weekends, and German public holidays | one day |
 
 **💡 What just happened?**
 
@@ -123,7 +123,7 @@ Let's get to know `fact_coffee_sales` — the table every dashboard and Genie an
 
 1. In the `gold` schema, click **`fact_coffee_sales`** to open it in **Catalog Explorer**.
 
-2. On the **Overview / Columns** tab, review the columns and their data types. Notice the enriched business metrics that were calculated for you: `gross_revenue_usd`, `net_revenue_usd`, `vat_usd`, and `cost_of_goods_usd`.
+2. On the **Overview / Columns** tab, review the columns and their data types. Notice the enriched business metrics that were calculated for you: `gross_revenue_eur`, `net_revenue_eur`, `vat_eur`, and `cost_of_goods_eur`.
 
 3. Open the **Sample Data** tab to preview real rows without writing any SQL.
 
@@ -150,7 +150,7 @@ Before you build a report on a number, you want to know *how it was produced*. *
 
 2. Follow the flow **upstream** (to the left). You will see the data's journey through the medallion layers:
 
-   `raw files (Volume)` → `silver.fact_coffee_sales` → `gold.fact_coffee_sales` (joined with the `dim_*` tables)
+   `raw files (Volume)` → `bronze.pos_transaction_lines` / `bronze.web_orders` → `silver.sales_order_line` → `gold.fact_coffee_sales` (joined with orders, products, loyalty cards, customers and prices)
 
    This is the *same* processing the Lab 0 pipeline performed — but you are reading it as a diagram, not as pipeline code.
 
@@ -163,7 +163,7 @@ Before you build a report on a number, you want to know *how it was produced*. *
 > [!NOTE]
 > Lineage is **execution-driven**: a downstream asset appears once it has actually queried the table. On a freshly-run workshop the consumers may still be collapsed under *Assets that read data* — open the dashboard or ask the Sales Genie a question, then refresh the graph to watch the metric view, dashboards, and Genie light up.
 
-4. Click a **column** in the graph (for example `gross_revenue_usd`) to see **column-level lineage** — which upstream columns were combined to calculate it.
+4. Click a **column** in the graph (for example `gross_revenue_eur`) to see **column-level lineage** — which upstream columns were combined to calculate it.
 
 **💡 What just happened?**
 
@@ -200,7 +200,7 @@ You have explored the data — now use it. There are two fast, code-optional way
 
    > *"Which Sunny Bay store had the highest gross revenue, and how does online compare to in-store?"*
 
-3. Review the SQL it generates, run it, and read the result. Try a follow-up in plain language, such as *"now break that down by year."*
+3. Review the SQL it generates, run it, and read the result. Try a follow-up in plain language, such as *"now break that down by month."*
 
 **💡 What just happened?**
 
@@ -216,7 +216,7 @@ So far you have *read* the gold data. In this optional add-on you will do a litt
 
 2. In the Genie prompt box, describe the dataset you want. Paste:
 
-   > *"Build a table of the top products by total gross revenue. Join `sunny_bay_roastery.gold.fact_coffee_sales` to `sunny_bay_roastery.gold.dim_product` on `product_key`, group by `product_name`, sum `gross_revenue_usd` as `total_revenue_usd`, and sort from highest to lowest."*
+   > *"Build a table of the top products by total gross revenue. Join `sunny_bay_roastery.gold.fact_coffee_sales` to `sunny_bay_roastery.gold.dim_product` on `product_key`, group by `product_name`, sum `gross_revenue_eur` as `total_revenue_eur`, and sort from highest to lowest."*
 
 3. Review the flow Genie builds — a source, a join, an aggregate, and a sort — and **preview** the result right in the canvas. Each node is a transformation you can see, reorder, and edit, so the logic stays transparent.
 
@@ -238,7 +238,7 @@ You have toured the workspace and, more importantly, learned to **trust and use*
 - *(Optional)* Built a dataset visually with **Visual Data Prep**
 
 > [!TIP]
-> Curious *how* the gold data was actually built? Two optional Deep Dives rebuild the medallion architecture yourself — **[SDP] Building the Medallion Pipeline** and **[SQL] Building the Medallion with SQL** — for anyone who wants the data-engineering view.
+> Curious *how* the gold data was actually built? The optional **[SDP] Building the Medallion Pipeline** deep dive shows the pipeline from the data-engineering view, and the **SQL Track** (`labs/SQL Track/`) teaches the SQL behind it step by step — joins, window functions and the functions every gold layer needs.
 
 ## What Happens Next?
 

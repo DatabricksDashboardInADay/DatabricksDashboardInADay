@@ -61,7 +61,7 @@ Before you start, please verify:
     
 ![](./artifacts/screenshots/Genie_Instructions.png)
 
-8. You can now ask a first question to Genie and it should give acceptable results. For example, you can type **Show me the profit by month for the year 2023 as a bar chart** in the chat window, which should provide the following output:
+8. You can now ask a first question to Genie and it should give acceptable results. For example, you can type **Show me the profit by month for the last 12 months as a bar chart** in the chat window, which should provide the following output:
 
 ![](./artifacts/screenshots/Genie_TestQuestion.png)
 
@@ -98,7 +98,7 @@ SELECT
     ELSE YEAR(`date`)
   END AS fiscal_year,
   store_online,
-  MEASURE(total_gross_revenue_usd) AS total_gross_revenue_usd
+  MEASURE(total_gross_revenue_eur) AS total_gross_revenue_eur
 FROM
   sunny_bay_roastery.gold.sm_fact_coffee_sales_genie
 WHERE
@@ -128,7 +128,7 @@ ORDER BY
     ELSE YEAR(`date`)
   END AS fiscal_year,
   store_online,
-  MEASURE(total_gross_revenue_usd) AS total_gross_revenue_usd
+  MEASURE(total_gross_revenue_eur) AS total_gross_revenue_eur
 FROM
   sunny_bay_roastery.gold.sm_fact_coffee_sales_genie
 WHERE
@@ -161,7 +161,7 @@ ORDER BY
 
 3. Genie will analyze your file in subsequent queries and figure out how to connect it to the existent datasets. 
 
-4. You can now ask Genie questions that include the additional context, for example `What is the profit of the fair trade products in 2024? list the products and their profit and create a pie chart.` You will get an answer that only contains the certified products. All other context information will also be included such as the fiscal year definition.
+4. You can now ask Genie questions that include the additional context, for example `What is the profit of the fair trade products in the last 12 months? list the products and their profit and create a pie chart.` You will get an answer that only contains the certified products. All other context information will also be included such as the fiscal year definition.
 
 ![](./artifacts/screenshots/Genie_FairTradeAnswer.png)
 

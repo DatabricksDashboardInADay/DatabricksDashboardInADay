@@ -89,7 +89,7 @@ They allow consistent reporting, simplify complex SQL logic, and centralize metr
 
 5. For each field you can enter a `Display Name`. This is the bridge between technical column names used by developers (e.g., `product_category`) and human-readable labels for business users (e.g., `Product Category`).
 
-6. Delete the irrelevant fields such as: `Date Key`, `Txn Seq`, `Product Key`, `Customer Key`, and `Store Key`.
+6. Delete the irrelevant fields such as: `Date Key`, `Product Key`, `Customer Key`, `Store Key`, `Order Id`, and `Order Line No`.
 
 > [!NOTE]
 > It is best practice to hide non-relevant and technical columns from business users who consume metric views. This keeps the model clean and easy to navigate.
@@ -98,10 +98,10 @@ They allow consistent reporting, simplify complex SQL logic, and centralize metr
 
 ```sql
 CASE
-  WHEN gross_revenue_usd < 10 THEN '1 - Under $10'
-  WHEN gross_revenue_usd < 25 THEN '2 - $10–$25'
-  WHEN gross_revenue_usd < 50 THEN '3 - $25–$50'
-  ELSE '4 - $50+'
+  WHEN gross_revenue_eur < 10 THEN '1 - Under €10'
+  WHEN gross_revenue_eur < 25 THEN '2 - €10–€25'
+  WHEN gross_revenue_eur < 50 THEN '3 - €25–€50'
+  ELSE '4 - €50+'
 END
 ```
 
@@ -112,24 +112,24 @@ END
 **Step 3: Add Measures**
 
 > [!NOTE]
-> Measures define the calculations that business users can query — e.g., `SUM(net_revenue_usd)` to get total revenue across any combination of dimensions.
+> Measures define the calculations that business users can query — e.g., `SUM(net_revenue_eur)` to get total revenue across any combination of dimensions.
 
 > [!TIP]
 > For the full list of aggregate functions and measure options — including filtered measures, ratios, and window measures — see the official [Metric view YAML syntax reference (Measures)](https://docs.databricks.com/aws/en/uc-semantics/metric-views/yaml-reference) documentation.
 
-1. Now, we are going to create three measures for `total_net_revenue_usd`, `total_cost_of_goods_usd`, and `total_net_profit_usd`.
+1. Now, we are going to create three measures for `total_net_revenue_eur`, `total_cost_of_goods_eur`, and `total_net_profit_eur`.
 
 2. Open `Measures` and click on `+ Add`. 
 
 ![alt text](./artifacts/screenshots/MetricView_UI_AddMeasure.png)
 
-3. Enter the measure name `total_net_revenue_usd` and the expression `SUM(net_revenue_usd)`. You can optionally add more context such as synonyms, comments, and formats. It helps humans to understand the meaning (and agents as well).
+3. Enter the measure name `total_net_revenue_eur` and the expression `SUM(net_revenue_eur)`. You can optionally add more context such as synonyms, comments, and formats. It helps humans to understand the meaning (and agents as well).
 
 ![alt text](./artifacts/screenshots/MetricView_UI_TotalNetRevenue.png)
 
 4. Now apply the exact same step for the other two measures:
-   - `total_cost_of_goods_usd` with expression `SUM(cost_of_goods_usd)`
-   - `total_net_profit_usd` with expression `measure(total_net_revenue_usd) - measure(total_cost_of_goods_usd)`
+   - `total_cost_of_goods_eur` with expression `SUM(cost_of_goods_eur)`
+   - `total_net_profit_eur` with expression `measure(total_net_revenue_eur) - measure(total_cost_of_goods_eur)`
 
 5. Try creating a new measure using **Genie Code**. Click on `+ Add` and select `Generate with Genie Code`. Describe the measure you want in natural language — for example, "average revenue per order". This is especially helpful for building complex measures without writing the expression from scratch.
 
@@ -139,7 +139,7 @@ END
 
 ![alt text](./artifacts/screenshots/MetricView_UI_Final.png)
 
-6. Test the measure `total_net_revenue_usd` by clicking on the the `Preview` button, and visualizing the measure grouped by `date`.
+6. Test the measure `total_net_revenue_eur` by clicking on the the `Preview` button, and visualizing the measure grouped by `date`.
 
 ![alt text](./artifacts/screenshots/MetricView_UI_MeasurePreview.png)
 
@@ -148,26 +148,26 @@ END
 > [!NOTE]
 > Metadata such as **display names**, **comments**, **synonyms**, and **number formats** don't change the numbers a measure returns — they add business context. This context is what lets AI agents like Genie map a natural-language question ("what was our revenue?") to the right measure and present the result correctly.
 
-1. Re-open the `total_net_revenue_usd` measure you created in the previous step.
+1. Re-open the `total_net_revenue_eur` measure you created in the previous step.
 
-2. Add a human-friendly **Display Name**: `Total Net Revenue (USD)`.
+2. Add a human-friendly **Display Name**: `Total Net Revenue (EUR)`.
 
-3. Add a **Comment** describing the measure, e.g. `Total net revenue in USD after discounts, before costs`.
+3. Add a **Comment** describing the measure, e.g. `Total net revenue in EUR after discounts, before costs`.
 
 4. Add one or more **Synonyms** so an agent recognises everyday wording. For this measure add: `revenue`, `net revenue`, and `sales`.
 
-5. Set a **Format** so the value renders as currency everywhere it is used. Choose type `Currency`, currency code `USD`, and `2` decimal places.
+5. Set a **Format** so the value renders as currency everywhere it is used. Choose type `Currency`, currency code `EUR`, and `2` decimal places.
 
 6. If you prefer the YAML editor, the same metadata looks like this:
 
 ```YAML
-  - name: total_net_revenue_usd
-    expr: SUM(net_revenue_usd)
-    display_name: Total Net Revenue (USD)
-    comment: Total net revenue in USD after discounts, before costs
+  - name: total_net_revenue_eur
+    expr: SUM(net_revenue_eur)
+    display_name: Total Net Revenue (EUR)
+    comment: Total net revenue in EUR after discounts, before costs
     format:
       type: currency
-      currency_code: USD
+      currency_code: EUR
       decimal_places:
         type: exact
         places: 2
@@ -201,8 +201,8 @@ materialization:
         - product_category
         - date
       measures:
-        - total_net_revenue_usd
-        - total_net_profit_usd
+        - total_net_revenue_eur
+        - total_net_profit_eur
 ```
 
 3. When you save the metric view, Databricks provisions a managed pipeline that keeps the materialized data fresh on the schedule you defined.
@@ -264,21 +264,21 @@ dimensions:
   - name: basket_size
     expr: |
       CASE
-        WHEN gross_revenue_usd < 10 THEN '1 - Under $10'
-        WHEN gross_revenue_usd < 25 THEN '2 - $10–$25'
-        WHEN gross_revenue_usd < 50 THEN '3 - $25–$50'
-        ELSE '4 - $50+'
+        WHEN gross_revenue_eur < 10 THEN '1 - Under €10'
+        WHEN gross_revenue_eur < 25 THEN '2 - €10–€25'
+        WHEN gross_revenue_eur < 50 THEN '3 - €25–€50'
+        ELSE '4 - €50+'
       END
     display_name: Basket Size
 
 measures:
-  - name: total_net_revenue_usd
-    expr: SUM(net_revenue_usd)
-    display_name: Total Net Revenue (USD)
-    comment: Total net revenue in USD after discounts, before costs
+  - name: total_net_revenue_eur
+    expr: SUM(net_revenue_eur)
+    display_name: Total Net Revenue (EUR)
+    comment: Total net revenue in EUR after discounts, before costs
     format:
       type: currency
-      currency_code: USD
+      currency_code: EUR
       decimal_places:
         type: exact
         places: 2
@@ -287,10 +287,10 @@ measures:
       - revenue
       - net revenue
       - sales
-  - name: total_cost_of_goods_usd
-    expr: SUM(cost_of_goods_usd)
-  - name: total_net_profit_usd
-    expr: measure(total_net_revenue_usd) - measure(total_cost_of_goods_usd)
+  - name: total_cost_of_goods_eur
+    expr: SUM(cost_of_goods_eur)
+  - name: total_net_profit_eur
+    expr: measure(total_net_revenue_eur) - measure(total_cost_of_goods_eur)
 ```
 
 ## What Happens Next?
@@ -301,16 +301,16 @@ You added agent metadata (synonyms and formatting) and, optionally, materializat
 
 **Different aggregation functions:**
 ```YAML 
-  - name: max_net_revenue_usd
-    expr: MAX(net_revenue_usd)
+  - name: max_net_revenue_eur
+    expr: MAX(net_revenue_eur)
   - name: avg_cost_of_goods
-    expr: AVG(cost_of_goods_usd)
+    expr: AVG(cost_of_goods_eur)
 ```
     
 **Windowing calculations such as rolling averages, previous periods and running totals:**
 ```YAML 
-  - name: total_gross_revenue_usd_previous_day
-    expr: measure(`total_gross_revenue_usd`)
+  - name: total_net_revenue_eur_previous_day
+    expr: measure(`total_net_revenue_eur`)
     window:
       - order: date
         semiadditive: last
