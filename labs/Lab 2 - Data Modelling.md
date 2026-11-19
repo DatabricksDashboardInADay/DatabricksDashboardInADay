@@ -33,7 +33,7 @@ They allow consistent reporting, simplify complex SQL logic, and centralize metr
 **Step 1: Create an Empty Metric View**
 
 
-1. Navigate to the gold schema using the Catalog Explorer and create a new Metric View by selecting it after clicking the New Button.
+1. Navigate to the gold schema using the Catalog Explorer and create a new Metric View by selecting it after clicking the **Create** button.
 
 ![alt text](./artifacts/screenshots/MetricView_CreateMetricView.png)
 
@@ -66,16 +66,20 @@ They allow consistent reporting, simplify complex SQL logic, and centralize metr
 2. Add the `dim_product` table and define the **Join Condition** using the columns with the `_key` suffix (e.g., `product_key = product_key`).
 
 > [!TIP]
-> If a **second join key** row appears automatically, remove it with the **✕** next to it — you only need to match on the `_key` columns.
+> If a **second join key** row appears automatically, remove it by clicking the **delete** (trash) icon next to it — you only need to match on the `_key` columns.
 
 ![alt text](./artifacts/screenshots/MetricView_UI_DefineJoin.png)
 
 > [!NOTE]
 > Under **Query performance** you can enable **At most one match**. It tells Databricks that each fact row matches at most one row in the dimension — a true to-one relationship, as here, where `product_key` is unique in `dim_product`. This lets the optimizer skip duplicate-checking and rewrite queries more efficiently. Only enable it when the dimension key really is unique; if a fact row could match several dimension rows, the results would be wrong.
 
-3. In the following dialog, only select the `Product Name`, `Product Subcategory` and `Product Category` attributes.
+3. In the following dialog, unselect `dynamically import all columns from the source`, and only select the `Product Name`, `Product Subcategory` and `Product Category` attributes.
 
-4. Now add the remaining dimension tables using the same approach. Use the following table as a reference:
+<div style="text-align:left;">
+  <img src="./artifacts/screenshots/MetricView_UI_AddFields.png" width="50%">
+</div>
+
+4. Now join the `dim_store` table and `dim_date` table using the same approach and use the following table as a reference:
 
 | Dimension Table | Join Condition | Fields to Select |
 |---|---|---|
@@ -94,7 +98,13 @@ They allow consistent reporting, simplify complex SQL logic, and centralize metr
 > [!NOTE]
 > It is best practice to hide non-relevant and technical columns from business users who consume metric views. This keeps the model clean and easy to navigate.
 
-7. Now create a derived field that groups each order into a value band. Open `Fields`, click `+ Add`, set the name to `basket_size` (Display Name `Basket Size`), and copy this snippet into the `Expression` field:
+7. Now create a derived field that groups each order into a value band. Open `Fields`, click `+ Add`
+
+<div style="text-align:left;">
+  <img src="./artifacts/screenshots/MetricView_UI_DerivedField.png" width="100%">
+</div>
+
+8. Set the name to `basket_size` (Display Name `Basket Size`), and copy this snippet into the `Expression` field with `Custom` mode:
 
 ```sql
 CASE
@@ -105,7 +115,7 @@ CASE
 END
 ```
 
-8. Congratulations for creating the basic semantic model of Sunny Bay Roastery. In the next step we are going to integrate measures.
+9. Now Save it. Congratulations on creating the basic semantic model of Sunny Bay Roastery. In the next step we are going to integrate measures.
 
 ![alt text](./artifacts/screenshots/MetricView_UI_DataModel.png)
 
