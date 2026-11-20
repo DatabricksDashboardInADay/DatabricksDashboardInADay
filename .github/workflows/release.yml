@@ -1,49 +1,103 @@
 name: Release on merge to main
 
 # When a PR is merged into main, cut the next release: a release/X.Y.Z branch,
-# a vX.Y.Z tag, and a GitHub Release. The bump size comes from a PR label
-# (major / minor / patch); with no label it defaults to a patch bump.
+# a vX.Y.Z tag, and a GitHub Release. The bump size comes from a label on the
+# merged PR (major / minor / patch); with no label it defaults to a patch bump.
+#
+# This runs on the push to main, not on the pull_request event. GitHub gives
+# pull_request runs for PRs from forks a read-only token, so the release step
+# failed with 403 for fork PRs (#73, #77). A push run always uses this repo's
+# own token. Pushes to main that are not a PR merge are skipped.
+#
+# If a release ever fails, re-cut it from the Actions tab with "Run workflow".
 
 on:
-  pull_request:
-    types: [closed]
+  push:
     branches: [main]
+  workflow_dispatch:
+    inputs:
+      bump:
+        description: Version bump for a manual release
+        type: choice
+        options: [patch, minor, major]
+        default: patch
 
 permissions:
   contents: write
+  pull-requests: read
 
 concurrency:
   group: release
 
 jobs:
   release:
-    if: github.event.pull_request.merged == true
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          ref: main
+
+      - name: Find the bump size
+        id: bump
+        env:
+          GH_TOKEN: ${{ github.token }}
+          EVENT: ${{ github.event_name }}
+          INPUT_BUMP: ${{ inputs.bump }}
+        run: |
+          set -euo pipefail
+          if [ "$EVENT" = "workflow_dispatch" ]; then
+            echo "bump=$INPUT_BUMP" >> "$GITHUB_OUTPUT"
+            echo "Manual release: $INPUT_BUMP bump"
+            exit 0
+          fi
+          # Find the PR this push merged. Only an exact merge-commit match counts,
+          # so direct pushes do not release. The commit-to-PR link can lag a few
+          # seconds behind the merge, so retry briefly.
+          pr=""
+          for attempt in 1 2 3 4 5 6; do
+            pr=$(gh api "repos/$GITHUB_REPOSITORY/commits/$GITHUB_SHA/pulls" \
+              --jq "[.[] | select(.merged_at != null and .merge_commit_sha == \"$GITHUB_SHA\")][0] // empty | {number, labels: [.labels[].name]} | @json" \
+              ) || pr=""
+            if [ -n "$pr" ]; then break; fi
+            if [ "$attempt" -lt 6 ]; then sleep 10; fi
+          done
+          if [ -z "$pr" ]; then
+            echo "::notice::$GITHUB_SHA is not a PR merge; no release."
+            echo "bump=" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          number=$(jq -r '.number' <<< "$pr")
+          labels=$(jq -r '.labels | join(" ")' <<< "$pr")
+          case " $labels " in
+            *" major "*) bump=major ;;
+            *" minor "*) bump=minor ;;
+            *)           bump=patch ;;
+          esac
+          echo "bump=$bump" >> "$GITHUB_OUTPUT"
+          echo "PR #$number labels: [$labels] -> $bump bump"
 
       - name: Compute next version
         id: ver
+        if: steps.bump.outputs.bump != ''
         env:
-          LABELS: ${{ join(github.event.pull_request.labels.*.name, ' ') }}
+          BUMP: ${{ steps.bump.outputs.bump }}
         run: |
           set -euo pipefail
           latest=$(git tag --list 'v*' --sort=-v:refname | head -n1)
           latest=${latest:-v0.0.0}
           IFS=. read -r major minor patch <<< "${latest#v}"
-          case " $LABELS " in
-            *" major "*) major=$((major+1)); minor=0; patch=0 ;;
-            *" minor "*) minor=$((minor+1)); patch=0 ;;
-            *)           patch=$((patch+1)) ;;
+          case "$BUMP" in
+            major) major=$((major+1)); minor=0; patch=0 ;;
+            minor) minor=$((minor+1)); patch=0 ;;
+            *)     patch=$((patch+1)) ;;
           esac
           echo "tag=v${major}.${minor}.${patch}" >> "$GITHUB_OUTPUT"
           echo "branch=release/${major}.${minor}.${patch}" >> "$GITHUB_OUTPUT"
           echo "Previous: ${latest} -> next: v${major}.${minor}.${patch}"
 
       - name: Cut release
+        if: steps.bump.outputs.bump != ''
         env:
           GH_TOKEN: ${{ github.token }}
           TAG: ${{ steps.ver.outputs.tag }}
