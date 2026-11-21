@@ -7,7 +7,8 @@ By the end of this lab, you will:
 - Understand **Unity Catalog** and the three-level namespace (`catalog.schema.table`) that organises every asset
 - Explore the **Sunny Bay Roastery** gold data — browse tables, preview sample rows, and read column descriptions
 - Trace **data lineage** to see *where the gold data came from and how it was processed* — without opening a single pipeline
-- Use **AI-generated descriptions** and **tags** to document and classify data
+- Use **AI-generated descriptions**, a governed **domain tag**, **certification**, and a **wiki** to document and classify data
+- Find certified data and agreed business definitions by **domain** in **Discover**
 - Ask a question of your data in **plain language**
 - *(Optional add-on)* Shape data visually with **Visual Data Prep** — basic data engineering, no code required
 
@@ -17,7 +18,7 @@ By the end of this lab, you will:
 
 You do not need to be a data engineer to get value from Databricks. Most people who work with Sunny Bay's data are **analysts** and **analytics engineers**: they ask business questions, model data, and build reports. This lab is your guided tour of the platform from *that* point of view.
 
-In **Lab 0** you ran one notebook that set everything up: it generated the sales data, ran the medallion pipeline (bronze → silver → gold), built a metric view, and pre-created the dashboards and Sales Genie. So the data is already there. Your job in Lab 1 is not to *build* it — it is to **find it, understand it, and trust it**, and to learn the handful of workspace features you will use in every lab that follows.
+In **Lab 0** you ran one notebook that set everything up: it generated the sales data, ran the medallion pipeline (bronze → silver → gold), built a metric view, pre-created the dashboards and Sales Genie, and added business context such as a domain, business definitions, and wikis. So the data is already there. Your job in Lab 1 is not to *build* it — it is to **find it, understand it, and trust it**, and to learn the handful of workspace features you will use in every lab that follows.
 
 **What you will explore**
 
@@ -28,6 +29,8 @@ In **Lab 0** you ran one notebook that set everything up: it generated the sales
 | **Unity Catalog** | The single, governed source of truth for all data and its metadata |
 | **Lineage** | See how a number was calculated and where it came from, so you can trust it |
 | **Descriptions & tags** | Make data self-explanatory and discoverable for the whole team |
+| **Certification & wikis** | See at a glance which data is approved for reporting, and read how to use it |
+| **Domains & Pages (Discover)** | Find data by business area and read agreed definitions such as *Net Profit* |
 
 > [!TIP]
 > The golden rule of this workshop: **whenever you are unsure about anything — a button, a term, a query — ask Genie Code.** You will meet it in Step 2, and it stays one click away for the rest of the day.
@@ -135,12 +138,16 @@ Let's get to know `fact_coffee_sales` — the table every dashboard and Genie an
 
 5. Switch back to the **Overview** tab and read the **column descriptions** (comments) shown next to each column. Good descriptions are what let both people *and* Genie Code understand the data correctly — the `gold` tables were documented for you during setup.
 
+6. Still on the **Overview** tab, read the table's **wiki**. The description is a one-line summary; the wiki is the longer documentation for people: what one row means, how the keys join, and what to watch out for (for example the COVID-19 dip between 2020 and 2023).
+
+7. Notice the **Certified** mark next to the table name and the tag **`sunnybay_sales`**. Both were set during setup: the table is approved for reporting, and it belongs to the *Sunny Bay Sales* domain you will explore in Step 7.
+
 > [!TIP]
 > Not sure what a column like `date_key` means? Highlight it and **ask Genie Code** — it reads the same Unity Catalog metadata you are looking at.
 
 **💡 What just happened?**
 
-In one screen you inspected the schema, previewed the data, and confirmed what each field means — the questions an analyst asks before trusting a table.
+In one screen you inspected the schema, previewed the data, confirmed what each field means, and saw that the table is certified and documented — the questions an analyst asks before trusting a table.
 
 **Step 5: Trace the Lineage — Where Did This Data Come From?**
 
@@ -171,7 +178,7 @@ You answered "can I trust this number?" without reading a line of pipeline code.
 
 **Step 6: Document and Classify Data (AI-Assisted)**
 
-Well-described data is easier for people to find and for Genie Code to query accurately. During setup, the `gold` tables were given rich **descriptions** and **tags** automatically — open `fact_coffee_sales` or `dim_product` and you will see a table description and per-column comments already in place.
+Well-described data is easier for people to find and for Genie Code to query accurately. During setup, the `gold` tables were given rich **descriptions**, the domain tag **`sunnybay_sales`**, and the certification **Certified** automatically — open `fact_coffee_sales` or `dim_product` and you will see a table description and per-column comments already in place.
 
 One table was left undocumented on purpose: **`dim_customer`**. Documenting it is your job — and Databricks' AI will draft it for you.
 
@@ -181,16 +188,43 @@ One table was left undocumented on purpose: **`dim_customer`**. Documenting it i
 
 3. Use **AI generate** on the columns to draft column comments as well, and accept them. `dim_customer` is now documented like the rest of the schema.
 
-4. Add a **tag** to the table — for example a key/value like `domain: sales` or `certified: true`. Tags make assets easy to filter and group across the whole catalog.
-
 <div style="text-align:left;">
   <img src="./artifacts/screenshots/Lab1_AI_Description.png" width="100%">
 </div>
 
-> [!NOTE]
-> Descriptions and tags are **governance metadata** — they travel with the table for everyone who has access, and they directly improve the quality of Genie's answers. A well-documented `gold` schema is what makes self-service analytics work.
+4. Add the table to the **Sunny Bay Sales** domain: next to **Tags**, click **Add tags**, choose the governed tag **`sunnybay_sales`** (no value needed), and save. A *governed* tag is defined centrally, so everyone uses the same key instead of inventing their own.
 
-**Step 7: Ask a Question of Your Data**
+5. Certify the table: click the kebab menu (**⋮**) in the upper-right corner, select **Assign certification**, choose **Certified**, and click **Save**. Certified assets show a check mark and are preferred in search and by Genie.
+
+6. Create a wiki: on the **Overview** tab, click **Create wiki** (or use the kebab menu if you dismissed the banner). Open the **Genie Code** pane in the wiki editor and ask:
+
+   > *"Draft a wiki for this table: what one row represents, its key columns, and how to join it to fact_coffee_sales."*
+
+   Review the draft, edit it if needed, and click **Publish**.
+
+> [!NOTE]
+> Descriptions, tags, certification, and wikis are **governance metadata** — they travel with the table for everyone who has access, and they directly improve the quality of Genie's answers. The **description** is the short summary; the **wiki** holds the longer, table-specific documentation. Learn more about [wikis](https://docs.databricks.com/aws/en/uc-semantics/wikis) and [certification](https://docs.databricks.com/aws/en/data-governance/unity-catalog/certify-deprecate-data).
+
+**Step 7: Find Data by Business Domain in Discover**
+
+Browsing catalogs and schemas works when you already know where data lives. Business users usually think in business areas instead, such as *Sales*. **Domains** group certified data, dashboards, and business definitions by business area, and **Pages** document the terms everybody should use the same way.
+
+1. In the left sidebar, click **Discover**.
+
+2. On the Discover start page, under **Browse by domain**, click **Sunny Bay Sales**. It was created during setup from the governed tag `sunnybay_sales`. The **General** domain next to it is Databricks' default space for content that doesn't belong to a specific domain, so it stays empty here.
+
+3. Browse the domain's sections: **Pages**, **Dashboards** (the *[Final] Sunny Bay Roastery - Sales Report*), **Metric views** (`sm_fact_coffee_sales_genie`), and **Tables** (the certified gold tables). `dim_customer` joins them because you tagged it in Step 6 (new tags can take a few minutes to show up).
+
+4. Under **Pages**, open **Net Profit** and read the agreed formula, its synonyms, and the related metric view. Then have a look at **Basket Size** and **Online vs In-Store Sales**.
+
+> [!NOTE]
+> Pages are the authoritative source for business definitions. Genie uses published Pages when it answers questions in Genie One, so a definition written once is reused in every conversation. Learn more about [domains](https://docs.databricks.com/aws/en/uc-semantics/domains), [Pages](https://docs.databricks.com/aws/en/uc-semantics/pages), and the [Discover page](https://docs.databricks.com/aws/en/discover/discover-page).
+
+**💡 What just happened?**
+
+You found trusted data by business area, without knowing a single catalog or schema name, and read the definitions behind the numbers. This is how business users find the right data on their own.
+
+**Step 8: Ask a Question of Your Data**
 
 You have explored the data — now use it. There are two fast, code-optional ways to answer a question.
 
@@ -206,7 +240,7 @@ You have explored the data — now use it. There are two fast, code-optional way
 
 You went from *browsing* data to *answering a business question* — with either a one-click preview or a plain-language prompt. This is the everyday analyst loop you will use in Labs 2–4.
 
-**Step 8: (Optional Add-On) Shape Data Visually with Visual Data Prep**
+**Step 9: (Optional Add-On) Shape Data Visually with Visual Data Prep**
 
 So far you have *read* the gold data. In this optional add-on you will do a little **data engineering yourself — visually, with no code** — using **Visual Data Prep**, where you describe what you want and Genie builds the transformation flow for you.
 
@@ -236,7 +270,8 @@ You have toured the workspace and, more importantly, learned to **trust and use*
 - Navigated **Unity Catalog** and the `gold` star schema
 - Previewed data, read column descriptions, and inspected table details
 - Traced **lineage** upstream to the raw files and downstream to metric views, dashboards, and Genie
-- Documented `dim_customer` with **AI-generated descriptions** and **tags**
+- Documented `dim_customer` with **AI-generated descriptions**, the domain tag, **certification**, and a **wiki**
+- Found certified data and business definitions in the **Sunny Bay Sales** domain in **Discover**
 - Answered a business question with the Sample Data preview and with **Genie Code**
 - *(Optional)* Built a dataset visually with **Visual Data Prep**
 
