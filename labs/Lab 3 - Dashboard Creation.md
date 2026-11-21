@@ -8,7 +8,7 @@ By the end of this lab, you will be able to:
 - Build interactive AI/BI dashboards with charts, filters, drill-downs, and summary tiles.
 - Leverage Genie Code to create visuals from natural-language prompts, including a fully custom Vega-Lite visualization.
 - Configure page-level and global filters (date, store, product) to enable rich interactivity.
-- Add a forecast page with Genie Code and the `ai_forecast` function to look ahead.
+- *(Optional add-on)* Add a forecast page with Genie Code and the `ai_forecast` function to look ahead.
 - Ask Genie questions directly on a published dashboard, certify it, and share it with business consumers.
 
 Your final dashboard should look like this:
@@ -35,7 +35,7 @@ Before you start, please verify:
 > [!TIP]
 > This lab is organized into four parts. First you **build** the visuals so you see results quickly, then you **make them interactive** with filters and drill-through, then you **share and consume** the report, and finally there are optional **add-on** tasks for anyone who finishes early.
 > - **Part A – Build the Dashboard (Visuals First)**
-> - **Part B – Make It Interactive (Filters, Headers, Drill-Through, Forecast)**
+> - **Part B – Make It Interactive (Filters, Headers, Drill-Through)**
 > - **Part C – Share, Consume & Ask**
 > - **Part D – Add-On Tasks (Optional)**
 
@@ -199,7 +199,7 @@ Pivot tables allow you to explore your data across multiple dimensions simultane
 
 10. Your pivot table should now show net revenue broken down by store (rows) and product category/subcategory (columns)
 
-### 🎛️ Part B – Make It Interactive (Filters, Headers, Drill-Through, Forecast)
+### 🎛️ Part B – Make It Interactive (Filters, Headers, Drill-Through)
 
 Now that the visuals exist, let's structure the page and make it interactive.
 
@@ -306,52 +306,9 @@ In this step, you will add page-level filters for store and product to enable in
 
 13. Reset the filter by clicking `Reset all to default`
 
-**Step 12: Add a Forecast Page with Genie Code**
-
-Dashboards can also look ahead. The `ai_forecast` function predicts future values from your history directly in SQL, so you need no data science project for a first forecast. Genie Code writes the query for you.
-
-1. Add a new page next to `Sales Report` and `Market Report`, and name it `Forecast`
-
-2. Click the `Add a visualization` icon and ask **Genie Code**:
-
-   > *"Create a forecast line chart of monthly total net revenue for the last 36 full months, plus a 6-month forecast with upper and lower bounds using ai_forecast."*
-
-3. Review the result: Genie Code creates a new dataset that calls `ai_forecast` and a line chart where the forecast continues the history, with a band between the upper and lower bound. Press "Accept" when you are satisfied, or "Reject" and refine the prompt.
-
-4. Rename the title to `Net Revenue per Month [$] with 6-Month Forecast`
-
-> [!TIP]
-> If Genie Code doesn't produce a forecast, create the dataset yourself: open the **Data** tab, click **Create from SQL**, paste the query below, and name it `Net Revenue Forecast`. Then add a **Line** visualization with `month` on the X axis and `net_revenue`, `net_revenue_forecast`, `net_revenue_lower`, and `net_revenue_upper` on the Y axis. If you changed the catalog or set a prefix in Lab 0, adjust the table name.
->
-> ```sql
-> WITH actuals AS (
->   SELECT CAST(DATE_TRUNC('MONTH', `date`) AS DATE) AS month,
->          MEASURE(total_net_revenue_usd) AS net_revenue
->   FROM sunny_bay_roastery.gold.sm_fact_coffee_sales_genie
->   WHERE `date` >= ADD_MONTHS(DATE_TRUNC('MONTH', current_date()), -36)
->     AND `date` < DATE_TRUNC('MONTH', current_date())
->   GROUP BY ALL
-> )
-> SELECT month, net_revenue, NULL AS net_revenue_forecast, NULL AS net_revenue_lower, NULL AS net_revenue_upper
-> FROM actuals
-> UNION ALL
-> SELECT month, NULL, net_revenue_forecast, net_revenue_lower, net_revenue_upper
-> FROM AI_FORECAST(
->   TABLE(actuals),
->   horizon => ADD_MONTHS(DATE_TRUNC('MONTH', current_date()), 6),
->   time_col => 'month',
->   value_col => 'net_revenue',
->   version => '2'
-> )
-> ORDER BY month
-> ```
-
-> [!NOTE]
-> The forecast comes from a time-series foundation model, so treat it as a starting point for planning, not as a commitment. The current month is left out of the history because it isn't complete yet. Learn more about [`ai_forecast`](https://docs.databricks.com/aws/en/sql/language-manual/functions/ai_forecast).
-
 ### 🚀 Part C – Share, Consume & Ask
 
-**Step 13: Publish, Certify, and View the Report**
+**Step 12: Publish, Certify, and View the Report**
 
 1. Congratulations, the report is ready! Click the **`Publish`** button (top-right) to publish your dashboard.
 
@@ -365,7 +322,7 @@ Dashboards can also look ahead. The `ai_forecast` function predicts future value
 
 4. Certify the dashboard: click the kebab menu (**⋮**), select **Assign certification**, choose **Certified**, and click **Save**. Certified dashboards show a check mark in the workspace and in Genie One, so consumers know which report to trust. Learn more about [certification](https://docs.databricks.com/aws/en/data-governance/unity-catalog/certify-deprecate-data).
 
-**Step 14: Ask Genie on the Dashboard**
+**Step 13: Ask Genie on the Dashboard**
 
 Published AI/BI Dashboards include an **Ask Genie** entry point, so consumers can ask ad-hoc questions in natural language against the same governed data — no new visual required.
 
@@ -380,7 +337,7 @@ Published AI/BI Dashboards include an **Ask Genie** entry point, so consumers ca
 > [!NOTE]
 > Ask Genie must be enabled in your workspace and is not available to external (unauthenticated) embedding viewers. This is your bridge into **Lab 4 (BI Meets AI)**, where you build a dedicated Genie Agent on top of the same semantics.
 
-**Step 15: View the Report as a Consumer in Genie One**
+**Step 14: View the Report as a Consumer in Genie One**
 
 1. Open **Genie One** (formerly Databricks One) by clicking the **app switcher** icon in the upper-right corner and selecting **Genie One**, or by adding `/one` to your workspace URL
 
@@ -410,7 +367,52 @@ This is where Vega-Lite shines — it can *layer* marks that the built-in charts
 
 4. Rename the title to `Net Revenue by Basket Size [$]`
 
+**Add-On 2: Add a Forecast Page with Genie Code**
 
+Dashboards can also look ahead. The `ai_forecast` function predicts future values from your history directly in SQL, so you need no data science project for a first forecast. Genie Code writes the query for you.
+
+1. Add a new page next to `Sales Report` and `Market Report`, and name it `Forecast`
+
+2. Click the `Add a visualization` icon and ask **Genie Code**:
+
+   > *"Create a forecast line chart of monthly total net revenue for the last 36 full months, plus a 6-month forecast with upper and lower bounds using ai_forecast."*
+
+3. Review the result: Genie Code creates a new dataset that calls `ai_forecast` and a line chart where the forecast continues the history, with a band between the upper and lower bound. Press "Accept" when you are satisfied, or "Reject" and refine the prompt.
+
+4. Rename the title to `Net Revenue per Month [$] with 6-Month Forecast`
+
+> [!TIP]
+> If Genie Code doesn't produce a forecast, create the dataset yourself: open the **Data** tab, click **Create from SQL**, paste the query below, and name it `Net Revenue Forecast`. Then add a **Line** visualization with `month` on the X axis and `net_revenue`, `net_revenue_forecast`, `net_revenue_lower`, and `net_revenue_upper` on the Y axis. If you changed the catalog or set a prefix in Lab 0, adjust the table name.
+>
+> ```sql
+> WITH actuals AS (
+>   SELECT CAST(DATE_TRUNC('MONTH', `date`) AS DATE) AS month,
+>          CAST(MEASURE(total_net_revenue_usd) AS DOUBLE) AS net_revenue
+>   FROM sunny_bay_roastery.gold.sm_fact_coffee_sales_genie
+>   WHERE `date` >= ADD_MONTHS(DATE_TRUNC('MONTH', current_date()), -36)
+>     AND `date` < DATE_TRUNC('MONTH', current_date())
+>   GROUP BY ALL
+> )
+> -- The last actual month also starts the forecast, so both lines connect.
+> SELECT month, net_revenue,
+>        CASE WHEN month = (SELECT MAX(month) FROM actuals) THEN net_revenue END AS net_revenue_forecast,
+>        CASE WHEN month = (SELECT MAX(month) FROM actuals) THEN net_revenue END AS net_revenue_lower,
+>        CASE WHEN month = (SELECT MAX(month) FROM actuals) THEN net_revenue END AS net_revenue_upper
+> FROM actuals
+> UNION ALL
+> SELECT month, NULL, net_revenue_forecast, net_revenue_lower, net_revenue_upper
+> FROM AI_FORECAST(
+>   TABLE(actuals),
+>   horizon => ADD_MONTHS(DATE_TRUNC('MONTH', current_date()), 6),
+>   time_col => 'month',
+>   value_col => 'net_revenue',
+>   version => '2'
+> )
+> ORDER BY month
+> ```
+
+> [!NOTE]
+> The forecast comes from a time-series foundation model, so treat it as a starting point for planning, not as a commitment. The current month is left out of the history because it isn't complete yet. Learn more about [`ai_forecast`](https://docs.databricks.com/aws/en/sql/language-manual/functions/ai_forecast).
 
 ## What Happens Next?
 
@@ -419,7 +421,7 @@ Business users can:
 
 - Filter by store and product to answer ad-hoc questions.
 - Use cross-filtering and drill-through for deeper analysis.
-- Look ahead with an AI forecast of net revenue.
+- Look ahead with an AI forecast of net revenue *(if you did Add-On 2)*.
 - Recognize the certified dashboard as the report to trust.
 - Ask Genie natural-language questions directly on the dashboard.
 - Access the report in the Databricks Genie One UI as dashboard consumers.

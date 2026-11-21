@@ -13,7 +13,7 @@
       "queryLines": [
         "WITH actuals AS ( ",
         "  SELECT CAST(DATE_TRUNC('MONTH', `date`) AS DATE) AS month, ",
-        "         MEASURE(total_net_revenue_usd) AS net_revenue ",
+        "         CAST(MEASURE(total_net_revenue_usd) AS DOUBLE) AS net_revenue ",
         "  FROM __CATALOG__.__GOLD_SCHEMA__.__PREFIX__sm_fact_coffee_sales_genie ",
         "  WHERE `date` >= ADD_MONTHS(DATE_TRUNC('MONTH', current_date()), -36) ",
         "    AND `date` < DATE_TRUNC('MONTH', current_date()) ",
@@ -28,15 +28,15 @@
         "    value_col => 'net_revenue', ",
         "    version => '2' ",
         "  ) ",
-        "), ",
-        "bridge AS ( ",
-        "  SELECT month, net_revenue AS net_revenue_forecast, net_revenue AS net_revenue_upper, net_revenue AS net_revenue_lower ",
-        "  FROM actuals ",
-        "  WHERE month = (SELECT MAX(month) FROM actuals) ",
         ") ",
-        "SELECT month, CAST(net_revenue AS DOUBLE) AS net_revenue, CAST(NULL AS DOUBLE) AS net_revenue_forecast, CAST(NULL AS DOUBLE) AS net_revenue_upper, CAST(NULL AS DOUBLE) AS net_revenue_lower FROM actuals ",
-        "UNION ALL SELECT month, CAST(NULL AS DOUBLE), CAST(net_revenue_forecast AS DOUBLE), CAST(net_revenue_upper AS DOUBLE), CAST(net_revenue_lower AS DOUBLE) FROM bridge ",
-        "UNION ALL SELECT month, CAST(NULL AS DOUBLE), net_revenue_forecast, net_revenue_upper, net_revenue_lower FROM forecast ",
+        "SELECT month, net_revenue, ",
+        "       CASE WHEN month = (SELECT MAX(month) FROM actuals) THEN net_revenue END AS net_revenue_forecast, ",
+        "       CASE WHEN month = (SELECT MAX(month) FROM actuals) THEN net_revenue END AS net_revenue_upper, ",
+        "       CASE WHEN month = (SELECT MAX(month) FROM actuals) THEN net_revenue END AS net_revenue_lower ",
+        "FROM actuals ",
+        "UNION ALL ",
+        "SELECT month, CAST(NULL AS DOUBLE), net_revenue_forecast, net_revenue_upper, net_revenue_lower ",
+        "FROM forecast ",
         "ORDER BY month"
       ],
       "catalog": "sunny_bay_roastery",
@@ -82,9 +82,6 @@
                     "dataType": "DATE",
                     "min": {
                       "value": "2013-01-01T00:00:00.000"
-                    },
-                    "max": {
-                      "value": "now/M"
                     }
                   }
                 }
@@ -1276,10 +1273,12 @@
                     "displayName": "Forecast"
                   },
                   "predictionUpper": {
-                    "fieldName": "net_revenue_upper"
+                    "fieldName": "net_revenue_upper",
+                    "displayName": "Upper bound"
                   },
                   "predictionLower": {
-                    "fieldName": "net_revenue_lower"
+                    "fieldName": "net_revenue_lower",
+                    "displayName": "Lower bound"
                   }
                 }
               },
