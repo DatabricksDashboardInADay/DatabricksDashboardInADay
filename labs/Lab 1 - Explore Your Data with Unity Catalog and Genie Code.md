@@ -211,11 +211,11 @@ Browsing catalogs and schemas works when you already know where data lives. Busi
 
 1. In the left sidebar, click **Discover**.
 
-2. Open the **Sunny Bay Sales** domain. It was created during setup from the governed tag `sunnybay_sales`.
+2. On the Discover start page, under **Browse by domain**, click **Sunny Bay Sales**. It was created during setup from the governed tag `sunnybay_sales`. The **General** domain next to it is Databricks' default space for content that doesn't belong to a specific domain, so it stays empty here.
 
-3. Browse its assets: the certified gold tables, the metric view `sm_fact_coffee_sales_genie`, and the *[Final] Sunny Bay Roastery - Sales Report* dashboard. `dim_customer` joins them because you tagged it in Step 6 (new tags can take a few minutes to show up).
+3. Browse the domain's sections: **Pages**, **Dashboards** (the *[Final] Sunny Bay Roastery - Sales Report*), **Metric views** (`sm_fact_coffee_sales_genie`), and **Tables** (the certified gold tables). `dim_customer` joins them because you tagged it in Step 6 (new tags can take a few minutes to show up).
 
-4. Open the domain's **Pages** and read **Net Profit**: the agreed formula, its synonyms, and the related metric view. Then have a look at **Basket Size** and **Online vs In-Store Sales**.
+4. Under **Pages**, open **Net Profit** and read the agreed formula, its synonyms, and the related metric view. Then have a look at **Basket Size** and **Online vs In-Store Sales**.
 
 > [!NOTE]
 > Pages are the authoritative source for business definitions. Genie uses published Pages when it answers questions in Genie One, so a definition written once is reused in every conversation. Learn more about [domains](https://docs.databricks.com/aws/en/uc-semantics/domains), [Pages](https://docs.databricks.com/aws/en/uc-semantics/pages), and the [Discover page](https://docs.databricks.com/aws/en/discover/discover-page).
