@@ -31,6 +31,9 @@ Before you start, please verify:
 > [!NOTE]
 > A ready-made **"Sunny Bay Sales Genie (Fallback)"** agent was deployed automatically during the Lab 0 setup. It already has the metric view, instructions, and the trusted query you will build below. If you run short on time or get stuck, open that agent from the Genie Agents list and use it — but we strongly encourage you to build your own first to learn how each piece fits together.
 
+> [!TIP]
+> When you create a new agent, **Genie Code** opens and can set the agent up for you: it reads your data and suggests descriptions, instructions, and example queries ([guided setup](https://docs.databricks.com/aws/en/genie-agents/set-up#set-up-an-agent-with-genie-code)). In this workshop we build the agent by hand, so you understand what each piece does and how it improves Genie's answers. In your own projects, the guided setup is a quick way to get a first version.
+
 **Step 1: Create the "Sunny Bay Sales Genie" Agent**
 
 1. In the Databricks workspace sidebar, click **Genie Agents** (under the **Analytics** section).  

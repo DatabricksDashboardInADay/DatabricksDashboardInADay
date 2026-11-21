@@ -172,6 +172,20 @@ def add_holiday_features(
 2025-09-01,Labor Day
 2025-11-27,Thanksgiving
 2025-12-25,Christmas
+2026-01-01,New Year’s Day
+2026-04-05,Easter
+2026-05-25,Memorial Day
+2026-07-04,Fourth of July
+2026-09-07,Labor Day
+2026-11-26,Thanksgiving
+2026-12-25,Christmas
+2027-01-01,New Year’s Day
+2027-03-28,Easter
+2027-05-31,Memorial Day
+2027-07-04,Fourth of July
+2027-09-06,Labor Day
+2027-11-25,Thanksgiving
+2027-12-25,Christmas
 """
     lines = holidays_csv.strip().splitlines()[1:]
     holidays_data = [tuple(line.split(",", 1)) for line in lines]
