@@ -6,6 +6,41 @@
       "asset_name": "__CATALOG__.__GOLD_SCHEMA__.__PREFIX__sm_fact_coffee_sales_genie",
       "catalog": "sunny_bay_roastery",
       "schema": "gold"
+    },
+    {
+      "name": "forecast_net_revenue",
+      "displayName": "Net Revenue Forecast",
+      "queryLines": [
+        "WITH actuals AS ( ",
+        "  SELECT CAST(DATE_TRUNC('MONTH', `date`) AS DATE) AS month, ",
+        "         CAST(MEASURE(total_net_revenue_usd) AS DOUBLE) AS net_revenue ",
+        "  FROM __CATALOG__.__GOLD_SCHEMA__.__PREFIX__sm_fact_coffee_sales_genie ",
+        "  WHERE `date` >= ADD_MONTHS(DATE_TRUNC('MONTH', current_date()), -36) ",
+        "    AND `date` < DATE_TRUNC('MONTH', current_date()) ",
+        "  GROUP BY ALL ",
+        "), ",
+        "forecast AS ( ",
+        "  SELECT month, net_revenue_forecast, net_revenue_upper, net_revenue_lower ",
+        "  FROM AI_FORECAST( ",
+        "    TABLE(actuals), ",
+        "    horizon => ADD_MONTHS(DATE_TRUNC('MONTH', current_date()), 6), ",
+        "    time_col => 'month', ",
+        "    value_col => 'net_revenue', ",
+        "    version => '2' ",
+        "  ) ",
+        ") ",
+        "SELECT month, net_revenue, ",
+        "       CASE WHEN month = (SELECT MAX(month) FROM actuals) THEN net_revenue END AS net_revenue_forecast, ",
+        "       CASE WHEN month = (SELECT MAX(month) FROM actuals) THEN net_revenue END AS net_revenue_upper, ",
+        "       CASE WHEN month = (SELECT MAX(month) FROM actuals) THEN net_revenue END AS net_revenue_lower ",
+        "FROM actuals ",
+        "UNION ALL ",
+        "SELECT month, CAST(NULL AS DOUBLE), net_revenue_forecast, net_revenue_upper, net_revenue_lower ",
+        "FROM forecast ",
+        "ORDER BY month"
+      ],
+      "catalog": "sunny_bay_roastery",
+      "schema": "gold"
     }
   ],
   "pages": [
@@ -47,9 +82,6 @@
                     "dataType": "DATE",
                     "min": {
                       "value": "2013-01-01T00:00:00.000"
-                    },
-                    "max": {
-                      "value": "2025-12-31T00:00:00.000"
                     }
                   }
                 }
@@ -1139,6 +1171,128 @@
             "y": 2,
             "width": 4,
             "height": 1
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    },
+    {
+      "name": "forecast",
+      "displayName": "Forecast",
+      "layout": [
+        {
+          "widget": {
+            "name": "forecast-title",
+            "multilineTextboxSpec": {
+              "lines": [
+                "# Sunny Bay Net Revenue Forecast\n",
+                "\n",
+                "*The last 36 full months of net revenue and an AI forecast for the next 6 months, with an upper and lower bound. Built with `ai_forecast` on the governed metric view.*"
+              ]
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 10,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "forecast-logo",
+            "multilineTextboxSpec": {
+              "lines": [
+                "![](https://raw.githubusercontent.com/DatabricksDashboardInADay/DatabricksDashboardInADay/main/docs/assets/sunny_bay_roastery_logo.png)"
+              ]
+            }
+          },
+          "position": {
+            "x": 10,
+            "y": 0,
+            "width": 2,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "net-revenue-forecast",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "forecast_net_revenue",
+                  "fields": [
+                    {
+                      "name": "month",
+                      "expression": "`month`"
+                    },
+                    {
+                      "name": "net_revenue",
+                      "expression": "`net_revenue`"
+                    },
+                    {
+                      "name": "net_revenue_forecast",
+                      "expression": "`net_revenue_forecast`"
+                    },
+                    {
+                      "name": "net_revenue_upper",
+                      "expression": "`net_revenue_upper`"
+                    },
+                    {
+                      "name": "net_revenue_lower",
+                      "expression": "`net_revenue_lower`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 1,
+              "widgetType": "forecast-line",
+              "encodings": {
+                "x": {
+                  "fieldName": "month",
+                  "scale": {
+                    "type": "temporal"
+                  },
+                  "displayName": "Month"
+                },
+                "y": {
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "original": {
+                    "fieldName": "net_revenue",
+                    "displayName": "Net Revenue"
+                  },
+                  "prediction": {
+                    "fieldName": "net_revenue_forecast",
+                    "displayName": "Forecast"
+                  },
+                  "predictionUpper": {
+                    "fieldName": "net_revenue_upper",
+                    "displayName": "Upper bound"
+                  },
+                  "predictionLower": {
+                    "fieldName": "net_revenue_lower",
+                    "displayName": "Lower bound"
+                  }
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Net Revenue per Month [$] with 6-Month Forecast"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 3,
+            "width": 12,
+            "height": 8
           }
         }
       ],

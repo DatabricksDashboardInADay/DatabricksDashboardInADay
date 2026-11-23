@@ -1,4 +1,6 @@
-# A sample job for dab_personal_finance.
+# Setup job for the Sunny Bay Roastery workshop: generates the data, runs the
+# medallion pipeline, then deploys metadata, the metric view, the business
+# context (domain, Pages, wikis, certification) and the fallback Genie Agent.
 
 resources:
   jobs:
@@ -16,6 +18,11 @@ resources:
           default: ${var.prefix}
         - name: warehouse_id
           default: ${var.warehouse_id}
+        # Last day of generated sales data (YYYY-MM-DD). Empty = the run date.
+        - name: end_date
+          default: ""
+        - name: final_dashboard_id
+          default: ${resources.dashboards.sunny_bay_roastery_dashboard_final.id}
 
       name: "Sunny Bay Roastery Job"
       tasks:
@@ -27,6 +34,10 @@ resources:
             - task_key: generate_data
           pipeline_task:
             pipeline_id: ${resources.pipelines.sunny_bay_roastery_pipeline.id}
+            # Rebuild from the freshly generated files on every run. The silver
+            # tables stream from the bronze folders, so an incremental update
+            # on a later day would append the regenerated rows a second time.
+            full_refresh: true
         - task_key: deploy_metadata
           depends_on:
             - task_key: run_pipeline
@@ -37,6 +48,12 @@ resources:
             - task_key: run_pipeline
           notebook_task:
             notebook_path: ../src/notebooks/deploy_metric_view.ipynb
+        - task_key: deploy_business_context
+          depends_on:
+            - task_key: deploy_metadata
+            - task_key: deploy_metric_view
+          notebook_task:
+            notebook_path: ../src/notebooks/deploy_business_context.ipynb
         - task_key: deploy_genie_space
           depends_on:
             - task_key: deploy_metric_view
