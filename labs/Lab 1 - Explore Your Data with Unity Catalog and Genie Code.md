@@ -7,7 +7,7 @@ By the end of this lab, you will:
 - Understand **Unity Catalog** and the three-level namespace (`catalog.schema.table`) that organises every asset
 - Explore the **Sunny Bay Roastery** gold data — browse tables, preview sample rows, and read column descriptions
 - Trace **data lineage** to see *where the gold data came from and how it was processed* — without opening a single pipeline
-- Use **AI-generated descriptions**, a governed **domain tag**, **certification**, and a **wiki** to document and classify data
+- Use **AI-generated descriptions**, a governed **domain tag**, and **certification** to document and classify data
 - Find certified data and agreed business definitions by **domain** in **Discover**
 - Ask a question of your data in **plain language**
 - *(Optional add-on)* Shape data visually with **Visual Data Prep** — basic data engineering, no code required
@@ -36,13 +36,6 @@ In **Lab 0** you ran one notebook that set everything up: it generated the sales
 > The golden rule of this workshop: **whenever you are unsure about anything — a button, a term, a query — ask Genie Code.** You will meet it in Step 2, and it stays one click away for the rest of the day.
 
 ## Instructions
-
-Before you start, please verify:
-- You have completed **Lab 0** and its setup job shows **Succeeded** — this means the `sunny_bay_roastery` catalog and its `gold` tables exist.
-- You are signed in to your Databricks workspace (Free Edition is fine).
-
-> [!NOTE]
-> This lab uses the default catalog name `sunny_bay_roastery`. If you set a different catalog or a `prefix` in Lab 0, substitute it wherever you see `sunny_bay_roastery` or a table name below.
 
 **Step 1: Get Your Bearings in the Workspace**
 
@@ -134,16 +127,11 @@ Let's get to know `fact_coffee_sales` — the table every dashboard and Genie an
   <img src="./artifacts/screenshots/Lab1_Table_SampleData.png" width="100%">
 </div>
 
-4. Open the **Details** tab. Note that this is a **managed** gold table, and see its owner and the schema it belongs to.
+4. Switch back to the **Overview** tab and read the **column descriptions** (comments) shown next to each column. Good descriptions are what let both people *and* Genie Code understand the data correctly — the `gold` tables were documented for you during setup.
 
-5. Switch back to the **Overview** tab and read the **column descriptions** (comments) shown next to each column. Good descriptions are what let both people *and* Genie Code understand the data correctly — the `gold` tables were documented for you during setup.
+5. Still on the **Overview** tab, read the table's **wiki**. The description is a one-line summary; the wiki is the longer documentation for people: what one row means, how the keys join, and what to watch out for (for example the COVID-19 dip between 2020 and 2023).
 
-6. Still on the **Overview** tab, read the table's **wiki**. The description is a one-line summary; the wiki is the longer documentation for people: what one row means, how the keys join, and what to watch out for (for example the COVID-19 dip between 2020 and 2023).
-
-7. Notice the **Certified** mark next to the table name and the tag **`sunnybay_sales`**. Both were set during setup: the table is approved for reporting, and it belongs to the *Sunny Bay Sales* domain you will explore in Step 7.
-
-> [!TIP]
-> Not sure what a column like `date_key` means? Highlight it and **ask Genie Code** — it reads the same Unity Catalog metadata you are looking at.
+6. Notice the **Certified** mark next to the table name and the tag **`sunnybay_sales`**. Both were set during setup: the table is approved for reporting, and it belongs to the *Sunny Bay Sales* domain you will explore in Step 7.
 
 **💡 What just happened?**
 
@@ -155,11 +143,7 @@ Before you build a report on a number, you want to know *how it was produced*. *
 
 1. With `fact_coffee_sales` open, click the **Lineage** tab, then open the **lineage graph** (**See lineage graph**).
 
-2. Follow the flow **upstream** (to the left). You will see the data's journey through the medallion layers:
-
-   `raw files (Volume)` → `silver.fact_coffee_sales` → `gold.fact_coffee_sales` (joined with the `dim_*` tables)
-
-   This is the *same* processing the Lab 0 pipeline performed — but you are reading it as a diagram, not as pipeline code.
+2. Follow the flow **upstream** (to the left). You will see the data's journey through the medallion layers.
 
 3. Now follow the flow **downstream** (to the right). The gold table's consumers appear under **Assets that read data**. That is everything built on top of it — the **metric view** (`sm_fact_coffee_sales_genie`) from Lab 2, the **AI/BI dashboards** from Lab 3, and the **Sales Genie** from Lab 4.
 
@@ -196,12 +180,6 @@ One table was left undocumented on purpose: **`dim_customer`**. Documenting it i
 
 5. Certify the table: click the kebab menu (**⋮**) in the upper-right corner, select **Assign certification**, choose **Certified**, and click **Save**. Certified assets show a check mark and are preferred in search and by Genie.
 
-6. Create a wiki: on the **Overview** tab, click **Create wiki** (or use the kebab menu if you dismissed the banner). Open the **Genie Code** pane in the wiki editor and ask:
-
-   > *"Draft a wiki for this table: what one row represents, its key columns, and how to join it to fact_coffee_sales."*
-
-   Review the draft, edit it if needed, and click **Publish**.
-
 > [!NOTE]
 > Descriptions, tags, certification, and wikis are **governance metadata** — they travel with the table for everyone who has access, and they directly improve the quality of Genie's answers. The **description** is the short summary; the **wiki** holds the longer, table-specific documentation. Learn more about [wikis](https://docs.databricks.com/aws/en/uc-semantics/wikis) and [certification](https://docs.databricks.com/aws/en/data-governance/unity-catalog/certify-deprecate-data).
 
@@ -213,9 +191,7 @@ Browsing catalogs and schemas works when you already know where data lives. Busi
 
 2. On the Discover start page, under **Browse by domain**, click **Sunny Bay Sales**. It was created during setup from the governed tag `sunnybay_sales`. The **General** domain next to it is Databricks' default space for content that doesn't belong to a specific domain, so it stays empty here.
 
-3. Browse the domain's sections: **Pages**, **Dashboards** (the *[Final] Sunny Bay Roastery - Sales Report*), **Metric views** (`sm_fact_coffee_sales_genie`), and **Tables** (the certified gold tables). `dim_customer` joins them because you tagged it in Step 6 (new tags can take a few minutes to show up).
-
-4. Under **Pages**, open **Net Profit** and read the agreed formula, its synonyms, and the related metric view. Then have a look at **Basket Size** and **Online vs In-Store Sales**.
+3. Under **Pages**, open **Net Profit** and read the agreed formula, its synonyms, and the related metric view. Then have a look at **Basket Size** and **Online vs In-Store Sales**.
 
 > [!NOTE]
 > Pages are the authoritative source for business definitions. Genie uses published Pages when it answers questions in Genie One, so a definition written once is reused in every conversation. Learn more about [domains](https://docs.databricks.com/aws/en/uc-semantics/domains), [Pages](https://docs.databricks.com/aws/en/uc-semantics/pages), and the [Discover page](https://docs.databricks.com/aws/en/discover/discover-page).
@@ -268,9 +244,9 @@ You built a new, reusable dataset from the gold data **without writing code** �
 You have toured the workspace and, more importantly, learned to **trust and use** the Sunny Bay data:
 
 - Navigated **Unity Catalog** and the `gold` star schema
-- Previewed data, read column descriptions, and inspected table details
+- Previewed data and read column descriptions and the table wiki
 - Traced **lineage** upstream to the raw files and downstream to metric views, dashboards, and Genie
-- Documented `dim_customer` with **AI-generated descriptions**, the domain tag, **certification**, and a **wiki**
+- Documented `dim_customer` with **AI-generated descriptions**, the domain tag, and **certification**
 - Found certified data and business definitions in the **Sunny Bay Sales** domain in **Discover**
 - Answered a business question with the Sample Data preview and with **Genie Code**
 - *(Optional)* Built a dataset visually with **Visual Data Prep**
