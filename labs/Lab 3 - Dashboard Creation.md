@@ -381,36 +381,6 @@ Dashboards can also look ahead. The `ai_forecast` function predicts future value
 
 4. Rename the title to `Net Revenue per Month [$] with 6-Month Forecast`
 
-> [!TIP]
-> If Genie Code doesn't produce a forecast, create the dataset yourself: open the **Data** tab, click **Create from SQL**, paste the query below, and name it `Net Revenue Forecast`. Then add a **Line** visualization with `month` on the X axis and `net_revenue`, `net_revenue_forecast`, `net_revenue_lower`, and `net_revenue_upper` on the Y axis. If you changed the catalog or set a prefix in Lab 0, adjust the table name.
->
-> ```sql
-> WITH actuals AS (
->   SELECT CAST(DATE_TRUNC('MONTH', `date`) AS DATE) AS month,
->          CAST(MEASURE(total_net_revenue_usd) AS DOUBLE) AS net_revenue
->   FROM sunny_bay_roastery.gold.sm_fact_coffee_sales_genie
->   WHERE `date` >= ADD_MONTHS(DATE_TRUNC('MONTH', current_date()), -36)
->     AND `date` < DATE_TRUNC('MONTH', current_date())
->   GROUP BY ALL
-> )
-> -- The last actual month also starts the forecast, so both lines connect.
-> SELECT month, net_revenue,
->        CASE WHEN month = (SELECT MAX(month) FROM actuals) THEN net_revenue END AS net_revenue_forecast,
->        CASE WHEN month = (SELECT MAX(month) FROM actuals) THEN net_revenue END AS net_revenue_lower,
->        CASE WHEN month = (SELECT MAX(month) FROM actuals) THEN net_revenue END AS net_revenue_upper
-> FROM actuals
-> UNION ALL
-> SELECT month, NULL, net_revenue_forecast, net_revenue_lower, net_revenue_upper
-> FROM AI_FORECAST(
->   TABLE(actuals),
->   horizon => ADD_MONTHS(DATE_TRUNC('MONTH', current_date()), 6),
->   time_col => 'month',
->   value_col => 'net_revenue',
->   version => '2'
-> )
-> ORDER BY month
-> ```
-
 > [!NOTE]
 > The forecast comes from a time-series foundation model, so treat it as a starting point for planning, not as a commitment. The current month is left out of the history because it isn't complete yet. Learn more about [`ai_forecast`](https://docs.databricks.com/aws/en/sql/language-manual/functions/ai_forecast).
 
