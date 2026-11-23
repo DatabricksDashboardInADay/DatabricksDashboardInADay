@@ -67,10 +67,6 @@ You now know the places you will return to all day. Everything in the workshop i
 
    > *"What is the medallion architecture, and where is the Sunny Bay Roastery gold data?"*
 
-3. Read the answer, then try a workshop-specific one:
-
-   > *"What columns are in the sunny_bay_roastery.gold.fact_coffee_sales table?"*
-
 <div style="text-align:left;">
   <img src="./artifacts/screenshots/Lab1_GenieCode_Panel.png" width="100%">
 </div>
@@ -151,9 +147,6 @@ Before you build a report on a number, you want to know *how it was produced*. *
   <img src="./artifacts/screenshots/Lab1_Lineage_Graph.png" width="100%">
 </div>
 
-> [!NOTE]
-> Lineage is **execution-driven**: a downstream asset appears once it has actually queried the table. On a freshly-run workshop the consumers may still be collapsed under *Assets that read data* — open the dashboard or ask the Sales Genie a question, then refresh the graph to watch the metric view, dashboards, and Genie light up.
-
 4. Click a **column** in the graph (for example `gross_revenue_usd`) to see **column-level lineage** — which upstream columns were combined to calculate it.
 
 **💡 What just happened?**
@@ -202,19 +195,17 @@ You found trusted data by business area, without knowing a single catalog or sch
 
 **Step 8: Ask a Question of Your Data**
 
-You have explored the data — now use it. There are two fast, code-optional ways to answer a question.
+You have explored the data — now use it, in plain language.
 
-1. **Look at live data instantly:** open the **Sample Data** tab on `fact_coffee_sales` (as you did in Step 4) to preview real rows — no SQL and no query to run.
-
-2. **Ask in natural language:** open **Genie Code** and ask a business question, for example:
+1. Open **Genie Code** and ask a business question, for example:
 
    > *"Which Sunny Bay store had the highest gross revenue, and how does online compare to in-store?"*
 
-3. Review the SQL it generates, run it, and read the result. Try a follow-up in plain language, such as *"now break that down by year."*
+2. Review the SQL it generates, run it, and read the result. Try a follow-up in plain language, such as *"now break that down by year."*
 
 **💡 What just happened?**
 
-You went from *browsing* data to *answering a business question* — with either a one-click preview or a plain-language prompt. This is the everyday analyst loop you will use in Labs 2–4.
+You went from *browsing* data to *answering a business question* with a plain-language prompt. This is the everyday analyst loop you will use in Labs 2–4.
 
 **Step 9: (Optional Add-On) Shape Data Visually with Visual Data Prep**
 
@@ -248,7 +239,7 @@ You have toured the workspace and, more importantly, learned to **trust and use*
 - Traced **lineage** upstream to the raw files and downstream to metric views, dashboards, and Genie
 - Documented `dim_customer` with **AI-generated descriptions**, the domain tag, and **certification**
 - Found certified data and business definitions in the **Sunny Bay Sales** domain in **Discover**
-- Answered a business question with the Sample Data preview and with **Genie Code**
+- Answered a business question with **Genie Code**
 - *(Optional)* Built a dataset visually with **Visual Data Prep**
 
 > [!TIP]
